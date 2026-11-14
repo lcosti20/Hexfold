@@ -75,3 +75,10 @@ Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# PortalWorlds plugin: commit its prebuilt editor binary so this Blueprint-only
+# project opens without compiling C++ (the .pdb debug symbols stay ignored)
+!Plugins/PortalWorlds/Binaries/Win64/
+Plugins/PortalWorlds/Binaries/Win64/*
+!Plugins/PortalWorlds/Binaries/Win64/UnrealEditor-PortalWorlds.dll
+!Plugins/PortalWorlds/Binaries/Win64/UnrealEditor.modules
