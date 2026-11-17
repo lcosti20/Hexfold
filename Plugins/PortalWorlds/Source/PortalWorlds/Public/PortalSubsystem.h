@@ -121,6 +121,23 @@ public:
 	 */
 	void SetActorClippedAtPortal(AActor* Actor, const APortal* Portal, const FVector& KeepNormal);
 
+	/**
+	 * True if Point is in the cut-away (invisible) part of Actor: Actor is cut at a portal and Point
+	 * lies on the side it doesn't keep.
+	 */
+	bool IsInCutAwayPart(const AActor* Actor, const FVector& Point) const;
+	/** Actors currently cut at a portal (see SetActorClippedAtPortal). */
+	void GetClippedActors(TArray<AActor*>& OutActors) const
+	{
+		for (const TPair<TWeakObjectPtr<AActor>, FClippedActor>& Pair : ClippedActors)
+		{
+			if (AActor* Actor = Pair.Key.Get())
+			{
+				OutActors.Add(Actor);
+			}
+		}
+	}
+
 	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
 	virtual void Deinitialize() override;
 

@@ -140,7 +140,78 @@ UPrimitiveComponent* UPortalGrabComponent::TraceForObject(FMatrix& OutWarp) cons
 
 		const FVector End = From + (To - From) * Fraction;
 		FHitResult Hit;
-		if (GetWorld()->LineTraceSingleByChannel(Hit, From, End, ECC_Visibility, Params))
+		FCollisionQueryParams HopParams = Params;
+		bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, From, End, ECC_Visibility, HopParams);
+		// The part of an object past the portal it's partway through is cut away (it's drawn at the
+		// linked portal instead), and no view, direct or through a portal, ever shows it. So the
+		// trace looks straight through it, as if it weren't there.
+		// Where a hit is tested: the hit point, except when the trace starts inside the object. A hop
+		// through a portal starts on the exit portal's plane, so it can start inside an object cut
+		// there, and that hit lies on the plane itself; the side the trace heads into is the side it
+		// sees. (Nudging every hit along the trace would let hits just short of the plane, on the
+		// cut-away part, count as the kept part.)
+		const FVector HopDirection = (End - From).GetSafeNormal();
+		const auto SeenPoint = [&From, &HopDirection](const FHitResult& H) -> FVector
+		{
+			return H.bStartPenetrating || H.Distance < UE_KINDA_SMALL_NUMBER ? From + HopDirection * 0.5 : FVector(H.ImpactPoint);
+		};
+		const auto IsHiddenFromTrace = [Subsystem, &SeenPoint](const FHitResult& H)
+		{
+			return Subsystem && Subsystem->IsInCutAwayPart(H.GetActor(), SeenPoint(H));
+		};
+		for (int32 Skipped = 0; bHit && Skipped < 4 && IsHiddenFromTrace(Hit); ++Skipped)
+		{
+			HopParams.AddIgnoredActor(Hit.GetActor());
+			bHit = GetWorld()->LineTraceSingleByChannel(Hit, From, End, ECC_Visibility, HopParams);
+		}
+
+		// The copy of an object partway through a portal (shown at the linked portal) is the rest of
+		// that object: aiming at its visible part grabs the object, through the copy's warp. The copy
+		// doesn't block the visibility channel, so its meshes are traced one by one.
+		if (Subsystem)
+		{
+			double Nearest = bHit ? Hit.Distance : FVector::Dist(From, End);
+			UPrimitiveComponent* CopiedBody = nullptr;
+			FMatrix CopiedWarp = FMatrix::Identity;
+			TArray<AActor*> Clipped;
+			Subsystem->GetClippedActors(Clipped);
+			for (AActor* Actor : Clipped)
+			{
+				const UPortalTraversalComponent* Traversal = Actor->FindComponentByClass<UPortalTraversalComponent>();
+				UPrimitiveComponent* Body = Cast<UPrimitiveComponent>(Actor->GetRootComponent());
+				FMatrix ToCopy = FMatrix::Identity;
+				AActor* Copy = Traversal && Body ? Traversal->GetVisibleCrossingCopy(ToCopy) : nullptr;
+				if (!Copy)
+				{
+					continue;
+				}
+				TArray<UPrimitiveComponent*> CopyPrimitives;
+				Copy->GetComponents(CopyPrimitives);
+				for (UPrimitiveComponent* Primitive : CopyPrimitives)
+				{
+					FHitResult CopyHit;
+					if (Primitive->LineTraceComponent(CopyHit, From, End, HopParams) && CopyHit.Distance < Nearest
+						&& !Subsystem->IsInCutAwayPart(Copy, SeenPoint(CopyHit)))
+					{
+						Nearest = CopyHit.Distance;
+						CopiedBody = Body;
+						CopiedWarp = ToCopy;
+					}
+				}
+			}
+			if (CopiedBody)
+			{
+				if (!CopiedBody->IsSimulatingPhysics())
+				{
+					return nullptr;
+				}
+				OutWarp = OutWarp * CopiedWarp.Inverse(); // the player's side -> the copy -> the object
+				const double RelativeRadius = CopiedBody->Bounds.SphereRadius / MatrixScale(OutWarp);
+				return RelativeRadius <= MaxObjectRadius * GetPlayerScale() ? CopiedBody : nullptr;
+			}
+		}
+
+		if (bHit)
 		{
 			UPrimitiveComponent* Component = Hit.GetComponent();
 			if (!Component || !Component->IsSimulatingPhysics())
@@ -197,6 +268,10 @@ bool UPortalGrabComponent::Grab()
 	HeldComponent = Component;
 	StuckTime = 0.0f;
 	AllowedDistance = FVector::Dist(Component->GetComponentLocation(), GetHoldTarget().GetLocation()) / (S * MatrixScale(Warp)) + BreakDistance;
+	if (UPortalTraversalComponent* Traversal = Component->GetOwner()->FindComponentByClass<UPortalTraversalComponent>())
+	{
+		Traversal->StopIgnoringPawns(); // so the response saved here is the object's real one
+	}
 	HeldPawnResponse = Component->GetCollisionResponseToChannel(ECC_Pawn);
 	Component->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 	Component->WakeRigidBody();
