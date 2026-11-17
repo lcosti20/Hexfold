@@ -10,7 +10,7 @@ First-person portal puzzle game in Unreal Engine 5.8, built on the PortalWorlds 
 
 ## Working in the editor (Unreal MCP)
 
-`.mcp.json` points at the editor's MCP server (`http://127.0.0.1:8000/mcp`). The editor has to be running. Use `list_toolsets` / `describe_toolset`, then `call_tool` with `toolset_name` and `tool_name` given separately. For multi-step edits, `editor_toolset.toolsets.programmatic.ProgrammaticToolset.execute_tool_script` batches calls in one sandboxed Python script. Call `get_execution_environment` once first.
+`.mcp.json` points at the editor's MCP server (`http://127.0.0.1:8000/mcp`). The editor has to be running. The server starts automatically with the editor (`bAutoStartServer=True` in `Config/DefaultEditorPerProjectUserSettings.ini`). If it isn't running, enter `ModelContextProtocol.StartServer` in the editor console. Use `list_toolsets` / `describe_toolset`, then `call_tool` with `toolset_name` and `tool_name` given separately. For multi-step edits, `editor_toolset.toolsets.programmatic.ProgrammaticToolset.execute_tool_script` batches calls in one sandboxed Python script. Call `get_execution_environment` once first.
 
 Gotchas learned so far:
 - **Plugins and `.uproject` changes need an editor restart** before their classes (`/Script/PortalWorlds.*`) exist.
