@@ -115,11 +115,12 @@ The last rune starts both mirrored and at the wrong size.
 | Asset | Type | Purpose |
 |---|---|---|
 | `L_Observatory` | Level | Outside, Rotunda and all six wings, in spaces 0–7. Becomes the default map. |
-| `BP_Rune` | Actor | Root static mesh (Movable, Simulate Physics, centred pivot, simple box or convex collision on one body) with a Portal Traversal component. `RuneIndex` (0–5), `SpawnTransform`. Handles **Return To Pedestal**. |
+| `BP_Rune` | Actor | Root static mesh (Movable, Simulate Physics, centred pivot, simple box or convex collision on one body) with a Portal Traversal component. `RuneIndex` (0–5). Built in milestone 2; `SpawnTransform` and **Return To Pedestal** come in milestone 6. |
 | `SM_Rune_0` … `SM_Rune_5` | Static meshes | Six chiral rune shapes, modelled in Blender (see [Models](#models-blender)). |
 | `SM_Obs_*` | Static meshes | Observatory exterior, Rotunda, telescope, hex seal, pedestals, doorframes, modelled in Blender |
-| `M_Rune` / `MI_Rune_*` | Material | Masked, with `MF_PortalClip` so runes are cut at portals, and an emissive glow. |
-| `BP_HexSeal` | Actor | Barrier, six socket triggers and glyph displays. Binds to the player's **On Portal Traversed** to seal itself when the player enters, runs the socket check, and breaks when all six are in. |
+| `MI_Rune`, `MI_Glyph_*`, `MI_HexWeb` | Material instances | Children of `M_PhysicsCube_PortalClip` (Masked, `MF_PortalClip`), so runes are cut at portals. An emissive `M_Rune` comes with the art pass. |
+| `BP_HexSeal` | Actor | Web, barrier, six socket triggers and glyph displays. Seals when the player walks into a trigger 4 m inside the door (simpler than binding **On Portal Traversed**), runs the socket check, and breaks when every enabled socket is filled. |
+| `SM_Hex_*` | Static meshes | Hex web, socket plate and pedestal, built by `build_hex.py` |
 | `BP_RelinkingDoor` | Actor or component | Holds a list of links and switches to the next one on **On Portal Traversed**. Used in rune 2. |
 | `BP_TelescopeDial` | Actor | Interactable dial that sets the eyepiece portal's links. Used in rune 6. |
 | `BP_RestoreFont` | Actor | A spot in the Rotunda that resets the player to normal size and unmirrored. |
@@ -142,6 +143,7 @@ Meshes are modelled in Blender through the Blender MCP, exported as FBX and impo
 | `build_runes.py` | `SM_Rune_0`–`5` with `UCX_` hulls, and `SM_Glyph_0`–`5` |
 | `build_observatory.py` | `SM_Obs_Doorframe` (with `UCX_` hulls) and `SM_Obs_Exterior` |
 | `build_rotunda.py` | `SM_Obs_Rotunda` (in `Rotunda.blend`) |
+| `build_hex.py` | `SM_Hex_Ring`, `SM_Hex_SocketPlate`, `SM_Hex_Pedestal` (in `Hex.blend`) |
 | `export_fbx.py` | Exports every top-level `SM_*` object in the open file, at the origin, with its `UCX_` children |
 
 Run a build script in the `.blend` file it belongs to, save, then run `export_fbx.py`. Opening a file and exporting must be separate script runs (the FBX exporter needs a fresh context).
@@ -200,6 +202,29 @@ Both entrance portals link to each other on both sides. The sun and sky are unta
 
 Known greybox issues: the Rotunda is overexposed (auto-exposure; tune in milestone 7), the prototype materials have no UVs to rely on (they're world-aligned), and the FBX importer warns about degenerate tangents for the same reason.
 
+## Core loop (milestone 2)
+
+**`BP_Rune`** (`Content/Hexfold/Blueprints`): root `Mesh` (static mesh, Movable, Simulate Physics, `PhysicsActor` profile, overlap events on) and `PortalTraversal`. `RuneIndex` (int, instance editable). BeginPlay: if the actor's X scale is negative, **Set Mirrored (true)**, so a rune placed mirrored in the level counts as mirrored. Set the mesh (`SM_Rune_N`) per instance. Rune meshes use `MI_Rune` (gold, a child of `M_PhysicsCube_PortalClip`, so runes are cut at portals).
+
+**`BP_HexSeal`**: one actor for the web, the six sockets and the barrier. Place it just inside the entrance with **yaw 180** so its front faces the room. In `L_Observatory` it's at (50000, 1960, 150).
+
+| Component | Purpose |
+|---|---|
+| `HexRoot` → `Web` (`SM_Hex_Ring`), `Plate0`–`5` (`SM_Hex_SocketPlate`), `Glyph0`–`5` (`SM_Glyph_N`) | Visuals, hidden until the door seals. Socket *k* sits on the hex corner at 90° + 60°·*k* (radius 1 m): socket 0 at the top, then anticlockwise as seen from the room side. |
+| `Trigger0`–`5` | Box triggers 20 cm in front of each socket. A `BP_Rune` overlapping one calls `TryPlace(Rune, k)`. |
+| `Barrier` | Box across the doorway (310 × 12 × 310 cm), `BlockAll`. Collision is off until the door seals (set in BeginPlay). |
+| `SealTrigger` | 6 × 2 × 4 m box, 4 m into the room. The player overlapping it calls `SealDoor`. |
+
+Variables: `SocketEnabled` (bool ×6, instance editable: the level enables only socket 0 for now), `SocketFilled`, `bSealed`, `bBroken`.
+
+Functions: `SealDoor` (show the web and enabled sockets, barrier on), `TryPlace` (checks, in order: sealed and not broken, socket enabled and empty, `RuneIndex` matches, |scale Z| within 0.9–1.1, not **Is Mirrored**), `AcceptRune` (release from the player's grab, physics and collision off, snap 6 cm in front of the glyph facing the room, light the plate with `MI_Glyph_Lit`, then `BreakHex` if `AllFilled`), `RejectRune` (release, push it 250 cm/s into the room and 150 cm/s up, print the reason), `BreakHex` (hide everything, barrier off), `ReleaseIfHeld`, `AllFilled` (every enabled socket is filled).
+
+Feedback is `Print String` for now; proper glyph effects are milestone 6/7.
+
+**In the level:** `Rune0` on `Ped_Rune0` at (50000, 700) in front of the dais, plus `Test_RuneSmall` (scale 0.5) and `Test_RuneMirrored` (scale −1, 1, 1), all rune 0, on pedestals 4.5 m to either side. Remove the test runes when the real puzzles go in.
+
+**Player:** `BP_FirstPersonCharacter`'s Portal Grab **Max Object Radius** is 45 (was 90).
+
 ## Milestones
 
 Each milestone ends with a playable build in PIE.
@@ -207,9 +232,9 @@ Each milestone ends with a playable build in PIE.
 | # | Milestone | Done when |
 |---|---|---|
 | 0 | Branch, README, plan | This document is merged |
-| 1 | **Greybox hub.** `L_Observatory` with the outside, the entrance portal pair and an empty Rotunda in their own spaces. Set as the default map. | Built (see [Greybox hub layout](#greybox-hub-layout)). The Rotunda shows through the door from outside, and the outside shows from inside. **Still to confirm by hand:** walking through the door both ways. |
+| 1 | **Greybox hub.** `L_Observatory` with the outside, the entrance portal pair and an empty Rotunda in their own spaces. Set as the default map. | ✅ Built (see [Greybox hub layout](#greybox-hub-layout)). Walked through both ways. The door is 3 × 3 m (both entrance portals at scale 1.5). |
 | 1b | **First models.** The six rune meshes with collision and glyphs, the doorframe and the Observatory exterior shell, from Blender | ✅ They import at the right size, pivots are centred, and a rune passes through a portal cleanly |
-| 2 | **Core loop.** `BP_Rune`, `M_Rune`, `BP_HexSeal`, Max Object Radius 45 cm, with one rune on a pedestal in the Rotunda and the other five sockets temporarily disabled | Entering seals the door. Placing the rune is accepted, a scaled or mirrored test rune is rejected, and breaking the hex opens the door |
+| 2 | **Core loop.** `BP_Rune`, `M_Rune`, `BP_HexSeal`, Max Object Radius 45 cm, with one rune on a pedestal in the Rotunda and the other five sockets temporarily disabled | Built (see [Core loop](#core-loop-milestone-2)). Tested in PIE: walking in seals the door; the mirrored and half-size test runes are rejected with the right reason; rune 0 locks in and the hex breaks. **Still to try by hand:** carrying the rune to the socket. |
 | 3 | **Runes 1–2** (through the glass, cabinets) | Both solvable with no debug help |
 | 4 | **Runes 3–4** (size) | Both solvable. The carry trap in rune 4 rejects at the socket for the right reason. |
 | 5 | **Runes 5–6** (mirror, telescope) | Both solvable, with no visible seams at mirroring portals |

@@ -18,6 +18,11 @@ Gotchas learned so far:
 - **No create-asset tool.** To make an Input Action, duplicate an existing one (`AssetTools.duplicate`, e.g. from `IA_Jump`). Create levels by duplicating an existing level, then `load_level`.
 - **`save_assets` returns false on failure.** Check `LogsToolset.GetLogEntries` for the reason, such as read-only files.
 - **Player portal crossings can't be tested by setting properties in PIE.** Pushing the character by setting `CharMoveComp` `Velocity` (even with friction off) moves it through a portal without traversing, in any level. Object traversal can be tested in Simulate (a physics actor leaning into a portal). Player crossings need a real walk-through.
+- **PIE runs in slow motion when the editor is in the background** (3 fps, physics capped per frame). Turn off `bThrottleCPUWhenNotForeground` on `/Script/UnrealEd.Default__EditorPerformanceSettings` before PIE tests.
+- **A pawn spawned already inside a trigger doesn't fire its BeginOverlap.** Spawn the player outside and push it in (set `CharMoveComp` `GroundFriction`/`BrakingDecelerationWalking`/`BrakingFrictionFactor` to 0 and `Velocity`). Pushing works for triggers, just not for portal crossings.
+- **Graph DSL (`write_graph_dsl`):** object equality is `(== a b)` (the read-back shows `Utilities|Equal(Object)`, which can't be written); casts are `(bind x (Utilities|Casting|CastToX :Object o) (:then ...) (:CastFailed))`. The read-back omits default argument values and may show a same-named getter from another class (`Class|Character|GetMesh`); check with `get_node_infos` before assuming a bug.
+- **Setting a collision profile resets Collision Enabled.** Set `collisionEnabled` in a separate `set_properties` call after `collisionProfileName`, and don't rely on Blueprint template changes reaching already-placed instances; set runtime state in BeginPlay.
+- **`StaticMeshTools.import_file` won't overwrite.** Delete the asset first, re-import, then reassign `StaticMesh` on level actors (the delete clears their references).
 - **Loading a level fails if the current one has unsaved changes.** Save it first; if the changes were throwaway tests, `git checkout` the `.umap` afterwards.
 - **`CaptureEditorImage` captures the front window,** which may be the Message Log. Close it with `SlateInspectorToolset.Windows` first.
 - **`CaptureEditorImage` output is too large to return inline.** It is saved to a tool-results file; decode the base64 `data` to a PNG to view it.
@@ -34,6 +39,7 @@ Gotchas learned so far:
 - `Content/Input/`: `IMC_Default` holds all mappings. Grab = E / gamepad X, Throw = LMB / right trigger.
 - `Content/Levels/L_Observatory`: the game level and default map (editor and game). Space 0 = outside (Observatory exterior at the origin, porch facing +Y, entrance portal at (0, 500, 150)); space 1 = Rotunda at (50000, 0, 0), inside entrance portal at (50000, 2000, 150). Both entrance portals and their doorframes have yaw 0 and uniform scale 1.5 (a 3 × 3 m door; equal scales, so no resizing).
 - `Content/Levels/L_PortalTest`: test level (doorway pair, bigger-inside shed → underground hall, half-size shrink portal, physics cubes).
+- `Content/Hexfold/Blueprints/`: `BP_Rune` (physics rune, `RuneIndex`), `BP_HexSeal` (door seal, six sockets, barrier; see `Docs/Design/Plan.md` → Core loop). `Content/Hexfold/Materials/`: `MI_Rune`, `MI_HexWeb`, `MI_Glyph_Idle`, `MI_Glyph_Lit` (children of `M_PhysicsCube_PortalClip`).
 - `Content/Hexfold/Meshes/`: meshes built in Blender. Sources and build scripts are in `Art/Blender/` (see `Docs/Design/Plan.md` → Models). `Docs/Design/Plan.md` is the game design and milestone plan.
 - `Config/DefaultEngine.ini`: `r.AllowGlobalClipPlane=True` (required by the plugin), `r.AllowOcclusionQueries=False`.
 

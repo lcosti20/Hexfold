@@ -14,7 +14,7 @@ Finding a rune isn't enough. Some are the wrong size or a mirror image of the sh
 
 The design and build plan is in [`Docs/Design/Plan.md`](Docs/Design/Plan.md).
 
-> **Status:** in development. `L_Observatory` has the greybox hub: the outside, the entrance portal and an empty Rotunda. The runes and puzzles aren't built yet.
+> **Status:** in development. `L_Observatory` has the greybox hub and the core loop: walking in seals the door with the hex, and putting rune 0 into its socket breaks it (the other five sockets are switched off for now). Two test runes, one half-size and one mirrored, show the hex rejecting wrong runes. The rune puzzles aren't built yet.
 
 ## Requirements
 
