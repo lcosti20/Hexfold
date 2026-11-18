@@ -14,7 +14,7 @@ Finding a rune isn't enough. Some are the wrong size or a mirror image of the sh
 
 The design and build plan is in [`Docs/Design/Plan.md`](Docs/Design/Plan.md).
 
-> **Status:** in development. `L_Observatory` has the greybox hub and the core loop: walking in seals the door with the hex, and putting rune 0 into its socket breaks it (the other five sockets are switched off for now). Two test runes, one half-size and one mirrored, show the hex rejecting wrong runes. The rune puzzles aren't built yet.
+> **Status:** in development. All six rune puzzles are playable in greybox in `L_Observatory`; safety nets, art and sound come next. See [`Docs/Architecture.md`](Docs/Architecture.md) for how it's built.
 
 ## Requirements
 
@@ -65,6 +65,7 @@ The editor opens `Content/Levels/L_Observatory`, which is also the game's defaul
 | `Art/Export/` | FBX exports imported into Unreal |
 | `Content/LevelPrototyping/` | Template prototyping meshes and materials |
 | `Plugins/PortalWorlds/` | Portal rendering, traversal and grabbing (see its `README.md`) |
+| `Docs/Architecture.md` | System architecture: layers, custom Blueprints and their responsibilities, runtime flows, level structure |
 | `Docs/Design/` | Game design and build plan |
 | `Docs/PortalWorlds/` | Plugin guide and API reference for this project |
 
