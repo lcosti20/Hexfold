@@ -57,7 +57,7 @@ To try the portals, open `Content/Levels/L_PortalTest` and press Play. The edito
 - `BP_FirstPersonCharacter` has a **Portal Traversal** component, which teleports the player through portals. It also has a **Portal Grab** component, which carries objects, even through portals.
 - `Config/DefaultEngine.ini` enables `r.AllowGlobalClipPlane` (required by the plugin) and disables occlusion queries (stops geometry popping in portal views).
 
-The plugin's own [README](Plugins/PortalWorlds/README.md) covers placing and linking portals, scaling and mirroring portals, spaces, and every Blueprint node.
+The plugin's own [README](Plugins/PortalWorlds/README.md) covers placing and linking portals, scaling and mirroring portals, spaces, and every Blueprint node. [`Docs/PortalWorlds/`](Docs/PortalWorlds/README.md) has a project-specific [guide](Docs/PortalWorlds/Guide.md) and a full [API reference](Docs/PortalWorlds/API.md).
 
 ## Credits
 
