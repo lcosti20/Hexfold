@@ -82,3 +82,7 @@ DerivedDataCache/*
 Plugins/PortalWorlds/Binaries/Win64/*
 !Plugins/PortalWorlds/Binaries/Win64/UnrealEditor-PortalWorlds.dll
 !Plugins/PortalWorlds/Binaries/Win64/UnrealEditor.modules
+
+# Blender backup files
+*.blend1
+*.blend2
