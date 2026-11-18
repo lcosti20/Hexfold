@@ -14,7 +14,7 @@ Finding a rune isn't enough. Some are the wrong size or a mirror image of the sh
 
 The design and build plan is in [`Docs/Design/Plan.md`](Docs/Design/Plan.md).
 
-> **Status:** in development. The Observatory isn't built yet; `L_PortalTest` is the portal test level.
+> **Status:** in development. `L_Observatory` has the greybox hub: the outside, the entrance portal and an empty Rotunda. The runes and puzzles aren't built yet.
 
 ## Requirements
 
@@ -32,7 +32,7 @@ git clone https://github.com/lcosti20/Hexfold.git
 
 Open `Hexfold.uproject`. The editor loads the PortalWorlds plugin from its prebuilt binary without compiling anything. If it asks to rebuild modules, the LFS files probably weren't pulled; run `git lfs pull`.
 
-To try the portals, open `Content/Levels/L_PortalTest` and press Play. The editor still starts in the template's `Lvl_FirstPerson`.
+The editor opens `Content/Levels/L_Observatory`, which is also the game's default map. Press Play, walk up to the Observatory and go in. To try each portal feature on its own, open `Content/Levels/L_PortalTest`.
 
 ## Controls
 
@@ -59,7 +59,10 @@ To try the portals, open `Content/Levels/L_PortalTest` and press Play. The edito
 |---|---|
 | `Content/FirstPerson/` | Player Blueprints from the UE first-person template, adapted for portals |
 | `Content/Input/` | Enhanced Input actions and mapping contexts |
-| `Content/Levels/` | Hexfold levels |
+| `Content/Levels/` | Hexfold levels: `L_Observatory` (the game) and `L_PortalTest` |
+| `Content/Hexfold/Meshes/` | Meshes imported from Blender |
+| `Art/Blender/` | Blender source files and the Python scripts that build them |
+| `Art/Export/` | FBX exports imported into Unreal |
 | `Content/LevelPrototyping/` | Template prototyping meshes and materials |
 | `Plugins/PortalWorlds/` | Portal rendering, traversal and grabbing (see its `README.md`) |
 | `Docs/Design/` | Game design and build plan |

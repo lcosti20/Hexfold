@@ -11,7 +11,7 @@ FBX_SCALE_NONE, Blender's default. Unreal then imports 1 m as 100 cm.
 import bpy, os
 
 ART = os.path.normpath(os.path.join(os.path.dirname(bpy.data.filepath), ".."))
-GROUPS = {"Runes.blend": "Runes", "Observatory_Exterior.blend": "Observatory"}
+GROUPS = {"Runes.blend": "Runes", "Observatory_Exterior.blend": "Observatory", "Rotunda.blend": "Observatory"}
 
 
 def export_all():
@@ -20,8 +20,8 @@ def export_all():
     os.makedirs(out_dir, exist_ok=True)
     done = []
     for ob in [o for o in bpy.data.objects if o.type == 'MESH' and o.name.startswith("SM_") and o.parent is None]:
-        saved = ob.location.copy()
-        ob.location = (0, 0, 0)
+        saved = ob.matrix_world.copy()
+        ob.matrix_world.identity()          # export at the origin, unrotated and unscaled
         bpy.context.view_layer.update()
         for o in bpy.context.view_layer.objects:
             o.select_set(False)
@@ -33,7 +33,7 @@ def export_all():
                                  apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE',
                                  mesh_smooth_type='FACE', use_mesh_modifiers=True,
                                  add_leaf_bones=False, bake_anim=False)
-        ob.location = saved
+        ob.matrix_world = saved
         done.append((ob.name, len(ob.children), path))
     for o in bpy.context.view_layer.objects:
         o.select_set(False)

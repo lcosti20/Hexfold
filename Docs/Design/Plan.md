@@ -141,6 +141,7 @@ Meshes are modelled in Blender through the Blender MCP, exported as FBX and impo
 |---|---|
 | `build_runes.py` | `SM_Rune_0`–`5` with `UCX_` hulls, and `SM_Glyph_0`–`5` |
 | `build_observatory.py` | `SM_Obs_Doorframe` (with `UCX_` hulls) and `SM_Obs_Exterior` |
+| `build_rotunda.py` | `SM_Obs_Rotunda` (in `Rotunda.blend`) |
 | `export_fbx.py` | Exports every top-level `SM_*` object in the open file, at the origin, with its `UCX_` children |
 
 Run a build script in the `.blend` file it belongs to, save, then run `export_fbx.py`. Opening a file and exporting must be separate script runs (the FBX exporter needs a fresh context).
@@ -160,9 +161,12 @@ Run a build script in the `.blend` file it belongs to, save, then run `export_fb
 | `SM_Rune_0`–`5` | 24–29 × 8 × 40–48 | 3–4 convex boxes from `UCX_` |
 | `SM_Glyph_0`–`5` | same outline, 1 cm thick | auto (set **No Collision** when placed in sockets) |
 | `SM_Obs_Doorframe` | 252 × 50 × 239, origin at the portal centre | 3 convex boxes (jambs, lintel) |
-| `SM_Obs_Exterior` | 940 × 982 × 869, origin at door-floor centre | complex as simple |
+| `SM_Obs_Exterior` | 940 × 982 × 1 069 (drum 6 m high, porch 4.5 m), origin at door-floor centre; 3 × 3 m door recess | complex as simple |
+| `SM_Obs_Rotunda` | 40 m room (5 040 × 5 040 × 3 030 with alcoves), origin at floor centre; entrance on −Y in Blender (+Y in Unreal, socket (0, 2000, 150)); 3 × 3 m door recess; six 4 × 6 m wing arches and a niche at 45° steps | complex as simple |
 
-The exterior's door socket (where the doorframe and the entrance portal go) is at **(0, +500, 100)** cm relative to the building, with the porch facing +Y.
+Greybox materials: the `MI_PrototypeGrid_*` instances from `LevelPrototyping` are assigned to the Observatory meshes' slots.
+
+The exterior's door socket (where the doorframe and the entrance portal go) is at **(0, +500, 150)** cm relative to the building, with the porch facing +Y. The doorframe and the entrance portals there are placed at **scale 1.5** (a 3 × 3 m door). Both entrance portals use the same scale, so passing through doesn't resize anything.
 
 **Runes** have extra requirements because they're physics objects that pass through portals:
 
@@ -178,6 +182,24 @@ The exterior's door socket (where the doorframe and the entrance portal go) is a
 
 **Workflow per asset:** script in Blender → check with `look` → save → `export_fbx.py` → `import_file` in Unreal → check bounds and collision → set materials → place.
 
+## Greybox hub layout
+
+`L_Observatory` (duplicated from `L_PortalTest`, keeping its sky, sun and sky light). Coordinates in cm.
+
+| Actor | Location | Space | Notes |
+|---|---|---|---|
+| `Ground` | (0, 0, −70), scale 400 × 400 × 1 | 0 | 400 m square, top at −20 so the plinth shows |
+| `PlayerStart` | (0, 2500, 100), yaw −90 | – | 25 m in front of the porch, facing it |
+| `Obs_Exterior` | origin | 0 | Porch faces +Y |
+| `Obs_DoorframeOut`, `Portal_Entrance_Out` | (0, 500, 150), yaw 0, scale 1.5 | 0 | The player enters through the portal's back side |
+| `Rot_Shell` | (50000, 0, 0) | 1 | 500 m from the building. **Cast Shadow As Two Sided** is on, so the sun doesn't leak through the single-sided dome |
+| `Rot_DoorframeIn`, `Portal_Entrance_In` | (50000, 2000, 150), yaw 0, scale 1.5 | 1 | Same rotation and scale as the outside portal, so the player keeps facing −Y and walks into the room |
+| `Rot_LightDome`, `Rot_LightRing0`–`7` | inside the Rotunda | – | Movable point lights: 20 000 lm under the dome, 8 × 5 000 lm at 13 m radius |
+
+Both entrance portals link to each other on both sides. The sun and sky are untagged, so they show in both spaces.
+
+Known greybox issues: the Rotunda is overexposed (auto-exposure; tune in milestone 7), the prototype materials have no UVs to rely on (they're world-aligned), and the FBX importer warns about degenerate tangents for the same reason.
+
 ## Milestones
 
 Each milestone ends with a playable build in PIE.
@@ -185,7 +207,7 @@ Each milestone ends with a playable build in PIE.
 | # | Milestone | Done when |
 |---|---|---|
 | 0 | Branch, README, plan | This document is merged |
-| 1 | **Greybox hub.** `L_Observatory` with the outside, the entrance portal pair and an empty Rotunda in their own spaces. Set as the default map. | The player walks in and the Rotunda is clearly bigger than the building |
+| 1 | **Greybox hub.** `L_Observatory` with the outside, the entrance portal pair and an empty Rotunda in their own spaces. Set as the default map. | Built (see [Greybox hub layout](#greybox-hub-layout)). The Rotunda shows through the door from outside, and the outside shows from inside. **Still to confirm by hand:** walking through the door both ways. |
 | 1b | **First models.** The six rune meshes with collision and glyphs, the doorframe and the Observatory exterior shell, from Blender | ✅ They import at the right size, pivots are centred, and a rune passes through a portal cleanly |
 | 2 | **Core loop.** `BP_Rune`, `M_Rune`, `BP_HexSeal`, Max Object Radius 45 cm, with one rune on a pedestal in the Rotunda and the other five sockets temporarily disabled | Entering seals the door. Placing the rune is accepted, a scaled or mirrored test rune is rejected, and breaking the hex opens the door |
 | 3 | **Runes 1–2** (through the glass, cabinets) | Both solvable with no debug help |

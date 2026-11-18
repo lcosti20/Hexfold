@@ -17,6 +17,9 @@ Gotchas learned so far:
 - **`BlueprintTools.get_node_type_pins` can destroy an existing node with the same name.** It once deleted a freshly created event node. After wiring, check the result with `get_connected_subgraph` or `find_nodes`, and compile with `warnings_as_errors: true`.
 - **No create-asset tool.** To make an Input Action, duplicate an existing one (`AssetTools.duplicate`, e.g. from `IA_Jump`). Create levels by duplicating an existing level, then `load_level`.
 - **`save_assets` returns false on failure.** Check `LogsToolset.GetLogEntries` for the reason, such as read-only files.
+- **Player portal crossings can't be tested by setting properties in PIE.** Pushing the character by setting `CharMoveComp` `Velocity` (even with friction off) moves it through a portal without traversing, in any level. Object traversal can be tested in Simulate (a physics actor leaning into a portal). Player crossings need a real walk-through.
+- **Loading a level fails if the current one has unsaved changes.** Save it first; if the changes were throwaway tests, `git checkout` the `.umap` afterwards.
+- **`CaptureEditorImage` captures the front window,** which may be the Message Log. Close it with `SlateInspectorToolset.Windows` first.
 - **`CaptureEditorImage` output is too large to return inline.** It is saved to a tool-results file; decode the base64 `data` to a PNG to view it.
 
 ## Portal rules
@@ -29,7 +32,9 @@ Gotchas learned so far:
 
 - `Content/FirstPerson/Blueprints/`: `BP_FirstPersonCharacter` (has PortalTraversal and PortalGrab components; IA_Grab → Toggle Grab, IA_Throw → Throw), `BP_FirstPersonCameraManager` (parent: `PortalPlayerCameraManager`), `BP_FirstPersonPlayerController`, `BP_FirstPersonGameMode` (the global default game mode).
 - `Content/Input/`: `IMC_Default` holds all mappings. Grab = E / gamepad X, Throw = LMB / right trigger.
+- `Content/Levels/L_Observatory`: the game level and default map (editor and game). Space 0 = outside (Observatory exterior at the origin, porch facing +Y, entrance portal at (0, 500, 150)); space 1 = Rotunda at (50000, 0, 0), inside entrance portal at (50000, 2000, 150). Both entrance portals and their doorframes have yaw 0 and uniform scale 1.5 (a 3 × 3 m door; equal scales, so no resizing).
 - `Content/Levels/L_PortalTest`: test level (doorway pair, bigger-inside shed → underground hall, half-size shrink portal, physics cubes).
+- `Content/Hexfold/Meshes/`: meshes built in Blender. Sources and build scripts are in `Art/Blender/` (see `Docs/Design/Plan.md` → Models). `Docs/Design/Plan.md` is the game design and milestone plan.
 - `Config/DefaultEngine.ini`: `r.AllowGlobalClipPlane=True` (required by the plugin), `r.AllowOcclusionQueries=False`.
 
 ## Git

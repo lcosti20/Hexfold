@@ -6,17 +6,17 @@ It replaces everything in the Doorframe and Exterior collections.
 SM_Obs_Doorframe
     Stone frame around a portal. Origin = centre of the 2 x 2 m portal, which is how the
     PortalWorlds default surface is centred, so frame and portal share one transform.
-    The opening is 1.96 x 1.98 m: the frame overlaps the portal's sides and top by 2 cm,
+    The opening is 1.96 x 1.98 m (at scale 1; the entrance uses DOOR_SCALE): the frame overlaps the portal's sides and top by 2 cm,
     so no gap shows at the portal edge. Left-right symmetric (safe next to mirroring portals).
     Front faces -Y, like the portal. UCX boxes: two jambs and the lintel.
 
 SM_Obs_Exterior
-    The small domed observatory seen from outside: drum 8 m across and 4 m high, cornice,
+    The small domed observatory seen from outside: drum 8 m across and 6 m high, cornice,
     copper dome with a shutter slit and a telescope poking out, porch and a stone plinth.
     Origin = centre of the drum at door-floor level. The porch faces -Y.
     The door recess is 1 m deep behind the portal plane, so the player's capsule reaches
     the portal before it reaches the back wall.
-    Place SM_Obs_Doorframe (and the entrance portal) at DOOR_SOCKET.
+    Place SM_Obs_Doorframe (and the entrance portal) at DOOR_SOCKET, both at scale DOOR_SCALE.
     No UCX: in Unreal, set Collision Complexity to "Use Complex Collision As Simple".
 
 Units: metres (1 Blender unit = 1 m = 100 Unreal units).
@@ -25,13 +25,16 @@ import bpy, bmesh, math
 from mathutils import Matrix, Vector
 
 # ---- dimensions ---------------------------------------------------------------------------
+# The doorframe mesh is built for the default 2 x 2 m portal. In the level, the entrance
+# portals and their frames are scaled by DOOR_SCALE (same on both portals, so nobody is resized).
 OPEN_HW, OPEN_TOP = 0.98, 0.98          # opening half width, top (relative to portal centre)
 FRAME_HW, FRAME_TOP, FRAME_D = 1.2, 1.25, 0.2
+DOOR_SCALE = 1.5                        # entrance portal scale -> 3 x 3 m doorway
 
-DRUM_R, DRUM_H = 4.0, 4.0
-PORCH_HW, PORCH_FRONT, PORCH_BACK, PORCH_H = 1.6, -5.0, -3.5, 3.0
+DRUM_R, DRUM_H = 4.0, 6.0
+PORCH_HW, PORCH_FRONT, PORCH_BACK, PORCH_H = 2.2, -5.0, -3.5, 4.5
 RECESS_DEPTH = 1.0
-DOOR_SOCKET = Vector((0.0, PORCH_FRONT, 1.0))   # where the doorframe/portal origin goes
+DOOR_SOCKET = Vector((0.0, PORCH_FRONT, 1.0 * DOOR_SCALE))   # where the doorframe/portal origin goes
 
 SEG = 64
 
@@ -209,11 +212,12 @@ def build_exterior():
         f.material_index = TRIM
     porch_ob = _obj("_porch", porch, coll, [stone, trim, copper, dark])
     cut = bmesh.new()
-    _box(cut, (-OPEN_HW, PORCH_FRONT - 0.5, -0.01), (OPEN_HW, PORCH_FRONT + RECESS_DEPTH, DOOR_SOCKET.z + OPEN_TOP))
+    s = DOOR_SCALE
+    _box(cut, (-OPEN_HW * s, PORCH_FRONT - 0.5, -0.01), (OPEN_HW * s, PORCH_FRONT + RECESS_DEPTH, DOOR_SOCKET.z + OPEN_TOP * s))
     _difference(porch_ob, cut, coll)
     # dark back wall of the recess (only visible if the portal is off)
     for f in porch_ob.data.polygons:
-        if abs(f.center.y - (PORCH_FRONT + RECESS_DEPTH)) < 1e-3 and f.normal.y < -0.9:
+        if abs(f.center.y - (PORCH_FRONT + RECESS_DEPTH)) < 1e-3 and f.normal.y < -0.9 and abs(f.center.x) < OPEN_HW * s:
             f.material_index = DARK
 
     bm.from_mesh(porch_ob.data)
@@ -231,7 +235,8 @@ def build_exterior():
 def build_all():
     frame = build_doorframe()
     ext = build_exterior()
-    frame.location = DOOR_SOCKET            # preview only; exported at the origin
+    frame.location = DOOR_SOCKET            # preview only; exported at the origin, unscaled
+    frame.scale = (DOOR_SCALE,) * 3
     return [(o.name, tuple(round(x, 2) for x in o.dimensions), len(o.data.polygons)) for o in (frame, ext)]
 
 
