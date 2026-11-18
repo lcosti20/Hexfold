@@ -23,6 +23,10 @@ Door openings are for SM_Obs_Doorframe at a given portal scale s: the opening is
                   doors (scale 1) in the +Y wall at x = -4, 0, 4.
   SM_Wing_Closet  2 x ... small storeroom 4 x 3 x 3 m with shelves; entrance scale 1.
   SM_Wing_Vault   8 x 8 x 4 m; entrance scale 1.
+  SM_Wing_Push    rune 3. 10 x 16 x 6 m hall. Entrance scale 2; a scale-2 door in the +Y wall;
+                  a scale-1 door in the -X wall at y = 4.
+  SM_Wing_Mouse   rune 4. 10 x 12 x 5 m. Entrance scale 2; a scale-0.5 mouse door in the +Y
+                  wall at x = -3; a scale-1 door in the +X wall at y = 6.
 
 Material slots: Floor, Wall, Trim, Dark. No UVs (use world-aligned materials).
 No UCX: in Unreal, use complex collision as simple.
@@ -183,6 +187,13 @@ def build_all():
     shelves += [((1.6, 1.0, z), (2.0, 2.8, z + 0.05), TRIM) for z in (0.6, 1.2, 1.8)]
     rooms.append(room("SM_Wing_Closet", coll, mats, (-2, 2, 0, 3, 0, 3), [("-y", 0.0, 1.0)], 0.0, shelves))
     rooms.append(room("SM_Wing_Vault", coll, mats, (-4, 4, 0, 8, 0, 4), [("-y", 0.0, 1.0)]))
+    # rune 3: push the 2x rune into the big portal (+Y wall, scale 2); it comes out of the
+    # small door (-X wall at y = 4, scale 1) at 1x
+    rooms.append(room("SM_Wing_Push", coll, mats, (-5, 5, 0, 16, 0, 6),
+                      [("-y", 0.0, 2.0), ("+y", 0.0, 2.0), ("-x", 4.0, 1.0)]))
+    # rune 4: mouse door (+Y wall at x = -3, scale 0.5) linked to a normal door (+X wall at y = 6, scale 1)
+    rooms.append(room("SM_Wing_Mouse", coll, mats, (-5, 5, 0, 12, 0, 5),
+                      [("-y", 0.0, 2.0), ("+y", -3.0, 0.5), ("+x", 6.0, 1.0)]))
 
     for i, r in enumerate(rooms):
         r.data.shade_smooth()

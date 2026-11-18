@@ -78,19 +78,19 @@ A cabinet in the Rotunda opens into a study. The study has its own cabinets, whi
 
 ### 3. The Heavy Rune (shrinking an object)
 
-The rune is at 2× size, too big to lift. It sits in a sloped hall that ends in a 4 m portal linked to a 2 m one.
+The rune is at 2× size, too big to lift. It lies in a hall that ends in a 4 m portal linked to a 2 m door in the side wall.
 
-- **Solution:** push it (the player pushes physics objects by walking into them) down the slope through the large portal. It comes out of the small one at 1×.
+- **Solution:** push it (the player pushes physics objects by walking into them) across the hall into the large portal. It comes out of the small door at 1×. (Runes have **Can Character Step Up On = No**, so the player pushes them instead of climbing onto them.) Walking into the big portal yourself shrinks you to 0.5×; the small door takes you back.
 - **Teaches:** portals resize objects, not just the player.
 - **Tuning:** the rune's 2× bounding radius must be over **Max Object Radius** (90 cm), and its 1× radius well under it.
 
 ### 4. The Mouse Door (growing an object, and the carry rule)
 
-The rune is at 0.5× size. A half-size doorway leads into a full-size room on the far side, so going through it grows things by 2×.
+The rune is at 0.5× size. A 1 × 1 m mouse door (scale 0.5) is linked to a normal 2 × 2 m door (scale 1) in the same room, so anything going in the mouse door comes out the big door at 2×, and the other way round at 0.5×.
 
-- **Trap:** the player shrinks themselves to reach the rune, then carries it out through the half-size doorway. Both grow, and the rune is still 0.5×.
-- **Solution:** throw the rune through the half-size doorway from outside (it grows to 1×), or carry it through and come back another way.
-- **Teaches:** a carried object changes with you. Only its size relative to the world counts.
+- **Solutions:** throw the rune into the mouse door (it comes out of the big door at 1×). Or walk into the big door yourself, come out of the mouse door at half size, pick up the rune (it now looks normal-sized), and carry it back through the mouse door: you both grow 2×.
+- **Trap:** carrying the 0.5× rune into the big door at normal size shrinks it to 0.25×.
+- **Teaches:** small-to-big grows, big-to-small shrinks, and a carried rune changes with you, so only its size relative to the world counts. (An earlier draft had the carry-out route as the trap; it isn't, because a carried rune does change world size.)
 
 ### 5. Hall of Reflections (mirroring and parity)
 
@@ -248,6 +248,19 @@ Wing meshes are built by `build_wings.py` (`Wings.blend`), written in Unreal coo
 
 The hex now has sockets 0 and 1 enabled. The test runes from milestone 2 are removed.
 
+## Runes 3–4 (milestone 4)
+
+| Rune (index) | Alcove | Room | Space | Origin (cm) |
+|---|---|---|---|---|
+| 3 The Heavy Rune (2) | 5 | `SM_Wing_Push` (10 × 16 × 6 m) | 6 | (200000, 0, 0) |
+| 4 The Mouse Door (3) | 3 | `SM_Wing_Mouse` (10 × 12 × 5 m) | 7 | (230000, 0, 0) |
+
+**Heavy Rune:** `Rune2` (scale 2, lying flat) at (0, 9) m in the hall. `Portal_Wing3_Big` (scale 2, yaw 0) is in the far wall at y = 16 m; `Portal_Wing3_Small` (scale 1, yaw −90 so its back faces into the room) is in the left wall at y = 4 m. They link to each other on both sides: scale ×0.5 going in the big one, ×2 coming back.
+
+**Mouse Door:** `Rune3` (scale 0.5) on a pedestal at (−2, 7) m. `Portal_Wing4_MouseDoor` (scale 0.5, yaw 0) is in the far wall at x = −3 m, at floor level; `Portal_Wing4_BigDoor` (scale 1, yaw 90 so its back faces into the room) is in the right wall at y = 6 m. A normal-size player doesn't fit the mouse door (its opening is 98 × 99 cm).
+
+The hex now has sockets 0–3 enabled.
+
 ## Milestones
 
 Each milestone ends with a playable build in PIE.
@@ -259,7 +272,7 @@ Each milestone ends with a playable build in PIE.
 | 1b | **First models.** The six rune meshes with collision and glyphs, the doorframe and the Observatory exterior shell, from Blender | ✅ They import at the right size, pivots are centred, and a rune passes through a portal cleanly |
 | 2 | **Core loop.** `BP_Rune`, `M_Rune`, `BP_HexSeal`, Max Object Radius 45 cm, with one rune on a pedestal in the Rotunda and the other five sockets temporarily disabled | Built (see [Core loop](#core-loop-milestone-2)). Tested in PIE: walking in seals the door; the mirrored and half-size test runes are rejected with the right reason; rune 0 locks in and the hex breaks. **Still to try by hand:** carrying the rune to the socket. |
 | 3 | **Runes 1–2** (through the glass, cabinets) | Built (see [Runes 1–2](#runes-12-milestone-3)). Tested in PIE: the alcoves lead to the wings, the window shows the rune up close, and the cabinet sequence (including a wrong first try) opens the vault. **Still to try by hand:** grabbing rune 1 through the window, and carrying both runes back to the hex. |
-| 4 | **Runes 3–4** (size) | Both solvable. The carry trap in rune 4 rejects at the socket for the right reason. |
+| 4 | **Runes 3–4** (size) | Built (see [Runes 3–4](#runes-34-milestone-4)). Tested in Simulate/PIE: the 2× rune comes out of the small door at 1×, the 0.5× rune comes out of the big door at 1×, and the player shrinks through the big door and grows back through the mouse door. **Still to try by hand:** pushing the heavy rune, and throwing the small one. |
 | 5 | **Runes 5–6** (mirror, telescope) | Both solvable, with no visible seams at mirroring portals |
 | 6 | **Safety nets.** Kill volumes, rune return, restore font, socket feedback | Nothing can soft-lock the game: every rune can always be recovered |
 | 7 | **Art, sound and lighting.** Final Blender models for the Rotunda, wings and telescope, Observatory look, glyph VFX, hex break, ending sky. Check portal edges under Lumen, auto-exposure and TSR (see the guide's Limitations). | A full playthrough looks finished |
