@@ -11,7 +11,7 @@ FBX_SCALE_NONE, Blender's default. Unreal then imports 1 m as 100 cm.
 import bpy, os
 
 ART = os.path.normpath(os.path.join(os.path.dirname(bpy.data.filepath), ".."))
-GROUPS = {"Runes.blend": "Runes", "Observatory_Exterior.blend": "Observatory", "Rotunda.blend": "Observatory", "Hex.blend": "Hex"}
+GROUPS = {"Runes.blend": "Runes", "Observatory_Exterior.blend": "Observatory", "Rotunda.blend": "Observatory", "Hex.blend": "Hex", "Wings.blend": "Wings"}
 
 
 def export_all():

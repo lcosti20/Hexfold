@@ -144,6 +144,7 @@ Meshes are modelled in Blender through the Blender MCP, exported as FBX and impo
 | `build_observatory.py` | `SM_Obs_Doorframe` (with `UCX_` hulls) and `SM_Obs_Exterior` |
 | `build_rotunda.py` | `SM_Obs_Rotunda` (in `Rotunda.blend`) |
 | `build_hex.py` | `SM_Hex_Ring`, `SM_Hex_SocketPlate`, `SM_Hex_Pedestal` (in `Hex.blend`) |
+| `build_wings.py` | `SM_Wing_Chasm`, `SM_Wing_Study`, `SM_Wing_Closet`, `SM_Wing_Vault` (in `Wings.blend`) |
 | `export_fbx.py` | Exports every top-level `SM_*` object in the open file, at the origin, with its `UCX_` children |
 
 Run a build script in the `.blend` file it belongs to, save, then run `export_fbx.py`. Opening a file and exporting must be separate script runs (the FBX exporter needs a fresh context).
@@ -225,6 +226,28 @@ Feedback is `Print String` for now; proper glyph effects are milestone 6/7.
 
 **Player:** `BP_FirstPersonCharacter`'s Portal Grab **Max Object Radius** is 45 (was 90).
 
+## Runes 1–2 (milestone 3)
+
+**Wings and alcoves.** Each wing is reached through a 4 × 4 m portal pair (scale 2 on both, with `SM_Obs_Doorframe` at scale 2): one at the back of a Rotunda alcove, 23.4 m from the centre, with yaw = atan2(−uₓ, u_y) so its local +Y points out of the room along the alcove direction u = (sin 45k°, cos 45k°); the other at the wing room's origin, yaw 0, scale 2, centred 2 m up. You walk out of the Rotunda facing out and arrive facing into the wing (+Y). Wing rooms are built far apart, each in its own space. Alcove numbering *k* counts 45° steps from the entrance (k = 0); k = 4 is the niche.
+
+| Rune (index) | Alcove | Rooms | Space | Origin (cm) |
+|---|---|---|---|---|
+| 1 Through the Glass (0) | 7 | `SM_Wing_Chasm` | 2 | (80000, 0, 0) |
+| 2 Orrery Cabinets (1) | 6 | `SM_Wing_Study` | 3 | (110000, 0, 0) |
+| | | `SM_Wing_Closet` | 4 | (140000, 0, 0) |
+| | | `SM_Wing_Vault` | 5 | (170000, 0, 0) |
+
+Wing meshes are built by `build_wings.py` (`Wings.blend`), written in Unreal coordinates and mirrored in Y for export.
+
+**Rune 1: Through the Glass.** A 12 × 26 m gallery: near floor (y 0–10 m), a 10 m pit 6 m deep, and a far ledge (y 20–26 m) with rune 0 on a pedestal at y = 23 m. A railing and an invisible blocker (`Wing1_ChasmBlocker`, `InvisibleWall`, hidden in game) stop the player from crossing or falling. Two 60 cm portal windows (scale 0.3, so nothing is resized): `WindowA` on a stand on the player's side at (−3, 8, 1.4) m, and `WindowB` on the ledge 1.2 m in front of the rune, both facing +Y. They're one-way windows: A's front links to B, and B's back links to A. Backing plates cover A's back and B's front, so the unlinked sides are never seen. Looking into A shows the rune about a metre away, within Grab Range (250), so the player grabs it through the window and pulls it through. The 60 cm window is narrower than the player's capsule, so the player can't climb through.
+
+**Rune 2: the Orrery Cabinets.** The study has three cabinet doors (scale 1) in its far wall: Mercury (x −4 m), Venus (0) and Mars (+4 m), each with a coloured planet above it. A mural on the left wall shows the order: Mars, Venus, Mercury, numbered I, II, III. **`BP_CabinetPuzzle`** (in the study) holds `Cabinets` [Mercury, Venus, Mars], `ClosetDoor`, `VaultDoor`, `Sequence` [2, 1, 0] and `Progress`.
+- BeginPlay waits 0.5 s, then binds the player's Portal Traversal **On Portal Traversed** (with `AssignOnPortalTraversed`, which creates a matching custom event; a Create Event bound to a function doesn't work because the delegate's ScaleFactor is a single-precision float) to `HandleTraversal`.
+- `HandleTraversal`: going from cabinet *i* into the closet links the closet door back to *i*, then advances `Progress` if *i* is the next cabinet in `Sequence`. Otherwise it resets Progress (to 1 if *i* is the first cabinet in the sequence, else 0). Entering the vault links the vault door back and resets Progress. It prints "clicks forward", "turns into alignment" or "grinds back".
+- `UpdateLinks`: every cabinet leads to the closet, except the last cabinet in the sequence, which leads to the vault once `Progress` reaches the last step. Because portals show their destination, the player sees the vault through the Mercury door once it's open.
+
+The hex now has sockets 0 and 1 enabled. The test runes from milestone 2 are removed.
+
 ## Milestones
 
 Each milestone ends with a playable build in PIE.
@@ -235,7 +258,7 @@ Each milestone ends with a playable build in PIE.
 | 1 | **Greybox hub.** `L_Observatory` with the outside, the entrance portal pair and an empty Rotunda in their own spaces. Set as the default map. | ✅ Built (see [Greybox hub layout](#greybox-hub-layout)). Walked through both ways. The door is 3 × 3 m (both entrance portals at scale 1.5). |
 | 1b | **First models.** The six rune meshes with collision and glyphs, the doorframe and the Observatory exterior shell, from Blender | ✅ They import at the right size, pivots are centred, and a rune passes through a portal cleanly |
 | 2 | **Core loop.** `BP_Rune`, `M_Rune`, `BP_HexSeal`, Max Object Radius 45 cm, with one rune on a pedestal in the Rotunda and the other five sockets temporarily disabled | Built (see [Core loop](#core-loop-milestone-2)). Tested in PIE: walking in seals the door; the mirrored and half-size test runes are rejected with the right reason; rune 0 locks in and the hex breaks. **Still to try by hand:** carrying the rune to the socket. |
-| 3 | **Runes 1–2** (through the glass, cabinets) | Both solvable with no debug help |
+| 3 | **Runes 1–2** (through the glass, cabinets) | Built (see [Runes 1–2](#runes-12-milestone-3)). Tested in PIE: the alcoves lead to the wings, the window shows the rune up close, and the cabinet sequence (including a wrong first try) opens the vault. **Still to try by hand:** grabbing rune 1 through the window, and carrying both runes back to the hex. |
 | 4 | **Runes 3–4** (size) | Both solvable. The carry trap in rune 4 rejects at the socket for the right reason. |
 | 5 | **Runes 5–6** (mirror, telescope) | Both solvable, with no visible seams at mirroring portals |
 | 6 | **Safety nets.** Kill volumes, rune return, restore font, socket feedback | Nothing can soft-lock the game: every rune can always be recovered |
