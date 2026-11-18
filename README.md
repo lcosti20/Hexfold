@@ -4,6 +4,18 @@
 
 Hexfold is a first-person puzzle game built around non-Euclidean portals: doorways that lead somewhere else, rooms that are bigger on the inside, and portals that change your size. It's made in Unreal Engine 5.8 with Blueprints only (no C++ in the project).
 
+## The game
+
+You arrive outside the **Observatory**, a small domed building, and walk in. The inside is far bigger than the outside.
+
+As soon as you're through the door, a **hex** seals it behind you. The hex shows six runes, each a different shape. To break it, you have to find all six runes inside the Observatory and bring them back to the door.
+
+Finding a rune isn't enough. Some are the wrong size or a mirror image of the shape on the hex, so you have to shrink, grow or flip them with portals before they fit. Each rune is guarded by a portal puzzle: rooms nested inside rooms, doorways that change your size, mirrored corridors, and portals that lead somewhere new each time you go through.
+
+The design and build plan is in [`Docs/Design/Plan.md`](Docs/Design/Plan.md).
+
+> **Status:** in development. The Observatory isn't built yet; `L_PortalTest` is the portal test level.
+
 ## Requirements
 
 - **Unreal Engine 5.8**
@@ -50,6 +62,8 @@ To try the portals, open `Content/Levels/L_PortalTest` and press Play. The edito
 | `Content/Levels/` | Hexfold levels |
 | `Content/LevelPrototyping/` | Template prototyping meshes and materials |
 | `Plugins/PortalWorlds/` | Portal rendering, traversal and grabbing (see its `README.md`) |
+| `Docs/Design/` | Game design and build plan |
+| `Docs/PortalWorlds/` | Plugin guide and API reference for this project |
 
 ## How the portals are wired up
 
