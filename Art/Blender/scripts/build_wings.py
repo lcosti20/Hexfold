@@ -27,6 +27,11 @@ Door openings are for SM_Obs_Doorframe at a given portal scale s: the opening is
                   a scale-1 door in the -X wall at y = 4.
   SM_Wing_Mouse   rune 4. 10 x 12 x 5 m. Entrance scale 2; a scale-0.5 mouse door in the +Y
                   wall at x = -3; a scale-1 door in the +X wall at y = 6.
+  SM_Wing_Mirror  rune 5. 10 x 20 x 6 m hall, symmetric about x = 0 and y = 10. Entrance
+                  scale 2 (-Y), a matching blind doorway (+Y), and scale-0.5 window openings
+                  with a 0.9 m sill in both side walls at y = 10.
+  SM_Wing_Telescope rune 6. 24 x 18 x 8 m. Entrance scale 2 (-Y); the lens doorway (+Y),
+                  opening sized for scale 2.
 
 Material slots: Floor, Wall, Trim, Dark. No UVs (use world-aligned materials).
 No UCX: in Unreal, use complex collision as simple.
@@ -96,11 +101,13 @@ def _boolean(target, bm, op, coll, mats):
 
 
 def _door_boxes(door, inner):
-    """door = (wall, centre, scale); returns (recess cut box, vestibule block box)."""
-    wall, c, s = door
+    """door = (wall, centre, scale[, sill]); returns (recess cut box, vestibule block box).
+    sill raises the opening above the door floor (for windows)."""
+    wall, c, s = door[:3]
+    sill = door[3] if len(door) > 3 else 0.0
     hw, top = 0.98 * s, 1.98 * s
     x0, x1, y0, y1, z0, z1 = inner
-    z = z0 if door[0] in ("-y", "+y") else z0
+    z0 += sill
     if wall == "-y":
         cut = ((c - hw, y0 - RECESS, z0), (c + hw, y0 + 0.5, z0 + top))
         blk = ((c - hw - WALL_T, y0 - RECESS - WALL_T, z0 - WALL_T), (c + hw + WALL_T, y0, z0 + top + WALL_T))
@@ -194,6 +201,15 @@ def build_all():
     # rune 4: mouse door (+Y wall at x = -3, scale 0.5) linked to a normal door (+X wall at y = 6, scale 1)
     rooms.append(room("SM_Wing_Mouse", coll, mats, (-5, 5, 0, 12, 0, 5),
                       [("-y", 0.0, 2.0), ("+y", -3.0, 0.5), ("+x", 6.0, 1.0)]))
+    # rune 5: hall of reflections, symmetric about x = 0 (entrance mirror) and about y = 10
+    # (the window mirrors). Entrance -Y and a matching blind doorway +Y; mirror windows
+    # (scale 0.5, sill 0.9 m) in the -X and +X walls at y = 10.
+    rooms.append(room("SM_Wing_Mirror", coll, mats, (-5, 5, 0, 20, 0, 6),
+                      [("-y", 0.0, 2.0), ("+y", 0.0, 2.0), ("-x", 10.0, 0.5, 0.9), ("+x", 10.0, 0.5, 0.9)]))
+    # rune 6: the telescope room. Entrance -Y; the lens doorway in +Y, sized for the lens at
+    # scale 2 (the lens portal is rescaled at runtime, standing on the floor)
+    rooms.append(room("SM_Wing_Telescope", coll, mats, (-12, 12, 0, 18, 0, 8),
+                      [("-y", 0.0, 2.0), ("+y", 0.0, 2.0)]))
 
     for i, r in enumerate(rooms):
         r.data.shade_smooth()

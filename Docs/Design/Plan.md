@@ -94,20 +94,20 @@ The rune is at 0.5× size. A 1 × 1 m mouse door (scale 0.5) is linked to a norm
 
 ### 5. Hall of Reflections (mirroring and parity)
 
-The rune is a mirror image of its glyph. The wing is a symmetric gallery with a mirroring portal pair, and the only way back to the Rotunda passes through one mirror.
+The wing's entrance is a mirroring portal pair, so the player enters the gallery mirrored. The rune is world-correct, which means it looks reversed to the mirrored player. Any way back to the Rotunda passes through that mirror.
 
-- **Trap:** the player goes in through a mirror, picks up the rune (which now looks right to them, because they're mirrored too), and walks back out. Both flip again, so the rune is still mirrored.
-- **Solution:** send the rune through an **odd** number of mirrors in total, for example by throwing it through the gallery's mirror window once before leaving.
-- **Teaches:** each pass through a mirror flips the rune, carried or not. Count the mirrors.
+- **Trap:** pick up the rune and carry it out. The mirror flips it, so the hex rejects it as a mirror image.
+- **Solution:** throw the rune through the gallery's mirror window (a mirroring portal pair high in the side walls) first, then carry it out: two flips in total. A "COUNT THE MIRRORS" inscription on the wall reads backwards while you're mirrored.
+- **Teaches:** each pass through a mirror flips the rune, carried or not. Count the mirrors. (An earlier draft had the rune start mirrored and the carry-out as the trap; that's backwards, because the exit mirror would fix it.)
 - **Build note:** geometry, textures and lighting around mirroring portals must be left-right symmetric, or there's a visible seam.
 
 ### 6. The Telescope (combining everything)
 
-The central telescope's eyepiece is a portal. A dial on its base rotates the dome and changes what the eyepiece links to: one of several "constellation" rooms, each with a different transform (mirrored, half size, double size).
+The telescope has its own room behind the last alcove. Its eyepiece is a doorway in the middle of the room. Walking or throwing into it brings you out of the "lens", a portal in the room's far wall. Three floor plates (the dial) turn the dome to a constellation, which sets the lens: **Gemini** mirrors, **Lynx** halves, **Cygnus** doubles. Before any plate is stepped on, the lens is a plain 1:1 doorway.
 
-The last rune starts both mirrored and at the wrong size.
+The last rune starts both mirrored and at 0.5×.
 
-- **Solution:** choose the dial settings and the order of trips so the rune ends up the right size and the right way round.
+- **Solution:** send it through once on Gemini and once on Cygnus (in either order; throw it, or carry it and accept that you change too). Walking back from the lens into the eyepiece undoes the current setting, so the player can always restore themselves.
 - **Teaches:** nothing new. It's the final exam.
 
 ## Blueprints and assets
@@ -261,6 +261,18 @@ The hex now has sockets 0 and 1 enabled. The test runes from milestone 2 are rem
 
 The hex now has sockets 0–3 enabled.
 
+## Runes 5–6 (milestone 5)
+
+**Hall of Reflections** (rune index 4): alcove 2 → `SM_Wing_Mirror` (10 × 20 × 6 m, space 8, origin (260000, 0, 0)). `Portal_Alcove2` is scale (2, 2, 2) and `Portal_Wing5_In` is scale (−2, 2, 2), so the pair mirrors. The hall is symmetric about x = 0 (the entrance mirror's reflection plane), with the rune, pedestal and lights on the centre line. It's also symmetric about y = 10 m (the window mirrors' plane), with a blind doorway at the far end matching the entrance. Mirror windows: `Portal_Wing5_WindowW` (west wall, yaw 90, scale 0.5) and `Portal_Wing5_WindowE` (east wall, yaw 90, scale (−0.5, 0.5, 0.5)), centred 1.4 m up on a 0.9 m sill, too small for the player. W's front links to E, and E's back links to W, so a rune thrown into either comes out of the other, flipped. `Rune4` is world-correct, at scale 1.
+
+**The Telescope** (rune index 5): its own wing behind alcove 1 → `SM_Wing_Telescope` (24 × 18 × 8 m, space 9, origin (290000, 0, 0)). Positions below are relative to the wing origin. (It was first built in the Rotunda and moved here so every rune has its own room; the niche is empty again.)
+- `Portal_Telescope_Eyepiece` (scale 1, yaw 0, front facing the entrance) stands at (0, 7, 1) m with a backing plate behind it. Its front links to `Portal_Telescope_Lens` in the far-wall doorway at (0, 18) m, yaw 180, back facing the room. The doorway is sized for the lens at scale 2. The lens's back links to the eyepiece.
+- **`BP_Telescope`** at (0, 7, 0) m: three plates with triggers and labels at x = +4.5, +7.5, +10.5 m (Gemini, Lynx, Cygnus). Variables: `Lens`, `LensFrame`, `LensBase` (290000, 1800, 0) and `Setting` (−1 at start).
+- `ApplySetting(i)` sets the lens and its frame to scale (−1, 1, 1), 0.5 or 2, standing on the floor (centre at |scale| × 1 m), and prints the constellation.
+- `Rune5` starts at scale (−0.5, 0.5, 0.5) (mirrored, half size) on a pedestal at (−6, 7) m.
+
+All six hex sockets are now enabled, so the hex breaks only when all six runes are in.
+
 ## Milestones
 
 Each milestone ends with a playable build in PIE.
@@ -273,7 +285,7 @@ Each milestone ends with a playable build in PIE.
 | 2 | **Core loop.** `BP_Rune`, `M_Rune`, `BP_HexSeal`, Max Object Radius 45 cm, with one rune on a pedestal in the Rotunda and the other five sockets temporarily disabled | Built (see [Core loop](#core-loop-milestone-2)). Tested in PIE: walking in seals the door; the mirrored and half-size test runes are rejected with the right reason; rune 0 locks in and the hex breaks. **Still to try by hand:** carrying the rune to the socket. |
 | 3 | **Runes 1–2** (through the glass, cabinets) | Built (see [Runes 1–2](#runes-12-milestone-3)). Tested in PIE: the alcoves lead to the wings, the window shows the rune up close, and the cabinet sequence (including a wrong first try) opens the vault. **Still to try by hand:** grabbing rune 1 through the window, and carrying both runes back to the hex. |
 | 4 | **Runes 3–4** (size) | Built (see [Runes 3–4](#runes-34-milestone-4)). Tested in Simulate/PIE: the 2× rune comes out of the small door at 1×, the 0.5× rune comes out of the big door at 1×, and the player shrinks through the big door and grows back through the mouse door. **Still to try by hand:** pushing the heavy rune, and throwing the small one. |
-| 5 | **Runes 5–6** (mirror, telescope) | Both solvable, with no visible seams at mirroring portals |
+| 5 | **Runes 5–6** (mirror, telescope) | Built (see [Runes 5–6](#runes-56-milestone-5)). Tested in PIE/Simulate: entering the gallery mirrors the player with no seams at the entrance or windows; the rune comes out of the window mirrored; the Cygnus plate doubles the lens, the eyepiece grows the player to 2×, and walking back undoes it. **Still to try by hand:** both full solutions and all six runes in the hex. |
 | 6 | **Safety nets.** Kill volumes, rune return, restore font, socket feedback | Nothing can soft-lock the game: every rune can always be recovered |
 | 7 | **Art, sound and lighting.** Final Blender models for the Rotunda, wings and telescope, Observatory look, glyph VFX, hex break, ending sky. Check portal edges under Lumen, auto-exposure and TSR (see the guide's Limitations). | A full playthrough looks finished |
 | 8 | **Performance and packaging.** Check `Portal.ShowStats 1` in the Rotunda, tune `Portal.MaxDepth` and `Portal.ResolutionFalloff`, and package a Win64 build | Stable frame rate and a working packaged build |
