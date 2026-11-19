@@ -273,6 +273,14 @@ The hex now has sockets 0–3 enabled.
 
 All six hex sockets are now enabled, so the hex breaks only when all six runes are in.
 
+## Safety nets (milestone 6)
+
+- **`BP_Rune` return.** BeginPlay stores `SpawnTransform` and `SpawnSpace`. **`ReturnToPedestal`** zeroes the physics velocities, teleports the rune back (scale included), calls **Reset Tracking**, **Set Mirrored** from the sign of its X scale, **Refresh Mirrored Rendering** and **Set Actor Space**, then releases it if the player is holding it.
+- **`BP_KillVolume`** (box, overlap only; `RespawnTransform` per instance). A `BP_Rune` overlapping it calls `ReturnToPedestal`. The player is stopped, rescaled to 1× (**Apply Scale Factor** with the inverse of the current scale), unmirrored, teleported to `RespawnTransform`, turned to face the same way (**Set Control Rotation**) and given **Reset Tracking**.
+- **Placement.** One 60 × 60 m slab per space about 15 m below the floor (`KV_Outside` is 600 × 600 m), plus `KV_ChasmPit` on the pit floor in the chasm wing. Respawn points are 3 m inside each wing's entrance, facing +Y. The closet and vault respawn in the study, and the Hall of Reflections respawns in the Rotunda (at (50000, 800, 100)), so nobody lands in the mirrored hall unmirrored. Outside respawns at the `PlayerStart`.
+- **`BP_RestoreFont`** (`RestoreFont`, tagged `PortalSpace.1`, at (50000, 1100, 0) in the Rotunda). A glowing pad inside a box trigger: the player is rescaled to 1× and unmirrored if they aren't already, and it prints "The font's light restores you." The pad's collision is turned off in BeginPlay.
+- **Socket feedback.** `RejectRune` now also calls `FlashPlate(Index)`, which lights that socket's plate with `MI_Glyph_Lit` for 0.4 s; `EndFlash` puts every unfilled plate back to `MI_Glyph_Idle`. The reason text is still printed. Proper glyph effects are milestone 7.
+
 ## Milestones
 
 Each milestone ends with a playable build in PIE.
@@ -286,7 +294,7 @@ Each milestone ends with a playable build in PIE.
 | 3 | **Runes 1–2** (through the glass, cabinets) | Built (see [Runes 1–2](#runes-12-milestone-3)). Tested in PIE: the alcoves lead to the wings, the window shows the rune up close, and the cabinet sequence (including a wrong first try) opens the vault. **Still to try by hand:** grabbing rune 1 through the window, and carrying both runes back to the hex. |
 | 4 | **Runes 3–4** (size) | Built (see [Runes 3–4](#runes-34-milestone-4)). Tested in Simulate/PIE: the 2× rune comes out of the small door at 1×, the 0.5× rune comes out of the big door at 1×, and the player shrinks through the big door and grows back through the mouse door. **Still to try by hand:** pushing the heavy rune, and throwing the small one. |
 | 5 | **Runes 5–6** (mirror, telescope) | Built (see [Runes 5–6](#runes-56-milestone-5)). Tested in PIE/Simulate: entering the gallery mirrors the player with no seams at the entrance or windows; the rune comes out of the window mirrored; the Cygnus plate doubles the lens, the eyepiece grows the player to 2×, and walking back undoes it. **Still to try by hand:** both full solutions and all six runes in the hex. |
-| 6 | **Safety nets.** Kill volumes, rune return, restore font, socket feedback | Nothing can soft-lock the game: every rune can always be recovered |
+| 6 | **Safety nets.** Kill volumes, rune return, restore font, socket feedback | Built (see [Safety nets](#safety-nets-milestone-6)). Tested in PIE: a rune dropped into the chasm pit returns to its pedestal, a player who falls under the Rotunda is put back inside it, and a 2× player is restored to 1× on the font. **Still to try by hand:** a rune thrown out of reach while carried, and the rejected-socket flash. |
 | 7 | **Art, sound and lighting.** Final Blender models for the Rotunda, wings and telescope, Observatory look, glyph VFX, hex break, ending sky. Check portal edges under Lumen, auto-exposure and TSR (see the guide's Limitations). | A full playthrough looks finished |
 | 8 | **Performance and packaging.** Check `Portal.ShowStats 1` in the Rotunda, tune `Portal.MaxDepth` and `Portal.ResolutionFalloff`, and package a Win64 build | Stable frame rate and a working packaged build |
 
