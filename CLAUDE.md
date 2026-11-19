@@ -32,6 +32,12 @@ Gotchas learned so far:
 - **`CaptureEditorImage` captures the front window,** which may be the Message Log. Close it with `SlateInspectorToolset.Windows` first.
 - **`CaptureEditorImage` output is too large to return inline.** It is saved to a tool-results file; decode the base64 `data` to a PNG to view it.
 
+## Packaging
+
+- `RunUAT.bat BuildCookRun -project=<Hexfold.uproject> -platform=Win64 -clientconfig=Development -build -cook -stage -pak -archive -archivedirectory=<dir>` works (about 3 minutes, 1.1 GB). Run it from PowerShell with `&` (a path with spaces breaks it in Git Bash).
+- **Close the editor first.** UBT refuses to build while Live Coding is active.
+- The build compiles the plugin from `Source/` and links it into `Hexfold.exe`, so a package has no plugin DLL and there is nothing extra to commit. It does rebuild `Plugins/PortalWorlds/Binaries/Win64/UnrealEditor-PortalWorlds.dll`; run `git checkout` on it afterwards so the committed binary stays unchanged.
+
 ## Portal rules
 
 - **Portal scale must be uniform** (only the sign of X may differ, for mirroring). The quad surface is the root component, so scaling the surface scales the actor. Doorways use the default 2 × 2 m surface; a different-size portal (uniform scale) resizes whatever passes through.

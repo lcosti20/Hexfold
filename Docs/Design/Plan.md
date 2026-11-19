@@ -281,6 +281,23 @@ All six hex sockets are now enabled, so the hex breaks only when all six runes a
 - **`BP_RestoreFont`** (`RestoreFont`, tagged `PortalSpace.1`, at (50000, 1100, 0) in the Rotunda). A glowing pad inside a box trigger: the player is rescaled to 1× and unmirrored if they aren't already, and it prints "The font's light restores you." The pad's collision is turned off in BeginPlay.
 - **Socket feedback.** `RejectRune` now also calls `FlashPlate(Index)`, which lights that socket's plate with `MI_Glyph_Lit` for 0.4 s; `EndFlash` puts every unfilled plate back to `MI_Glyph_Idle`. The reason text is still printed. Proper glyph effects are milestone 7.
 
+## Performance (milestone 8)
+
+Measured in PIE (so the absolute numbers include editor overhead; compare them with each other) with a temporary probe Blueprint that logged average frame time and **Get Last Capture Count** every 2 s. The worst cases are the Rotunda looking toward alcoves 1 and 7 and the entrance, and the telescope room looking at the eyepiece and lens.
+
+| Setting | Rotunda ms (captures) | Telescope ms (captures) |
+|---|---|---|
+| `MaxDepth` 4, falloff 1 (plugin default) | 20.7 (10) | 16.5 (6) |
+| `MaxDepth` 3, falloff 1 | 18.0 (8) | 14.2 (4) |
+| `MaxDepth` 2, falloff 1 | 13.3 (5) | 8.7 (2) |
+| `MaxDepth` 4, falloff 0.5 | 19.1 (10) | 14.2 (6) |
+| **`MaxDepth` 3, falloff 0.5 (chosen)** | 16.5 (8) | about 12.5 (not measured; 14.2 − 1.7 from the other falloff gains) |
+| `MaxDepth` 6, falloff 1 | not measured | 20.3 (8) |
+
+`MaxCaptures` (32) is never reached. Depth 3 shows no pink fallback portals in the telescope room. Depth 2 would be cheapest but a portal seen through a portal would turn pink, which breaks the windows and cabinets, so it isn't used. The values are set in `Config/DefaultEngine.ini` under `[SystemSettings]`.
+
+Not yet done: a check of the Hall of Reflections and the study cabinets at depth 3, and timing the packaged build (it should be faster than PIE).
+
 ## Milestones
 
 Each milestone ends with a playable build in PIE.
@@ -295,8 +312,8 @@ Each milestone ends with a playable build in PIE.
 | 4 | **Runes 3–4** (size) | Built (see [Runes 3–4](#runes-34-milestone-4)). Tested in Simulate/PIE: the 2× rune comes out of the small door at 1×, the 0.5× rune comes out of the big door at 1×, and the player shrinks through the big door and grows back through the mouse door. **Still to try by hand:** pushing the heavy rune, and throwing the small one. |
 | 5 | **Runes 5–6** (mirror, telescope) | Built (see [Runes 5–6](#runes-56-milestone-5)). Tested in PIE/Simulate: entering the gallery mirrors the player with no seams at the entrance or windows; the rune comes out of the window mirrored; the Cygnus plate doubles the lens, the eyepiece grows the player to 2×, and walking back undoes it. **Still to try by hand:** both full solutions and all six runes in the hex. |
 | 6 | **Safety nets.** Kill volumes, rune return, restore font, socket feedback | Built (see [Safety nets](#safety-nets-milestone-6)). Tested in PIE: a rune dropped into the chasm pit returns to its pedestal, a player who falls under the Rotunda is put back inside it, and a 2× player is restored to 1× on the font. **Still to try by hand:** a rune thrown out of reach while carried, and the rejected-socket flash. |
-| 7 | **Art, sound and lighting.** Final Blender models for the Rotunda, wings and telescope, Observatory look, glyph VFX, hex break, ending sky. Check portal edges under Lumen, auto-exposure and TSR (see the guide's Limitations). | A full playthrough looks finished |
-| 8 | **Performance and packaging.** Check `Portal.ShowStats 1` in the Rotunda, tune `Portal.MaxDepth` and `Portal.ResolutionFalloff`, and package a Win64 build | Stable frame rate and a working packaged build |
+| 7 | **Art, sound and lighting.** Final Blender models for the Rotunda, wings and telescope, Observatory look, glyph VFX, hex break, ending sky. Check portal edges under Lumen, auto-exposure and TSR (see the guide's Limitations). | A full playthrough looks finished. **In progress:** `PPV_Global` (unbound post-process volume: histogram auto-exposure, bias −0.5, brightness 0.4–2.0) fixes the overexposed Rotunda. `BP_HexSeal.BreakHex` now calls `EndingSky`, which turns the sun gold and drops it to a low dawn angle (compiled, **not yet seen in PIE**). **Still to do:** final Blender models, glyph VFX, sound, and the Lumen/TSR portal-edge check. |
+| 8 | **Performance and packaging.** Check `Portal.ShowStats 1` in the Rotunda, tune `Portal.MaxDepth` and `Portal.ResolutionFalloff`, and package a Win64 build | Tuned (see [Performance](#performance-milestone-8)): `MaxDepth` 3 and `ResolutionFalloff` 0.5 cut the worst Rotunda frame from 20.7 to 16.5 ms in PIE. A Development Win64 package builds and starts (see `CLAUDE.md` → Packaging). **Still to do:** time the packaged build and check the hall and cabinets at depth 3. |
 
 ## Risks
 
