@@ -8,6 +8,9 @@ Per rune N it makes:
                        back flat, so the 3D shape is chiral. Origin at the centre of its bounds.
   UCX_SM_Rune_N_##     one box hull per stroke segment (children of SM_Rune_N), for Unreal's
                        simple collision. Boxes are fine at negative (mirrored) scale.
+                       Behind the strokes (+Y) it also has a hexagonal backing plate (material slot 1),
+                       pointy-top like the sockets of the hex seal, so a rune's facing is obvious and
+                       it fits into a socket. The plate is its own mesh island (strokes keep slot 0).
   SM_Glyph_N           flat 1 cm plate of the same outline, for the hex sockets.
 
 Units: metres (1 Blender unit = 1 m = 100 Unreal units).
@@ -20,6 +23,8 @@ W = 0.08     # stroke width
 T = 0.08     # thickness along Y
 BEV = 0.012  # front chamfer
 GLYPH_T = 0.01
+PLATE_R = 0.325   # corner radius of the hex backing plate: every rune's strokes fit inside it
+PLATE_T = 0.02    # plate thickness along Y (behind the back face at y = +T/2)
 SPACING = 0.7
 
 # Each rune is a list of polylines on a cm grid (x right, z up). None has a mirror symmetry.
@@ -80,6 +85,17 @@ def _octagon(c, w):
     r = (w / 2) / math.cos(math.pi / 8)
     return [(c[0] * U + r * math.cos(math.pi / 8 + k * math.pi / 4),
              c[1] * U + r * math.sin(math.pi / 8 + k * math.pi / 4)) for k in range(8)]
+
+
+def _hex_pts(r):
+    """Pointy-top hexagon (corners at 30, 90, ... degrees) in the XZ plane, like the socket plates."""
+    return [(r * math.cos(math.radians(30 + 60 * k)), r * math.sin(math.radians(30 + 60 * k))) for k in range(6)]
+
+
+def _material(name, rgb):
+    m = bpy.data.materials.get(name) or bpy.data.materials.new(name)
+    m.diffuse_color = (*rgb, 1)
+    return m
 
 
 def _clear(coll_name):
@@ -159,6 +175,20 @@ def build_rune(idx, strokes):
     for v in gme.vertices:
         v.co -= c2
     c += c2
+
+    # Hex backing plate behind the back face (+Y), as a separate island with material slot 1.
+    # It overlaps the strokes by 2 mm so the two never show a gap.
+    y0, y1 = T / 2 - 0.002, T / 2 + PLATE_T
+    pa = [bm.verts.new((x, y0, z)) for x, z in _hex_pts(PLATE_R)]
+    pb = [bm.verts.new((x, y1, z)) for x, z in _hex_pts(PLATE_R)]
+    plate_faces = [bm.faces.new(pa), bm.faces.new(list(reversed(pb)))]
+    plate_faces += [bm.faces.new((pa[i], pa[(i + 1) % 6], pb[(i + 1) % 6], pb[i])) for i in range(6)]
+    bmesh.ops.recalc_face_normals(bm, faces=plate_faces)
+    for f in bm.faces:
+        f.material_index = 1 if f in plate_faces else 0
+    base.data.materials.clear()
+    base.data.materials.append(_material("M_Rune", (0.85, 0.65, 0.2)))
+    base.data.materials.append(_material("M_RunePlate", (0.35, 0.33, 0.3)))
     bm.to_mesh(base.data)
     bm.free()
 
@@ -176,6 +206,15 @@ def build_rune(idx, strokes):
             col.display_type = 'WIRE'
             col.hide_render = True
             k += 1
+
+    # One more hull for the plate (a convex hexagonal prism).
+    poly = _hex_pts(PLATE_R)
+    plate_col = _object(f"UCX_SM_Rune_{idx}_{k:02d}", [poly], PLATE_T + 0.002, coll)
+    for v in plate_col.data.vertices:
+        v.co.y += T / 2 + (PLATE_T - 0.002) / 2
+    plate_col.parent = base
+    plate_col.display_type = 'WIRE'
+    plate_col.hide_render = True
 
     base.location = (idx * SPACING, 0, 0.3)
     glyph.location = (idx * SPACING, 0, -0.15)

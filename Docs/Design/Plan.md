@@ -178,6 +178,7 @@ The exterior's door socket (where the doorframe and the entrance portal go) is a
 - **Simple collision on one body:** one or a few convex hulls exported as `UCX_SM_Rune_N_00` … alongside the mesh. Mirrored physics needs boxes, spheres or convex hulls, not complex collision.
 - **Size and the grab limit.** Runes are 40–48 cm tall and 8 cm thick, with bounding radii of 25–28 cm. At 2× that's 49–57 cm. The default **Max Object Radius** (90 cm) would let a 2× rune be lifted, so it's lowered to **45 cm** on `BP_FirstPersonCharacter`'s Portal Grab (milestone 2). That's under every 2× rune and over every 1× rune, and the 50 cm test cubes (radius 43 cm) can still be lifted. Rune 3's mesh is the same size; the level places it at scale 2.
 - **Chiral in 3D:** each outline has no mirror symmetry, and only the front (−Y in Blender) is chamfered, while the back is flat. A flat slab with identical faces would have a mirror plane through its middle, so a mirrored rune could just be turned over to match.
+- **Hex backing plate:** each rune also has a 2 cm pointy-top hexagonal plate behind its strokes (corner radius 32.5 cm, material slot 1 = `MI_RunePlate`, one extra `UCX_` hull), so a rune's facing is obvious and it seats in a socket. The meshes are now about 56 × 65 cm with a bounding radius of about 43 cm, still under the 45 cm grab limit at 1× and over it at 2× (86 cm).
 - A matching flat glyph (`SM_Glyph_N`, 1 cm thick) for the hex sockets.
 - **Tested:** `SM_Rune_0` as a physics actor with Portal Traversal and the portal-clip material toppled through `L_PortalTest`'s doorway pair (log: `traversed Portal_DoorA -> Portal_DoorB`) and came to rest flat on the floor beyond, 4.0 cm up (exactly half its thickness).
 
@@ -211,14 +212,14 @@ Known greybox issues: the Rotunda is overexposed (auto-exposure; tune in milesto
 
 | Component | Purpose |
 |---|---|
-| `HexRoot` → `Web` (`SM_Hex_Ring`), `Plate0`–`5` (`SM_Hex_SocketPlate`), `Glyph0`–`5` (`SM_Glyph_N`) | Visuals, hidden until the door seals. Socket *k* sits on the hex corner at 90° + 60°·*k* (radius 1 m): socket 0 at the top, then anticlockwise as seen from the room side. |
+| `HexRoot` → `Web` (`SM_Hex_Ring`), `Plate0`–`5` (`SM_Hex_SocketPlate`, component scale 1.2 × 1 × 1.2 so the rune plates fit inside the rim), `Glyph0`–`5` (`SM_Glyph_N`) | Visuals, hidden until the door seals. Socket *k* sits on the hex corner at 90° + 60°·*k* (radius 1 m): socket 0 at the top, then anticlockwise as seen from the room side. |
 | `Trigger0`–`5` | Box triggers 20 cm in front of each socket. A `BP_Rune` overlapping one calls `TryPlace(Rune, k)`. |
 | `Barrier` | Box across the doorway (310 × 12 × 310 cm), `BlockAll`. Collision is off until the door seals (set in BeginPlay). |
 | `SealTrigger` | 6 × 2 × 4 m box, 4 m into the room. The player overlapping it calls `SealDoor`. |
 
 Variables: `SocketEnabled` (bool ×6, instance editable: the level enables only socket 0 for now), `SocketFilled`, `bSealed`, `bBroken`.
 
-Functions: `SealDoor` (show the web and enabled sockets, barrier on), `TryPlace` (checks, in order: sealed and not broken, socket enabled and empty, `RuneIndex` matches, |scale Z| within 0.9–1.1, not **Is Mirrored**), `AcceptRune` (release from the player's grab, physics and collision off, snap 6 cm in front of the glyph facing the room, light the plate with `MI_Glyph_Lit`, then `BreakHex` if `AllFilled`), `RejectRune` (release, push it 250 cm/s into the room and 150 cm/s up, print the reason), `BreakHex` (hide everything, barrier off), `ReleaseIfHeld`, `AllFilled` (every enabled socket is filled).
+Functions: `SealDoor` (show the web and enabled sockets, barrier on), `TryPlace` (checks, in order: sealed and not broken, socket enabled and empty, `RuneIndex` matches, |scale Z| within 0.9–1.1, not **Is Mirrored**), `AcceptRune` (release from the player's grab, physics and collision off, snap 3.5 cm in front of the glyph, so the rune's plate sits in the socket's rim facing the room, light the plate with `MI_Glyph_Lit`, then `BreakHex` if `AllFilled`), `RejectRune` (release, push it 250 cm/s into the room and 150 cm/s up, print the reason), `BreakHex` (hide everything, barrier off), `ReleaseIfHeld`, `AllFilled` (every enabled socket is filled).
 
 Feedback is `Print String` for now; proper glyph effects are milestone 6/7.
 
