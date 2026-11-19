@@ -29,6 +29,9 @@ Gotchas learned so far:
 - **Setting a collision profile resets Collision Enabled.** Set `collisionEnabled` in a separate `set_properties` call after `collisionProfileName`, and don't rely on Blueprint template changes reaching already-placed instances; set runtime state in BeginPlay.
 - **`StaticMeshTools.import_file` won't overwrite.** Delete the asset first, re-import, then reassign `StaticMesh` on level actors (the delete clears their references).
 - **Loading a level fails if the current one has unsaved changes.** Save it first; if the changes were throwaway tests, `git checkout` the `.umap` afterwards.
+- **`ActorTools.set_actor_transform` resets any field you leave out** (location → origin, rotation → 0, scale → 1). Always pass location, rotation and scale together, and read them first with `get_actor_transform`.
+- **`set_properties` can't change a box component's `BoxExtent`** (it returns true but nothing changes), and setting `RelativeScale3D` on a root component doesn't work either. Size a box through the actor's scale instead.
+- **Teleporting a sleeping physics body in PIE doesn't wake it,** and a running PIE may be paused on the title screen. For physics tests, move the actors in the editor level and use Simulate (`bSimulate: true`), then restore their transforms before saving.
 - **`CaptureEditorImage` captures the front window,** which may be the Message Log. Close it with `SlateInspectorToolset.Windows` first.
 - **`CaptureEditorImage` output is too large to return inline.** It is saved to a tool-results file; decode the base64 `data` to a PNG to view it.
 
