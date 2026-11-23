@@ -264,6 +264,9 @@ struct NodeCamera {
     entity: Entity,
     image: Handle<Image>,
     size: UVec2,
+    /// The recursion depth this camera always serves. Its image is sized for that depth, so it is
+    /// never resized when the view tree changes shape (a resize leaves the image black for a frame).
+    depth: usize,
 }
 
 struct SurfaceSlot {
@@ -364,48 +367,68 @@ pub fn render_portals(
     if state.quad.is_none() {
         state.quad = Some(meshes.add(Rectangle::new(2.0, 2.0)));
     }
-    let needed_cameras = nodes.len().saturating_sub(1);
-    while state.cameras.len() < needed_cameras {
-        let n = state.cameras.len() + 1;
-        let size = UVec2::new(16, 16);
-        let image = new_target(&mut images, size);
-        let entity = commands
-            .spawn((
-                Name::new(format!("PortalView{n}")),
-                Camera3d::default(),
-                Camera { order: -(n as isize), is_active: false, clear_color: ClearColorConfig::Custom(Color::BLACK), ..default() },
-                RenderTarget::Image(image.clone().into()),
-                Hdr,
-                Tonemapping::None,
-                // Same anti-aliasing as the player's view, or edges seen through a portal crawl.
-                Msaa::Sample4,
-                Exposure { ev100: settings.exposure_ev100 },
-                AmbientLight { color: global_ambient.color, brightness: global_ambient.brightness, ..default() },
-                Projection::Perspective(PerspectiveProjection::default()),
-                Transform::IDENTITY,
-                RenderLayers::layer(0),
-            ))
-            .id();
-        state.cameras.push(NodeCamera { entity, image, size });
+    // Cameras are pooled per depth: each node takes the next free camera of its own depth, so a
+    // camera keeps its depth (and image size) however the tree changes from frame to frame.
+    let size_for_depth = |depth: usize| {
+        let scale = settings.resolution_falloff.clamp(0.1, 1.0).powi(depth.saturating_sub(1) as i32);
+        UVec2::new(((cam_size.x as f32 * scale).round() as u32).max(16), ((cam_size.y as f32 * scale).round() as u32).max(16))
+    };
+    let mut node_cam: Vec<usize> = vec![usize::MAX; nodes.len()];
+    let mut cam_taken = vec![false; state.cameras.len()];
+    for n in 1..nodes.len() {
+        let depth = nodes[n].depth;
+        let found = (0..state.cameras.len()).find(|&k| !cam_taken[k] && state.cameras[k].depth == depth);
+        let k = match found {
+            Some(k) => k,
+            None => {
+                let k = state.cameras.len();
+                let size = size_for_depth(depth);
+                let image = new_target(&mut images, size);
+                let entity = commands
+                    .spawn((
+                        Name::new(format!("PortalView{}", k + 1)),
+                        Camera3d::default(),
+                        Camera { order: -(depth as isize) * 64 - (k as isize % 64), is_active: false, clear_color: ClearColorConfig::Custom(Color::BLACK), ..default() },
+                        RenderTarget::Image(image.clone().into()),
+                        Hdr,
+                        Tonemapping::None,
+                        // Same anti-aliasing as the player's view, or edges seen through a portal crawl.
+                        Msaa::Sample4,
+                        Exposure { ev100: settings.exposure_ev100 },
+                        AmbientLight { color: global_ambient.color, brightness: global_ambient.brightness, ..default() },
+                        Projection::Perspective(PerspectiveProjection::default()),
+                        Transform::IDENTITY,
+                        RenderLayers::layer(0),
+                    ))
+                    .id();
+                state.cameras.push(NodeCamera { entity, image, size, depth });
+                cam_taken.push(false);
+                k
+            }
+        };
+        cam_taken[k] = true;
+        node_cam[n] = k;
+    }
+    let mut cam_node: Vec<Option<usize>> = vec![None; state.cameras.len()];
+    for (n, &k) in node_cam.iter().enumerate().skip(1) {
+        cam_node[k] = Some(n);
     }
 
     // Position the cameras.
     for (k, camera) in state.cameras.iter_mut().enumerate() {
-        let n = k + 1;
         let Ok((mut t, mut proj, mut cam, mut layers, _, mut exposure)) = others.get_mut(camera.entity) else { continue };
         if exposure.ev100 != settings.exposure_ev100 {
             exposure.ev100 = settings.exposure_ev100;
         }
-        if n >= nodes.len() {
+        let Some(n) = cam_node[k] else {
             if cam.is_active {
                 cam.is_active = false;
             }
             continue;
-        }
+        };
         let node = &nodes[n];
-        // Resolution: full size at depth 1, shrinking per level beyond.
-        let scale = settings.resolution_falloff.clamp(0.1, 1.0).powi(node.depth.saturating_sub(1) as i32);
-        let want = UVec2::new(((cam_size.x as f32 * scale).round() as u32).max(16), ((cam_size.y as f32 * scale).round() as u32).max(16));
+        // Only a change of the window size resizes an image.
+        let want = size_for_depth(camera.depth);
         if want != camera.size {
             if let Some(mut img) = images.get_mut(&camera.image) {
                 img.resize(Extent3d { width: want.x, height: want.y, depth_or_array_layers: 1 });
@@ -429,7 +452,7 @@ pub fn render_portals(
             }
         }
         set_ambient(camera.entity, node.space);
-        cam.order = -(node.depth as isize) * 64 - (n as isize % 64);
+        cam.order = -(node.depth as isize) * 64 - (k as isize % 64);
         cam.is_active = true;
         *layers = view_layers(node.space, NODE_LAYER_BASE + n);
     }
@@ -467,7 +490,7 @@ pub fn render_portals(
             *vis = Visibility::Inherited;
             let wanted = match child.node {
                 Some(c) if c >= 1 => {
-                    let image = state.cameras[c - 1].image.clone();
+                    let image = state.cameras[node_cam[c]].image.clone();
                     let parent_flipped = n != 0 && node.mirrored; // the player's own view is flipped by its projection instead
                     Some((image, parent_flipped != nodes[c].mirrored))
                 }
