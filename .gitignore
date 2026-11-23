@@ -101,3 +101,7 @@ Plugins/PortalWorlds/Binaries/Win64/*
 # already existing elements were commented out
 
 #/target
+
+# Debug output
+/shots/
+*.log

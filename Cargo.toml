@@ -1,10 +1,13 @@
 [package]
-name = "Hexfold"
+name = "hexfold"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
+description = "Hexfold: a first-person non-Euclidean portal puzzle game, built on the in-tree portal_worlds plugin."
 
 [dependencies]
-bevy = "0.20.1"
+bevy = { version = "0.20.1", features = ["wav"] }
+avian3d = "0.8.0"
 
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]
@@ -13,3 +16,7 @@ opt-level = 1
 # Enable a large amount of optimization in the dev profile for dependencies.
 [profile.dev.package."*"]
 opt-level = 3
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
