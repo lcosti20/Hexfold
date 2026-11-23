@@ -92,11 +92,15 @@ pub struct PortalSettings {
     /// Ambient light (colour, brightness) per space, set on every view that renders that space.
     /// Spaces not listed use the `GlobalAmbientLight`.
     pub space_ambient: Vec<(i32, Color, f32)>,
+    /// Cameras (and images) created up front for each recursion depth. A camera created during
+    /// play shows a blank image for a few frames, so the pool should already hold as many views as
+    /// one frame can need. Each costs one render target; unused ones are inactive.
+    pub prewarm_per_depth: usize,
 }
 
 impl Default for PortalSettings {
     fn default() -> Self {
-        Self { max_depth: 4, max_captures: 32, resolution_falloff: 1.0, dynamic_near_plane: true, debug: false, hide: false, exposure_ev100: Exposure::EV100_BLENDER, space_ambient: Vec::new() }
+        Self { max_depth: 4, max_captures: 32, resolution_falloff: 1.0, dynamic_near_plane: true, debug: false, hide: false, exposure_ev100: Exposure::EV100_BLENDER, space_ambient: Vec::new(), prewarm_per_depth: 0 }
     }
 }
 
@@ -293,6 +297,39 @@ fn new_target(images: &mut Assets<Image>, size: UVec2) -> Handle<Image> {
     images.add(image)
 }
 
+/// Creates one pooled view camera (inactive) with its render target.
+#[allow(clippy::too_many_arguments)]
+fn spawn_view_camera(
+    commands: &mut Commands,
+    images: &mut Assets<Image>,
+    settings: &PortalSettings,
+    global_ambient: &GlobalAmbientLight,
+    index: usize,
+    depth: usize,
+    size: UVec2,
+) -> NodeCamera {
+    let image = new_target(images, size);
+    let entity = commands
+        .spawn((
+            Name::new(format!("PortalView{}", index + 1)),
+            Camera3d::default(),
+            Camera { order: -(depth as isize) * 64 - (index as isize % 64), is_active: false, clear_color: ClearColorConfig::Custom(Color::BLACK), ..default() },
+            RenderTarget::Image(image.clone().into()),
+            Hdr,
+            Tonemapping::None,
+            bevy::core_pipeline::tonemapping::DebandDither::Disabled,
+            // Same anti-aliasing as the player's view, or edges seen through a portal crawl.
+            Msaa::Sample4,
+            Exposure { ev100: settings.exposure_ev100 },
+            AmbientLight { color: global_ambient.color, brightness: global_ambient.brightness, ..default() },
+            Projection::Perspective(PerspectiveProjection::default()),
+            Transform::IDENTITY,
+            RenderLayers::layer(0),
+        ))
+        .id();
+    NodeCamera { entity, image, size, depth }
+}
+
 #[allow(clippy::too_many_arguments, clippy::type_complexity)]
 pub fn render_portals(
     mut commands: Commands,
@@ -373,6 +410,16 @@ pub fn render_portals(
         let scale = settings.resolution_falloff.clamp(0.1, 1.0).powi(depth.saturating_sub(1) as i32);
         UVec2::new(((cam_size.x as f32 * scale).round() as u32).max(16), ((cam_size.y as f32 * scale).round() as u32).max(16))
     };
+    // Fill the pool once, so no camera is created while the player walks.
+    if state.cameras.is_empty() && settings.prewarm_per_depth > 0 {
+        for depth in 1..settings.max_depth.max(1) {
+            for _ in 0..settings.prewarm_per_depth {
+                let k = state.cameras.len();
+                let size = size_for_depth(depth);
+                state.cameras.push(spawn_view_camera(&mut commands, &mut images, &settings, &global_ambient, k, depth, size));
+            }
+        }
+    }
     let mut node_cam: Vec<usize> = vec![usize::MAX; nodes.len()];
     let mut cam_taken = vec![false; state.cameras.len()];
     for n in 1..nodes.len() {
@@ -383,25 +430,8 @@ pub fn render_portals(
             None => {
                 let k = state.cameras.len();
                 let size = size_for_depth(depth);
-                let image = new_target(&mut images, size);
-                let entity = commands
-                    .spawn((
-                        Name::new(format!("PortalView{}", k + 1)),
-                        Camera3d::default(),
-                        Camera { order: -(depth as isize) * 64 - (k as isize % 64), is_active: false, clear_color: ClearColorConfig::Custom(Color::BLACK), ..default() },
-                        RenderTarget::Image(image.clone().into()),
-                        Hdr,
-                        Tonemapping::None,
-                        // Same anti-aliasing as the player's view, or edges seen through a portal crawl.
-                        Msaa::Sample4,
-                        Exposure { ev100: settings.exposure_ev100 },
-                        AmbientLight { color: global_ambient.color, brightness: global_ambient.brightness, ..default() },
-                        Projection::Perspective(PerspectiveProjection::default()),
-                        Transform::IDENTITY,
-                        RenderLayers::layer(0),
-                    ))
-                    .id();
-                state.cameras.push(NodeCamera { entity, image, size, depth });
+                info!("portal view camera {} created during play for depth {depth} ({} views this frame); raise prewarm_per_depth", k + 1, nodes.len());
+                state.cameras.push(spawn_view_camera(&mut commands, &mut images, &settings, &global_ambient, k, depth, size));
                 cam_taken.push(false);
                 k
             }
