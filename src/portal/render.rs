@@ -508,6 +508,15 @@ pub fn render_portals(
             let n_view = inv_rot * node.clip_normal;
             let d = node.clip_normal.dot(node.location - node.clip_base);
             p.near_clip_plane = if std::env::var("HEXFOLD_NOCLIP").is_ok() { Vec4::new(0.0, 0.0, -1.0, -near) } else { Vec4::new(n_view.x, n_view.y, n_view.z, d) };
+            // Bevy takes a plane facing straight down the view axis, (0, 0, -1, w), for "no oblique
+            // plane" and ignores its distance. That happens when the player looks squarely at a
+            // portal (as at the start, facing the front door): the view would show the outside of the
+            // room behind the exit portal until the player turned. Such a plane is just a far-off
+            // near plane, so set it as one.
+            let c = p.near_clip_plane;
+            if c.x == 0.0 && c.y == 0.0 && c.z == -1.0 {
+                p.near = (-c.w).max(near);
+            }
             if std::env::var("HEXFOLD_DEBUG").is_ok() {
                 eprintln!("node {n} depth {} loc {:?} fwd {:?} space {:?} clip n_view {:?} d {d} size {:?}", node.depth, node.location, node.forward, node.space, n_view, camera.size);
             }
