@@ -99,6 +99,7 @@ impl Plugin for HexfoldPlugin {
                 PostUpdate,
                 player::update_body.after(crate::portal::PortalSystems::Camera).before(TransformSystems::Propagate),
             )
+            .add_systems(Last, debug::trace.run_if(|| std::env::var("HEXFOLD_TRACE").is_ok()))
             .add_systems(OnEnter(AppState::Title), ui::open_title)
             .add_systems(OnExit(AppState::Title), ui::close_menus)
             .add_systems(OnEnter(AppState::Paused), ui::open_pause)
@@ -107,7 +108,7 @@ impl Plugin for HexfoldPlugin {
             .add_systems(
                 Update,
                 (
-                    debug::run_script.before(crate::portal::grab::update_grab),
+                    debug::run_script.before(crate::portal::grab::update_grab).before(player::walk),
                     (player::grab_cursor, player::look, player::walk, player::apply_scale).chain(),
                     (ui::pause_key, ui::freeze_time, ui::toast_system, ui::hud_events),
                     (hex::hex_logic, puzzles::cabinet_logic, puzzles::telescope_logic, puzzles::kill_volume_logic, puzzles::restore_font_logic, rune::return_to_pedestal),

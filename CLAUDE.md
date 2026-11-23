@@ -21,13 +21,13 @@ Running the exe directly (not through cargo) needs `BEVY_ASSET_ROOT=<repo root>`
 
 ## Automated checks (no keyboard needed)
 
-`HEXFOLD_SCRIPT` drives the game: steps separated by `;`: `wait:N`, `tp:x,y,z,yaw,pitch,space` (Unreal cm and degrees), `walk:dx,dy,dz,frames` (m/s, Unreal axes), `key:E`, `click`, `runetp:i,x,y,z`, `runevel:i,vx,vy,vz`, `sunrise:f` (jump the ending to f in 0..1), `pos` (logs player and runes), `shot:name` (writes `shots/name.png`), `quit`. Example:
+`HEXFOLD_SCRIPT` drives the game: steps separated by `;`: `wait:N`, `tp:x,y,z,yaw,pitch,space` (Unreal cm and degrees), `walk:dx,dy,dz,frames` (m/s, Unreal axes), `fwd:speed,frames` (walk the way the player faces, so it carries on through portals), `turn:dyaw,dpitch,frames` (degrees per frame, runs alongside the next steps), `key:E`, `click`, `runetp:i,x,y,z`, `runevel:i,vx,vy,vz`, `sunrise:f` (jump the ending to f in 0..1), `pos` (logs player and runes), `shot:name` (writes `shots/name.png`), `burst:name,N` (a screenshot every frame for N frames, alongside the next steps), `quit`. Example:
 
 ```
 BEVY_ASSET_ROOT=. HEXFOLD_SCRIPT="wait:300;tp:50000,1560,100,90,0,1;wait:60;shot:hex;quit" ./target/debug/hexfold.exe
 ```
 
-Wait ~300 frames at the start so assets load. A scripted run skips the title screen. Other env vars: `HEXFOLD_DEBUG` (print the portal view tree), `HEXFOLD_NOCLIP` (no oblique clip), `HEXFOLD_PHYSDEBUG` (draw colliders), `HEXFOLD_SKIP_TITLE`.
+To hunt a flicker, `burst` through the moment and compare neighbouring frames; to hunt a bump, run with `HEXFOLD_TRACE` and look for a jump in the vertical velocity. Wait ~300 frames at the start so assets load. A scripted run skips the title screen. Other env vars: `HEXFOLD_TRACE` (a line per frame on stderr: frame time, player position and velocity, crossings, view count, plus any player contact that isn't a level floor), `HEXFOLD_DEBUG` (print the portal view tree), `HEXFOLD_NOCLIP` (no oblique clip), `HEXFOLD_PHYSDEBUG` (draw colliders), `HEXFOLD_SKIP_TITLE`.
 
 ## Things that bit us (Bevy 0.20 / avian)
 

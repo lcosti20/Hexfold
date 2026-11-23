@@ -4,10 +4,17 @@
 //! * `wait:N`            do nothing for N frames
 //! * `tp:x,y,z,yaw,pitch,space`  teleport the player (Unreal cm and degrees; space -1 = none)
 //! * `walk:dx,dy,dz,frames`  push the player with a velocity (Unreal axes, m/s) for some frames
+//! * `fwd:speed,frames`  walk the way the player faces (m/s), through portals too
+//! * `turn:dyaw,dpitch,frames`  turn the view (degrees per frame) while the next steps run
 //! * `shot:name`         save `shots/name.png`
+//! * `burst:name,N`      save `shots/name_0000.png` ... for the next N frames, while the next steps run
 //! * `quit`              exit
 //!
 //! Without the variable this does nothing.
+//!
+//! `HEXFOLD_TRACE` prints a line per frame (frame time, the player's position and velocity, portal
+//! crossings, view count) and every contact on the player that isn't a level floor: what a bump
+//! or a flicker looks like in numbers.
 
 use avian3d::prelude::*;
 use bevy::prelude::*;
@@ -21,6 +28,8 @@ enum Step {
     Wait(u32),
     Teleport { loc: [f32; 3], yaw: f32, pitch: f32, space: i32 },
     Walk { v: Vec3, frames: u32 },
+    /// Walk the way the player faces (m/s) for some frames, like holding W.
+    Forward(f32, u32),
     Shot(String),
     Pos,
     RuneVel(u8, Vec3),
@@ -29,6 +38,10 @@ enum Step {
     Click,
     /// Jump the ending to this progress (0 = night, 1 = dawn).
     Sunrise(f32),
+    /// Turn the view by (yaw, pitch) degrees per frame for some frames, while later steps run.
+    Turn(f32, f32, u32),
+    /// Save a screenshot every frame for N frames (`shots/name_0001.png` ...), while later steps run.
+    Burst(String, u32),
     Quit,
 }
 
@@ -38,6 +51,9 @@ pub struct DebugScript {
     next: usize,
     wait: u32,
     walk: Option<(Vec3, u32)>,
+    forward: Option<(f32, u32)>,
+    turn: Option<(f32, f32, u32)>,
+    burst: Option<(String, u32, u32)>,
 }
 
 pub fn load_script() -> Option<DebugScript> {
@@ -56,6 +72,7 @@ pub fn load_script() -> Option<DebugScript> {
                 space: nums.get(5).copied().unwrap_or(-1.0) as i32,
             }),
             "walk" if nums.len() >= 4 => steps.push(Step::Walk { v: Vec3::new(nums[0], nums[2], nums[1]), frames: nums[3] as u32 }),
+            "fwd" if nums.len() >= 2 => steps.push(Step::Forward(nums[0], nums[1] as u32)),
             "shot" => steps.push(Step::Shot(arg.to_string())),
             "pos" => steps.push(Step::Pos),
             "key" => match arg { "E" => steps.push(Step::Key(KeyCode::KeyE)), "Space" => steps.push(Step::Key(KeyCode::Space)), _ => {} },
@@ -63,6 +80,11 @@ pub fn load_script() -> Option<DebugScript> {
             "runetp" if nums.len() >= 4 => steps.push(Step::RuneTp(nums[0] as u8, [nums[1], nums[2], nums[3]])),
             "runevel" if nums.len() >= 4 => steps.push(Step::RuneVel(nums[0] as u8, Vec3::new(nums[1], nums[3], nums[2]))),
             "sunrise" => steps.push(Step::Sunrise(nums.first().copied().unwrap_or(1.0))),
+            "turn" if nums.len() >= 3 => steps.push(Step::Turn(nums[0], nums[1], nums[2] as u32)),
+            "burst" => {
+                let (name, n) = arg.split_once(',').unwrap_or((arg, "60"));
+                steps.push(Step::Burst(name.to_string(), n.trim().parse().unwrap_or(60)));
+            }
             "quit" => steps.push(Step::Quit),
             "" => {}
             other => warn!("unknown debug step {other}"),
@@ -83,6 +105,27 @@ pub fn run_script(
     mut ending: ResMut<super::Ending>,
 ) {
     let Some(mut s) = script else { return };
+    if let Some((dyaw, dpitch, frames)) = s.turn {
+        if let Ok((_, mut pawn, _, _)) = player.single_mut() {
+            pawn.yaw = (pawn.yaw - dyaw.to_radians()).rem_euclid(std::f32::consts::TAU);
+            pawn.pitch = (pawn.pitch + dpitch.to_radians()).clamp(-1.5, 1.5);
+        }
+        s.turn = (frames > 1).then_some((dyaw, dpitch, frames - 1));
+    }
+    if let Some((name, i, n)) = s.burst.clone() {
+        let _ = std::fs::create_dir_all("shots");
+        commands.spawn(Screenshot::primary_window()).observe(save_to_disk(format!("shots/{name}_{i:04}.png")));
+        s.burst = (i + 1 < n).then_some((name, i + 1, n));
+    }
+    if let Some((speed, frames)) = s.forward {
+        if let Ok((_, pawn, _, mut lv)) = player.single_mut() {
+            let v = Quat::from_rotation_y(pawn.yaw) * Vec3::NEG_Z * speed * pawn.scale;
+            lv.x = v.x;
+            lv.z = v.z;
+        }
+        s.forward = (frames > 1).then_some((speed, frames - 1));
+        return;
+    }
     if let Some((v, frames)) = s.walk {
         if let Ok((_, _, _, mut lv)) = player.single_mut() {
             lv.x = v.x;
@@ -110,6 +153,7 @@ pub fn run_script(
             space.0 = (sp >= 0).then_some(sp);
         }
         Step::Walk { v, frames } => s.walk = Some((v, frames)),
+        Step::Forward(speed, frames) => s.forward = Some((speed, frames)),
         Step::Shot(name) => {
             let _ = std::fs::create_dir_all("shots");
             commands.spawn(Screenshot::primary_window()).observe(save_to_disk(format!("shots/{name}.png")));
@@ -149,8 +193,45 @@ pub fn run_script(
             ending.broken = true;
             ending.sunrise = a.clamp(0.0, 1.0);
         }
+        Step::Turn(y, p, n) => s.turn = Some((y, p, n)),
+        Step::Burst(name, n) => s.burst = Some((name, 0, n)),
         Step::Quit => {
             exit.write(AppExit::Success);
         }
     }
+}
+
+/// `HEXFOLD_TRACE`: one line per frame with the player's motion and the portal view count, and
+/// the player's contacts whose normal isn't straight up.
+pub fn trace(
+    time: Res<Time>,
+    stats: Res<crate::portal::PortalStats>,
+    space: Res<PlayerSpace>,
+    player: Query<(&Transform, &PortalPawn, &PortalTraveller, &LinearVelocity, &super::player::Player)>,
+    mut frame: Local<u32>,
+    graph: Res<ContactGraph>,
+    me: Query<Entity, With<super::player::Player>>,
+    names: Query<&Name>,
+    parents: Query<&ChildOf>,
+) {
+    *frame += 1;
+    let Ok((t, pawn, tr, lv, p)) = player.single() else { return };
+    if let Ok(e) = me.single() {
+        for pair in graph.contact_pairs_with(e) {
+            let other = if pair.collider1 == e { pair.collider2 } else { pair.collider1 };
+            let sign = if pair.collider1 == e { -1.0 } else { 1.0 };
+            for m in &pair.manifolds {
+                let n = m.normal * sign;
+                if n.y < 0.99 {
+                    let root = parents.iter_ancestors(other).last().unwrap_or(other);
+                    eprintln!("  CONTACT f={} with {:?}/{:?} normal(ue)=({:.2},{:.2},{:.2}) points={}", *frame, names.get(root).ok(), names.get(other).ok(), n.x, n.z, n.y, m.points.len());
+                }
+            }
+        }
+    }
+    let u = t.translation * 100.0;
+    eprintln!(
+        "TRACE f={} dt={:.2}ms ue=({:.1},{:.1},{:.2}) vel=({:.2},{:.2},{:.3}) scale={:.3} trav={} views={} near={:.4} space={:?} gnd={}",
+        *frame, time.delta_secs() * 1000.0, u.x, u.z, u.y, lv.x, lv.z, lv.y, pawn.scale, tr.traversal_count, stats.views, stats.near_plane, space.0, p.grounded
+    );
 }
