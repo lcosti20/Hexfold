@@ -63,11 +63,6 @@ pub struct Held {
     saved_gravity: Option<GravityScale>,
 }
 
-/// Messages for the game (prompts, the hex seal).
-#[derive(Message, Debug, Clone)]
-pub struct ObjectGrabbed(pub Entity);
-#[derive(Message, Debug, Clone)]
-pub struct ObjectReleased(pub Entity);
 /// Ask the grab to let go of an object (if it is held).
 #[derive(Message, Debug, Clone)]
 pub struct ReleaseObject(pub Entity);
@@ -147,8 +142,6 @@ pub fn update_grab(
     mut pawn: Query<(Entity, &mut PortalGrab, &PortalPawn, &PortalTraveller, &Transform), Without<PortalObject>>,
     mut bodies: Query<(&mut Transform, &mut LinearVelocity, &mut AngularVelocity, &CollisionLayers, Option<&mut GravityScale>, &PortalTraveller, &RigidBody, Option<&PortalClipped>), (With<PortalObject>, Without<PortalPawn>)>,
     mut commands: Commands,
-    mut grabbed: MessageWriter<ObjectGrabbed>,
-    mut released: MessageWriter<ObjectReleased>,
     mut traversals: MessageReader<PortalTraversed>,
     mut release_requests: MessageReader<ReleaseObject>,
 ) {
@@ -174,7 +167,7 @@ pub fn update_grab(
 
     for m in release_requests.read() {
         if grab.held.as_ref().is_some_and(|h| h.entity == m.0) {
-            release(&mut grab, &mut bodies, &mut released, &mut commands, None);
+            release(&mut grab, &mut bodies, &mut commands, None);
         }
     }
 
@@ -182,10 +175,10 @@ pub fn update_grab(
     if playing {
         if keys.just_pressed(KeyCode::KeyE) {
             if grab.held.is_some() {
-                release(&mut grab, &mut bodies, &mut released, &mut commands, None);
+                release(&mut grab, &mut bodies, &mut commands, None);
             } else if let Some((entity, warp)) = trace_for_object(&spatial, &set, &grab, player, eye, forward, size, &|e| bodies.get(e).ok().and_then(|b| matches!(b.6, RigidBody::Dynamic).then_some(b.7.map_or(0.45, |c| c.radius) * b.0.scale.y.abs()))) {
                 let frame = player_frame(eye, pawn.yaw, size, traveller.mirrored);
-                if let Ok((mut t, _, _, layers, gravity, tr, _, clipped)) = bodies.get_mut(entity) {
+                if let Ok((t, _, _, layers, gravity, tr, _, clipped)) = bodies.get_mut(entity) {
                     let flip = if tr.mirrored { Mat4::from_scale(Vec3::new(-1.0, 1.0, 1.0)) } else { Mat4::IDENTITY };
                     let here = warp.inverse() * t.to_matrix() * flip;
                     let mut in_frame = frame.inverse() * here;
@@ -215,9 +208,7 @@ pub fn update_grab(
                             commands.entity(entity).insert(GravityScale(0.0));
                         }
                     }
-                    let _ = &mut t;
                     grab.held = Some(Held { allowed_distance: allowed, ..held });
-                    grabbed.write(ObjectGrabbed(entity));
                 }
             }
         }
@@ -225,14 +216,14 @@ pub fn update_grab(
             && let Some(held) = grab.held.clone()
         {
             let velocity = held.warp.transform_vector3(forward * (grab.throw_speed * size));
-            release(&mut grab, &mut bodies, &mut released, &mut commands, Some(velocity));
+            release(&mut grab, &mut bodies, &mut commands, Some(velocity));
         }
     }
 
     // Carry.
     let break_distance = grab.break_distance;
     let Some(held) = grab.held.as_mut() else { return };
-    let Ok((mut t, mut lv, mut av, _, _, tr, _, _)) = bodies.get_mut(held.entity) else {
+    let Ok((t, mut lv, mut av, ..)) = bodies.get_mut(held.entity) else {
         grab.held = None;
         return;
     };
@@ -247,19 +238,17 @@ pub fn update_grab(
     held.stuck_time = if distance > held.allowed_distance { held.stuck_time + time.delta_secs() } else { 0.0 };
     if held.stuck_time > STUCK_TIME_LIMIT {
         info!("dropped the held object: it got stuck");
-        release(&mut grab, &mut bodies, &mut released, &mut commands, None);
+        release(&mut grab, &mut bodies, &mut commands, None);
         return;
     }
     // A stiff spring, as velocities: the object keeps up with a walking player.
     let dt = time.delta_secs().max(1e-4);
-    let _ = tr;
     let to_target = target_pos - t.translation;
     lv.0 = (to_target / dt.max(1.0 / 20.0) * 0.6).clamp_length_max(25.0 * size);
     let dq = target_rot * t.rotation.inverse();
     let (axis, angle) = dq.normalize().to_axis_angle();
     let angle = if angle > std::f32::consts::PI { angle - std::f32::consts::TAU } else { angle };
     av.0 = axis * angle * 12.0;
-    let _ = &mut t;
 }
 
 fn hold_target(held: &Held, eye: Vec3, forward: Vec3, size: f32, yaw: f32, mirrored: bool) -> (Vec3, Quat) {
@@ -275,7 +264,6 @@ fn hold_target(held: &Held, eye: Vec3, forward: Vec3, size: f32, yaw: f32, mirro
 fn release(
     grab: &mut PortalGrab,
     bodies: &mut Query<(&mut Transform, &mut LinearVelocity, &mut AngularVelocity, &CollisionLayers, Option<&mut GravityScale>, &PortalTraveller, &RigidBody, Option<&PortalClipped>), (With<PortalObject>, Without<PortalPawn>)>,
-    released: &mut MessageWriter<ObjectReleased>,
     commands: &mut Commands,
     throw: Option<Vec3>,
 ) {
@@ -291,6 +279,5 @@ fn release(
             None => lv.0 *= 0.2,
         }
     }
-    released.write(ObjectReleased(held.entity));
 }
 

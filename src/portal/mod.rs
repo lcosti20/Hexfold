@@ -1,5 +1,3 @@
-#![allow(dead_code, unused_imports)] // the plugin exposes more API than this game uses
-
 //! PortalWorlds for Bevy: seamless, recursive portals for non-Euclidean spaces.
 //!
 //! A port of the Unreal Engine plugin of the same name (itself a port of the technique in
@@ -25,8 +23,8 @@ use avian3d::prelude::PhysicsSystems;
 use bevy::prelude::*;
 
 pub use clip::{ClipMaterial, PortalClipExt, PortalClipped};
-pub use geom::{Portal, PortalGeom, PortalSet, PortalSpace, connect, matrix_scale};
-pub use grab::{ObjectGrabbed, ObjectReleased, PortalGrab, ReleaseObject};
+pub use geom::{Portal, PortalSet, PortalSpace};
+pub use grab::{PortalGrab, ReleaseObject};
 pub use material::PortalSurfaceMaterial;
 pub use projection::PortalProjection;
 pub use render::{PlayerSpace, PortalCamera, PortalSettings, PortalStats, layers_for_space, space_layer};
@@ -56,10 +54,7 @@ impl Plugin for PortalWorldsPlugin {
         .init_resource::<PlayerSpace>()
         .init_resource::<PortalStats>()
         .init_resource::<render::PortalRenderState>()
-        .init_resource::<clip::ClippedActors>()
         .add_message::<PortalTraversed>()
-        .add_message::<ObjectGrabbed>()
-        .add_message::<ObjectReleased>()
         .add_message::<ReleaseObject>()
         .configure_sets(
             PostUpdate,

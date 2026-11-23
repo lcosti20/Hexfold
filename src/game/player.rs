@@ -160,7 +160,7 @@ pub fn update_body(
     b.scale = Vec3::splat(pawn.scale);
 }
 
-pub fn grab_cursor(mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>, keys: Res<ButtonInput<KeyCode>>, mouse: Res<ButtonInput<MouseButton>>, state: Res<State<super::AppState>>) {
+pub fn grab_cursor(mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>, state: Res<State<super::AppState>>) {
     let playing = *state.get() == super::AppState::Playing;
     if playing {
         cursor.grab_mode = CursorGrabMode::Locked;
@@ -169,7 +169,6 @@ pub fn grab_cursor(mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>, 
         cursor.grab_mode = CursorGrabMode::None;
         cursor.visible = true;
     }
-    let _ = (&keys, &mouse);
 }
 
 pub fn look(

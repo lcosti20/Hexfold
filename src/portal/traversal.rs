@@ -106,9 +106,6 @@ pub struct PortalTraversed {
     pub entity: Entity,
     pub from: Entity,
     pub to: Entity,
-    /// The size change (1 for a plain portal).
-    pub scale_factor: f32,
-    pub mirrored_warp: bool,
 }
 
 /// Minimum distance (m) the camera's near plane may be pulled to, and the bump distance.
@@ -250,6 +247,6 @@ pub fn traverse(
         }
         tr.prev_eye = Some(tr.eye); // the next frame's path starts on this side of the exit
         tr.traversal_count += 1;
-        messages.write(PortalTraversed { entity, from: from.entity, to: to.entity, scale_factor, mirrored_warp: mirror_warp });
+        messages.write(PortalTraversed { entity, from: from.entity, to: to.entity });
     }
 }

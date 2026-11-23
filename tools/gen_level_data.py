@@ -25,13 +25,6 @@ def space(o):
     return -1
 
 
-def xf(o):
-    x = o["xf"]
-    l, r, s = x["location"], x["rotation"], x["scale"]
-    f = lambda v: ("%.4f" % v).rstrip("0").rstrip(".") if abs(v) > 1e-9 else "0"
-    return "[%s, %s, %s], [%s, %s, %s], [%s, %s, %s]" % (f(l["x"]), f(l["y"]), f(l["z"]), f(r["pitch"]), f(r["yaw"]), f(r["roll"]), f(s["x"]), f(s["y"]), f(s["z"]))
-
-
 def meshname(label):
     v = l3.get(label, {})
     s = v.get("StaticMesh")
@@ -50,70 +43,52 @@ out.append("pub struct KillDef { pub name: &'static str, pub loc: [f32; 3], pub 
 out.append("pub struct RuneDef { pub name: &'static str, pub index: u8, pub loc: [f32; 3], pub rot: [f32; 3], pub scale: [f32; 3], pub space: i32 }")
 out.append("pub struct TextDef { pub text: &'static str, pub loc: [f32; 3], pub rot: [f32; 3], pub size: f32, pub space: i32 }\n")
 
-statics, portals, lights, kills, runes, texts = [], [], [], [], [], []
-for o in lv:
-    c, lab = cls(o), o["label"]
-    if not o["xf"]:
-        continue
-    if c == "StaticMeshActor":
-        statics.append('    Placed { name: "%s", mesh: "%s", loc: %s, space: %d },' % (lab, meshname(lab), xf(o).replace("], [", "], rot: [", 1).replace("], rot: [", "], rot: [", 1), space(o)))
-    elif c == "Portal":
-        d = l2[lab]
-        portals.append('    PortalDef { name: "%s", %s, space: %d, front: "%s", back: "%s" },' % (lab, "loc: " + xf(o), space(o), d.get("FrontLink") or "", d.get("BackLink") or ""))
-    elif c == "PointLight":
-        d = l2[lab]
-        l = o["xf"]["location"]
-        lights.append('    LightDef { name: "%s", loc: [%g, %g, %g], lumens: %g, radius: %g, space: %d },' % (lab, l["x"], l["y"], l["z"], d["Intensity"], d["AttenuationRadius"], -2))
-    elif c == "BP_KillVolume_C":
-        d = l3[lab]["RespawnTransform"]
-        l, s = o["xf"]["location"], o["xf"]["scale"]
-        rl = d["location"]
-        kills.append('    KillDef { name: "%s", loc: [%g, %g, %g], scale: [%g, %g, %g], respawn: [%g, %g, %g], respawn_yaw: %g, space: -1 },' % (lab, l["x"], l["y"], l["z"], s["x"], s["y"], s["z"], rl["x"], rl["y"], rl["z"], d["rotation"]["yaw"]))
-    elif c == "BP_Rune_C":
-        runes.append('    RuneDef { name: "%s", index: %d, loc: %s, space: %d },' % (lab, l3[lab]["RuneIndex"], xf(o).replace("], [", "], rot: [", 1), space(o)))
-    elif c == "TextRenderActor":
-        v = l3[lab]
-        l, r = o["xf"]["location"], o["xf"]["rotation"]
-        texts.append('    TextDef { text: "%s", loc: [%g, %g, %g], rot: [%g, %g, %g], size: %g, space: %d },' % (v["Text"], l["x"], l["y"], l["z"], r["pitch"], r["yaw"], r["roll"], v["WorldSize"], space(o)))
-
-# The Placed/Rune/Portal field order for xf(): loc, rot, scale
-def fix(lines, first):
-    return [x.replace("loc: [", "loc: [", 1) for x in lines]
-
-def emit(name, ty, items):
-    out.append("pub const %s: &[%s] = &[" % (name, ty))
-    out.extend(items)
-    out.append("];\n")
-
-# Rebuild with explicit field names for Placed and Rune (rot/scale named)
 # The Unreal level has the Observatory's floor (z = 0) 20 cm above the top of the Ground cube
 # (z = -20), so the door stood on a step. The exterior, its doorframe and the entrance portal are
 # lowered by that much (cm). The interior (Rotunda, Portal_Entrance_In) keeps its heights: portals
 # map heights relative to themselves, so the player still arrives on the Rotunda floor.
 LOWER = {"Obs_Exterior": 20, "Obs_DoorframeOut": 20, "Portal_Entrance_Out": 20}
 
-def named(o, fields):
+
+def xf(o):
+    """The actor's transform as Rust fields: loc, rot (pitch, yaw, roll), scale."""
     x = o["xf"]; l, r, s = dict(x["location"]), x["rotation"], x["scale"]
     l["z"] -= LOWER.get(o["label"], 0)
     g = lambda v: "%g" % (0 if abs(v) < 1e-6 else round(v, 4))
     return "loc: [%s, %s, %s], rot: [%s, %s, %s], scale: [%s, %s, %s]" % (g(l["x"]), g(l["y"]), g(l["z"]), g(r["pitch"]), g(r["yaw"]), g(r["roll"]), g(s["x"]), g(s["y"]), g(s["z"]))
 
-statics, portals, runes = [], [], []
+
+def emit(name, ty, items):
+    out.append("pub const %s: &[%s] = &[" % (name, ty))
+    out.extend(items)
+    out.append("];\n")
+
+
+statics, portals, kills, runes, texts = [], [], [], [], []
 for o in lv:
     c, lab = cls(o), o["label"]
     if not o["xf"]:
         continue
     if c == "StaticMeshActor":
-        statics.append('    Placed { name: "%s", mesh: "%s", %s, space: %d },' % (lab, meshname(lab), named(o, 0), space(o)))
+        statics.append('    Placed { name: "%s", mesh: "%s", %s, space: %d },' % (lab, meshname(lab), xf(o), space(o)))
     elif c == "Portal":
         d = l2[lab]
-        portals.append('    PortalDef { name: "%s", %s, space: %d, front: "%s", back: "%s" },' % (lab, named(o, 0), space(o), d.get("FrontLink") or "", d.get("BackLink") or ""))
+        portals.append('    PortalDef { name: "%s", %s, space: %d, front: "%s", back: "%s" },' % (lab, xf(o), space(o), d.get("FrontLink") or "", d.get("BackLink") or ""))
+    elif c == "BP_KillVolume_C":
+        d = l3[lab]["RespawnTransform"]
+        l, s = o["xf"]["location"], o["xf"]["scale"]
+        rl = d["location"]
+        kills.append('    KillDef { name: "%s", loc: [%g, %g, %g], scale: [%g, %g, %g], respawn: [%g, %g, %g], respawn_yaw: %g, space: -1 },' % (lab, l["x"], l["y"], l["z"], s["x"], s["y"], s["z"], rl["x"], rl["y"], rl["z"], d["rotation"]["yaw"]))
     elif c == "BP_Rune_C":
-        runes.append('    RuneDef { name: "%s", index: %d, %s, space: %d },' % (lab, l3[lab]["RuneIndex"], named(o, 0), space(o)))
+        runes.append('    RuneDef { name: "%s", index: %d, %s, space: %d },' % (lab, l3[lab]["RuneIndex"], xf(o), space(o)))
+    elif c == "TextRenderActor":
+        v = l3[lab]
+        l, r = o["xf"]["location"], o["xf"]["rotation"]
+        texts.append('    TextDef { text: "%s", loc: [%g, %g, %g], rot: [%g, %g, %g], size: %g, space: %d },' % (v["Text"], l["x"], l["y"], l["z"], r["pitch"], r["yaw"], r["roll"], v["WorldSize"], space(o)))
 
 # Lights: take the space from the nearest tagged room (by x position), -1 = global.
 def light_space(x):
-    if abs(x) < 20000: return 0 if x < 20000 and x > -20000 else 1
+    if abs(x) < 20000: return 0
     return {50000: 1, 80000: 2, 110000: 3, 140000: 4, 170000: 5, 200000: 6, 230000: 7, 260000: 8, 290000: 9}.get(round(x / 10000) * 10000, -1)
 lights = []
 for o in lv:

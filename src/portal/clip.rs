@@ -65,17 +65,9 @@ impl PortalClipped {
     }
 }
 
-/// Actors currently cut at a portal: the portal, and the side they keep.
-#[derive(Resource, Default)]
-pub struct ClippedActors {
-    pub map: std::collections::HashMap<Entity, (Entity, Vec3)>,
-}
-
 /// Marks a crossing copy.
 #[derive(Component)]
-pub struct PortalCopy {
-    pub owner: Entity,
-}
+pub struct PortalCopy;
 
 fn write_plane(materials: &mut Assets<ClipMaterial>, handles: &[Handle<ClipMaterial>], plane: Vec4) {
     for h in handles {
@@ -92,12 +84,11 @@ fn write_plane(materials: &mut Assets<ClipMaterial>, handles: &[Handle<ClipMater
 pub fn update_crossing_objects(
     mut commands: Commands,
     set: Res<PortalSet>,
-    mut clipped_actors: ResMut<ClippedActors>,
     mut materials: ResMut<Assets<ClipMaterial>>,
-    mut objects: Query<(Entity, &mut PortalClipped, &PortalTraveller, &Transform, Option<&PortalSpace>), (With<PortalObject>, Without<PortalCopy>)>,
+    mut objects: Query<(&mut PortalClipped, &PortalTraveller, &Transform), (With<PortalObject>, Without<PortalCopy>)>,
     mut copies: Query<(&mut Transform, &mut Visibility, Option<&PortalSpace>), With<PortalCopy>>,
 ) {
-    for (entity, mut clip, traveller, t, space) in &mut objects {
+    for (mut clip, traveller, t) in &mut objects {
         let centre = traveller.eye;
         let reach = clip.radius * t.scale.y.abs();
         let mut through = None;
@@ -124,7 +115,6 @@ pub fn update_crossing_objects(
                 *vis = Visibility::Hidden;
                 clip.copy_plane = NO_CLIP;
             }
-            clipped_actors.map.remove(&entity);
             continue;
         };
         let tg = &set.list[ti];
@@ -137,7 +127,6 @@ pub fn update_crossing_objects(
             clip.owner_plane = plane;
             write_plane(&mut materials, &clip.materials, plane);
         }
-        clipped_actors.map.insert(entity, (tg.entity, keep));
 
         if !clip.show_copy {
             continue;
@@ -149,7 +138,7 @@ pub fn update_crossing_objects(
         let copy = match clip.copy {
             Some(c) => c,
             None => {
-                let c = spawn_copy(&mut commands, &mut materials, &mut clip, entity);
+                let c = spawn_copy(&mut commands, &mut materials, &mut clip);
                 clip.copy = Some(c);
                 c
             }
@@ -180,7 +169,6 @@ pub fn update_crossing_objects(
         }
         // Flip the copy's visual when its handedness differs from the owner's.
         commands.entity(copy).insert(CopyMirror(mirrored));
-        let _ = space;
     }
 }
 
@@ -191,7 +179,7 @@ pub struct CopyMirror(pub bool);
 #[derive(Component)]
 pub struct CopyVisual;
 
-fn spawn_copy(commands: &mut Commands, materials: &mut Assets<ClipMaterial>, clip: &mut PortalClipped, owner: Entity) -> Entity {
+fn spawn_copy(commands: &mut Commands, materials: &mut Assets<ClipMaterial>, clip: &mut PortalClipped) -> Entity {
     let mut copy_mats = Vec::new();
     let mut parts = Vec::new();
     for (mesh, mat) in &clip.parts {
@@ -213,7 +201,7 @@ fn spawn_copy(commands: &mut Commands, materials: &mut Assets<ClipMaterial>, cli
         })
         .id();
     commands
-        .spawn((PortalCopy { owner }, Name::new("PortalCopy"), Transform::IDENTITY, Visibility::Hidden, RenderLayers::layer(0)))
+        .spawn((PortalCopy, Name::new("PortalCopy"), Transform::IDENTITY, Visibility::Hidden, RenderLayers::layer(0)))
         .add_child(visual)
         .id()
 }

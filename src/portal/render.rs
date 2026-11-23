@@ -180,7 +180,6 @@ struct ViewNode {
     up: Vec3,
     mirrored: bool,
     screen: Rect2,
-    exit: Option<usize>,
     clip_base: Vec3,
     clip_normal: Vec3,
     depth: usize,
@@ -207,7 +206,6 @@ fn build_node(p: &BuildParams, nodes: &mut Vec<ViewNode>, location: Vec3, rotati
         up: rotation * Vec3::Y,
         mirrored,
         screen,
-        exit,
         clip_base: Vec3::ZERO,
         clip_normal: Vec3::ZERO,
         depth,
@@ -492,11 +490,11 @@ pub fn render_portals(
         let node = &nodes[n];
         // Only a change of the window size resizes an image.
         let want = size_for_depth(camera.depth);
-        if want != camera.size {
-            if let Some(mut img) = images.get_mut(&camera.image) {
-                img.resize(Extent3d { width: want.x, height: want.y, depth_or_array_layers: 1 });
-                camera.size = want;
-            }
+        if want != camera.size
+            && let Some(mut img) = images.get_mut(&camera.image)
+        {
+            img.resize(Extent3d { width: want.x, height: want.y, depth_or_array_layers: 1 });
+            camera.size = want;
         }
         t.translation = node.location;
         t.rotation = node.rotation;

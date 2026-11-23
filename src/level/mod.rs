@@ -154,8 +154,6 @@ pub fn spawn_level(
     }
 
     // Portals
-    let portal_mesh = ();
-    let _ = portal_mesh;
     for d in PORTALS {
         let t = ue::transform(d.loc, d.rot, d.scale);
         let mut e = commands.spawn((Name::new(d.name), t, Portal::default(), Visibility::Hidden));

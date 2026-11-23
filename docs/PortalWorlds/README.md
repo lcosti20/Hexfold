@@ -26,7 +26,7 @@ commands.spawn((
 ```
 
 - A portal is a rectangle in its entity's local XY plane, 2 m x 2 m before scale (`half_extent`). Its front faces local -Z (`Transform::forward`). It must be a root entity.
-- `front_link` is where you go entering from the front side, `back_link` from the back. Both can be changed at runtime (the cabinets do). `connect(&mut query, a, b)` links two portals both ways.
+- `front_link` is where you go entering from the front side, `back_link` from the back. Both can be changed at runtime (the cabinets do).
 - The exit keeps your position relative to the portal. You come out of the target's back side. Rotate the target 180 degrees to come out facing the other way.
 - **Scale:** if the target is smaller or larger (uniform scale), whatever passes through is scaled by the same factor, including the player's collider, camera height, speeds and gravity.
 - **Mirroring:** give one of the two portals a negative X scale (for example `(-1, 1, 1)`). The geometry around both should be left-right symmetric, or the seam shows.
@@ -45,7 +45,7 @@ Add `PortalClipped` with meshes using `ClipMaterial` and the object is cut at th
 
 ### Carrying objects
 
-Add `PortalGrab` to the player. The game calls nothing: the plugin reads E (grab / drop) and the left mouse button (throw) itself. It picks up the dynamic `PortalObject` under the crosshair, also through up to two portals, and carries it through portals together with the player (so a carried rune changes with the player; throw it to change it relative to the player). `ReleaseObject(entity)` makes it let go; `ObjectGrabbed` / `ObjectReleased` report what happened.
+Add `PortalGrab` to the player. The game calls nothing: the plugin reads E (grab / drop) and the left mouse button (throw) itself. It picks up the dynamic `PortalObject` under the crosshair, also through up to two portals, and carries it through portals together with the player (so a carried rune changes with the player; throw it to change it relative to the player). `ReleaseObject(entity)` makes it let go.
 
 ### Spaces
 
@@ -53,7 +53,7 @@ Rooms that share an apparent location are built far apart. Tag everything of spa
 
 ### Messages
 
-`PortalTraversed { entity, from, to, scale_factor, mirrored_warp }` is sent after every crossing, by the player or an object.
+`PortalTraversed { entity, from, to }` is sent after every crossing, by the player or an object.
 
 ## Settings
 

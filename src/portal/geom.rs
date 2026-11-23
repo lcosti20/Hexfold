@@ -6,7 +6,7 @@
 use bevy::prelude::*;
 use std::collections::HashMap;
 
-/// A seamless portal surface. Link both sides with [`connect`] (or set the links yourself).
+/// A seamless portal surface. Set `front_link` and `back_link` to the portals each side leads to.
 ///
 /// Looking or walking through either side warps space by `target.matrix * self.matrix.inverse()`:
 /// a point keeps its coordinates relative to the portal, so entering one portal's front leaves
@@ -35,18 +35,6 @@ impl Default for Portal {
 #[derive(Component, Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct PortalSpace(pub i32);
 
-/// Links both sides of `a` to `b` and both sides of `b` to `a`.
-pub fn connect(portals: &mut Query<&mut Portal>, a: Entity, b: Entity) {
-    if let Ok(mut p) = portals.get_mut(a) {
-        p.front_link = Some(b);
-        p.back_link = Some(b);
-    }
-    if let Ok(mut p) = portals.get_mut(b) {
-        p.front_link = Some(a);
-        p.back_link = Some(a);
-    }
-}
-
 /// A portal's world-space data for one frame.
 #[derive(Debug, Clone)]
 pub struct PortalGeom {
@@ -61,8 +49,6 @@ pub struct PortalGeom {
     /// Half-extent axes in world space (include scale).
     pub ax: Vec3,
     pub ay: Vec3,
-    /// Uniform size of the portal (|scale.y|).
-    pub scale: f32,
     pub front: Option<Entity>,
     pub back: Option<Entity>,
     pub space: Option<i32>,
@@ -82,7 +68,6 @@ impl PortalGeom {
             normal: rot * Vec3::NEG_Z,
             ax: rot * Vec3::X * (t.scale.x * portal.half_extent.x),
             ay: rot * Vec3::Y * (t.scale.y * portal.half_extent.y),
-            scale: t.scale.y.abs(),
             front: portal.front_link,
             back: portal.back_link,
             space,
@@ -139,10 +124,6 @@ impl PortalGeom {
     pub fn warp_to(&self, target: &PortalGeom) -> Mat4 {
         target.mat * self.inv
     }
-
-    pub fn is_mirrored_link_to(&self, target: &PortalGeom) -> bool {
-        self.warp_to(target).determinant() < 0.0
-    }
 }
 
 /// Every portal in play, refreshed once a frame (before traversal and rendering).
@@ -155,10 +136,6 @@ pub struct PortalSet {
 impl PortalSet {
     pub fn get(&self, e: Entity) -> Option<&PortalGeom> {
         self.index.get(&e).map(|&i| &self.list[i])
-    }
-
-    pub fn iter(&self) -> impl Iterator<Item = &PortalGeom> {
-        self.list.iter()
     }
 
     /// Distance from `p` to the nearest portal rectangle, or a large number if there are none.

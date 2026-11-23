@@ -84,11 +84,8 @@ fn spawn_label(
         NotShadowCaster,
         NotShadowReceiver,
     ));
-    match space {
-        Some(s) => {
-            e.insert((PortalSpace(s), layers_for_space(Some(s))));
-        }
-        None => {}
+    if let Some(s) = space {
+        e.insert((PortalSpace(s), layers_for_space(Some(s))));
     }
 }
 

@@ -22,7 +22,7 @@ fn main() {
             game::HexfoldPlugin,
         ));
     if std::env::var("HEXFOLD_PHYSDEBUG").is_ok() {
-        app.add_plugins(PhysicsDebugPlugin::default());
+        app.add_plugins(PhysicsDebugPlugin);
     }
     app.run();
 }
