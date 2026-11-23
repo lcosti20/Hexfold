@@ -26,6 +26,7 @@
 use bevy::asset::RenderAssetUsages;
 use bevy::camera::visibility::RenderLayers;
 use bevy::camera::{ClearColorConfig, Exposure, Hdr, RenderTarget};
+use bevy::light::cluster::{ClusterConfig, ClusterFarZMode, ClusterZConfig};
 use bevy::light::{AmbientLight, GlobalAmbientLight};
 use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat, TextureUsages};
@@ -66,6 +67,27 @@ pub fn view_layers(space: Option<i32>, node_layer: usize) -> RenderLayers {
         }
     }
     l
+}
+
+/// Depth (m) the light clusters of every view reach. Lights further away still light the view;
+/// they share the last slice.
+const CLUSTER_FAR: f32 = 100.0;
+
+/// The light clustering every view must use (the player's camera and the pooled view cameras).
+///
+/// Bevy's default sizes a camera's cluster grid from the depth of the lights that camera saw a few
+/// frames ago (the figure is read back from the GPU). That only works for a camera that moves
+/// smoothly. A pooled view camera jumps to a different view whenever the view tree changes, and
+/// the player's camera jumps when it goes through a portal; with the stale depth, the lights of
+/// the new place fall outside the grid and the view is lit by ambient light alone until the
+/// statistics catch up: a portal that goes dark for about three frames.
+pub fn view_cluster_config() -> ClusterConfig {
+    ClusterConfig::FixedZ {
+        total: 4096,
+        z_slices: 24,
+        z_config: ClusterZConfig { first_slice_depth: 5.0, far_z_mode: ClusterFarZMode::Constant(CLUSTER_FAR) },
+        dynamic_resizing: true,
+    }
 }
 
 /// Marks the player's camera.
@@ -321,6 +343,7 @@ fn spawn_view_camera(
             // Same anti-aliasing as the player's view, or edges seen through a portal crawl.
             Msaa::Sample4,
             Exposure { ev100: settings.exposure_ev100 },
+            view_cluster_config(),
             AmbientLight { color: global_ambient.color, brightness: global_ambient.brightness, ..default() },
             Projection::Perspective(PerspectiveProjection::default()),
             Transform::IDENTITY,

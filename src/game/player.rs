@@ -86,6 +86,7 @@ pub fn spawn_player(mut commands: Commands) {
         Hdr,
         Tonemapping::TonyMcMapface,
         Exposure { ev100: super::EXPOSURE_EV100 },
+        crate::portal::render::view_cluster_config(),
         bevy::light::AmbientLight::default(),
         Msaa::Sample4,
         Transform::from_translation(pos),

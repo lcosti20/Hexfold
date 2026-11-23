@@ -38,6 +38,7 @@ To hunt a flicker, `burst` through the moment and compare neighbouring frames; t
 - Query conflicts only show as a runtime panic (B0001) naming no system; split queries with `Without<>` or merge them.
 - The portal cameras need the same `Exposure` as the player's camera, or interiors seen through a portal render almost black.
 - The player's collider is a flat-bottomed chamfered cylinder on purpose: a capsule rides up over a rune lying on the floor.
+- Every camera needs `portal::render::view_cluster_config()` (a constant cluster depth). Bevy's default takes the depth from a GPU readback a few frames old, so a camera that jumps (a pooled view camera given another view, the player's camera after a portal) loses its point lights for about three frames: portals flash dark.
 
 ## Portal rules
 
