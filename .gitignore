@@ -1,5 +1,8 @@
 /Windows/
 
+__pycache__/
+*.pyc
+
 # Visual Studio 2015 user specific files
 .vs/
 
@@ -86,3 +89,8 @@ Plugins/PortalWorlds/Binaries/Win64/*
 # Blender backup files
 *.blend1
 *.blend2
+
+
+# Added by cargo
+
+/target
