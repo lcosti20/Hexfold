@@ -81,6 +81,7 @@ impl Plugin for HexfoldPlugin {
                     mats::setup_materials,
                     level::spawn_level,
                     player::spawn_player,
+                    player::spawn_player_body,
                     rune::spawn_runes,
                     hex::spawn_hex,
                     puzzles::setup_cabinets,
@@ -93,6 +94,10 @@ impl Plugin for HexfoldPlugin {
                     ui::spawn_hud,
                 )
                     .chain(),
+            )
+            .add_systems(
+                PostUpdate,
+                player::update_body.after(crate::portal::PortalSystems::Camera).before(TransformSystems::Propagate),
             )
             .add_systems(OnEnter(AppState::Title), ui::open_title)
             .add_systems(OnExit(AppState::Title), ui::close_menus)

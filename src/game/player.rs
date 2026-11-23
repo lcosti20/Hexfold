@@ -1,4 +1,4 @@
-//! The first-person player: a capsule body, mouse look and walking.
+//! The first-person player: a collider body, mouse look and walking, and a visible body model.
 //!
 //! The portal plugin owns the view angles and size ([`PortalPawn`]), because crossing a portal
 //! changes both. This module reads them: movement scales with the player's size, mouse yaw and
@@ -14,6 +14,7 @@ use bevy::render::view::Tonemapping;
 use bevy::window::{CursorGrabMode, CursorOptions, PrimaryWindow};
 
 use crate::level::Layer;
+use crate::portal::render::NODE_LAYER_BASE;
 use crate::portal::{PortalCamera, PortalGrab, PortalPawn, PortalProjection, PortalTraveller};
 use crate::ue;
 
@@ -90,6 +91,54 @@ pub fn spawn_player(mut commands: Commands) {
         Transform::from_translation(pos),
         RenderLayers::layer(0),
     ));
+}
+
+/// The player's visible body (`models/Player/SM_Player.glb`, built by `art/Blender/scripts/build_player.py`).
+#[derive(Component)]
+pub struct PlayerBody;
+
+/// Portal views rendered per frame at most (`PortalSettings::max_captures` defaults to 32).
+const MAX_VIEW_LAYERS: usize = 32;
+
+/// The body is drawn by portal views (node layers 1..) but never by the player's own camera
+/// (node layer 0), which sits inside its head. So in a portal you see yourself, not from within.
+fn body_layers() -> RenderLayers {
+    RenderLayers::from_layers(&(1..=MAX_VIEW_LAYERS).map(|n| NODE_LAYER_BASE + n).collect::<Vec<_>>())
+}
+
+pub fn spawn_player_body(mut commands: Commands, assets: Res<AssetServer>, mut materials: ResMut<Assets<StandardMaterial>>) {
+    let layers = body_layers();
+    // Same colours as the Blender materials: cloth, gold trim (like the runes), glowing visor.
+    let parts = [
+        StandardMaterial { base_color: Color::srgb(0.13, 0.16, 0.24), perceptual_roughness: 0.75, ..default() },
+        StandardMaterial { base_color: Color::srgb(0.95, 0.72, 0.22), metallic: 0.7, perceptual_roughness: 0.35, ..default() },
+        StandardMaterial { base_color: Color::srgb(0.6, 0.85, 1.0), emissive: LinearRgba::rgb(0.8, 1.8, 3.0), perceptual_roughness: 0.2, ..default() },
+    ]
+    .map(|m| materials.add(m));
+    // The model faces Blender's -Y, which glTF export turns into +Z; the game's forward is -Z.
+    let visual = commands
+        .spawn((Name::new("PlayerBodyVisual"), Transform::from_rotation(Quat::from_rotation_y(std::f32::consts::PI)), Visibility::Inherited, layers.clone()))
+        .with_children(|c| {
+            for (i, material) in parts.into_iter().enumerate() {
+                let mesh: Handle<Mesh> = assets.load(format!("models/Player/SM_Player.glb#Mesh0/Primitive{i}"));
+                c.spawn((Mesh3d(mesh), MeshMaterial3d(material), layers.clone()));
+            }
+        })
+        .id();
+    commands
+        .spawn((Name::new("PlayerBody"), PlayerBody, Transform::default(), Visibility::Inherited, layers))
+        .add_child(visual);
+}
+
+/// The body stands where the collider does, facing the way the player faces, at the player's size.
+pub fn update_body(
+    player: Query<(&Transform, &PortalPawn), (With<Player>, Without<PlayerBody>)>,
+    mut body: Query<&mut Transform, With<PlayerBody>>,
+) {
+    let (Ok((t, pawn)), Ok(mut b)) = (player.single(), body.single_mut()) else { return };
+    b.translation = t.translation - Vec3::Y * HALF_HEIGHT * pawn.scale;
+    b.rotation = Quat::from_rotation_y(pawn.yaw);
+    b.scale = Vec3::splat(pawn.scale);
 }
 
 pub fn grab_cursor(mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>, keys: Res<ButtonInput<KeyCode>>, mouse: Res<ButtonInput<MouseButton>>, state: Res<State<super::AppState>>) {
