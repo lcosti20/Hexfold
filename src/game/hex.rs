@@ -56,6 +56,10 @@ pub enum HexEvent {
     Broken,
 }
 
+fn barrier_layers() -> CollisionLayers {
+    CollisionLayers::new(Layer::World, [Layer::Player, Layer::Prop])
+}
+
 fn local(x: f32, y: f32, z: f32) -> Vec3 {
     ue::pos([x, y, z])
 }
@@ -110,14 +114,15 @@ pub fn spawn_hex(mut commands: Commands, assets: Res<AssetServer>, mats: Res<Mat
     }
 
     // The barrier across the doorway (half extents 155 x 6 x 155 cm): collision off until sealed.
+    // It is switched with its layers, not `ColliderDisabled`: a static collider spawned disabled
+    // never collides after the marker is removed.
     let barrier = commands
         .spawn((
             Name::new("Barrier"),
             Transform::from_translation(local(0.0, -2.0, 0.0)),
             RigidBody::Static,
             Collider::cuboid(3.1, 3.1, 0.12),
-            ColliderDisabled,
-            CollisionLayers::new(Layer::World, [Layer::Player, Layer::Prop]),
+            CollisionLayers::NONE,
         ))
         .id();
     // The player walking 4 m into the room (half extents 300 x 100 x 200 cm) seals the door.
@@ -191,7 +196,7 @@ pub fn hex_logic(
     {
         seal.sealed = true;
         commands.entity(seal.root).insert(Visibility::Inherited);
-        commands.entity(seal.barrier).remove::<ColliderDisabled>();
+        commands.entity(seal.barrier).insert(barrier_layers());
         events.write(HexEvent::Sealed);
         toast.write(Toast("A seal closes the door behind you.".into()));
     }
@@ -245,7 +250,7 @@ pub fn hex_logic(
                     if (0..6).all(|i| !seal.enabled[i] || seal.filled[i]) {
                         seal.broken = true;
                         commands.entity(seal.root).insert(Visibility::Hidden);
-                        commands.entity(seal.barrier).insert(ColliderDisabled);
+                        commands.entity(seal.barrier).insert(CollisionLayers::NONE);
                         events.write(HexEvent::Broken);
                         toast.write(Toast("The seal shatters. The door is open.".into()));
                     }

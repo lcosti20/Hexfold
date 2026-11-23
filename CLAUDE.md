@@ -33,6 +33,7 @@ To hunt a flicker, `burst` through the moment and compare neighbouring frames; t
 
 - Shaders must be `.wesl` (WESL imports like `import bevy_pbr::render::...`); `.wgsl` files get no `#import` processing.
 - `CollisionLayers` is an immutable component: replace it with `commands.entity(e).insert(..)`. Avian's `Position` / `Rotation` are authoritative: when teleporting, set them as well as `Transform`, and order systems `.after(PhysicsSystems::Writeback)`.
+- Don't toggle a static collider with `ColliderDisabled`: one spawned disabled never collides after the marker is removed. Swap its `CollisionLayers` (`CollisionLayers::NONE` when off) instead.
 - A player filter must include `Layer::Trigger`, or sensors never see the player.
 - `RenderLayers::layer(n)` panics above 63; use `from_layers(&[n])` / `.with(n)`.
 - Query conflicts only show as a runtime panic (B0001) naming no system; split queries with `Without<>` or merge them.
