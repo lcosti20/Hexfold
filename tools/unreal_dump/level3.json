@@ -1,0 +1,2002 @@
+{
+"WorldSettings": {},
+"Brush0": {},
+"DirectionalLight": {},
+"SkyLight": {},
+"SkyAtmosphere": {},
+"PlayerStart": {},
+"Ground": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Cube.Cube"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/M_Grass.M_Grass"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_41.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Obs_Exterior": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Exterior.SM_Obs_Exterior"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_0.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Obs_DoorframeOut": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_1.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Entrance_Out": {},
+"Rot_Shell": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Rotunda.SM_Obs_Rotunda"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_2.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Rot_DoorframeIn": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_3.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Entrance_In": {},
+"Rot_LightDome": {},
+"Rot_LightRing0": {},
+"Rot_LightRing1": {},
+"Rot_LightRing2": {},
+"Rot_LightRing3": {},
+"Rot_LightRing4": {},
+"Rot_LightRing5": {},
+"Rot_LightRing6": {},
+"Rot_LightRing7": {},
+"Ped_Rune0": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Hex/SM_Hex_Pedestal.SM_Hex_Pedestal"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_4.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove7_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_7.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove7": {},
+"Portal_Wing1_In_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_8.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing1_In": {},
+"Wing1_Chasm": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Chasm.SM_Wing_Chasm"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_9.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing1_WindowA_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_10.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing1_WindowA": {},
+"Portal_Wing1_WindowB_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_11.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing1_WindowB": {},
+"Wing1_WindowA_Stand": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Cube.Cube"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_13.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing1_WindowB_Stand": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Cube.Cube"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_15.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing1_ChasmBlocker": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Cube.Cube"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Engine/BasicShapes/BasicShapeMaterial.BasicShapeMaterial"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_16.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": true
+}
+},
+"Wing1_Light0": {},
+"Wing1_Light1": {},
+"Wing1_LightPit": {},
+"Portal_Alcove6_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_17.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove6": {},
+"Portal_Wing2_In_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_18.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing2_In": {},
+"Wing2_Study": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Study.SM_Wing_Study"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_19.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing2_Closet": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Closet.SM_Wing_Closet"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_20.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing2_Vault": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Vault.SM_Wing_Vault"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_21.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Cabinet_Mercury_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_22.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Cabinet_Mercury": {},
+"Planet_Mercury": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Sphere.Sphere"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/MI_Planet_Mercury.MI_Planet_Mercury"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_23.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Cabinet_Venus_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_24.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Cabinet_Venus": {},
+"Planet_Venus": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Sphere.Sphere"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/MI_Planet_Venus.MI_Planet_Venus"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_25.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Cabinet_Mars_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_26.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Cabinet_Mars": {},
+"Planet_Mars": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Sphere.Sphere"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/MI_Planet_Mars.MI_Planet_Mars"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_27.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_ClosetDoor_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_28.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_ClosetDoor": {},
+"Portal_VaultDoor_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_29.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_VaultDoor": {},
+"Mural_Mars": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Sphere.Sphere"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/MI_Planet_Mars.MI_Planet_Mars"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_30.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Mural_Num0": {
+"Text": "I",
+"WorldSize": 40,
+"TextRenderColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"HorizontalAlignment": "EHTA_Center"
+},
+"Mural_Venus": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Sphere.Sphere"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/MI_Planet_Venus.MI_Planet_Venus"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_31.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Mural_Num1": {
+"Text": "II",
+"WorldSize": 40,
+"TextRenderColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"HorizontalAlignment": "EHTA_Center"
+},
+"Mural_Mercury": {
+"StaticMesh": {
+"refPath": "/Engine/BasicShapes/Sphere.Sphere"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/MI_Planet_Mercury.MI_Planet_Mercury"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_32.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Mural_Num2": {
+"Text": "III",
+"WorldSize": 40,
+"TextRenderColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"HorizontalAlignment": "EHTA_Center"
+},
+"Ped_Rune1": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Hex/SM_Hex_Pedestal.SM_Hex_Pedestal"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_33.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing2_StudyLight0": {},
+"Wing2_StudyLight1": {},
+"Wing2_ClosetLight": {},
+"Wing2_VaultLight": {},
+"CabinetPuzzle": {
+"Cabinets": [
+{
+"refPath": "/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.Portal_8"
+},
+{
+"refPath": "/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.Portal_9"
+},
+{
+"refPath": "/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.Portal_10"
+}
+],
+"ClosetDoor": {
+"refPath": "/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.Portal_11"
+},
+"VaultDoor": {
+"refPath": "/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.Portal_12"
+},
+"Sequence": [
+2,
+1,
+0
+]
+},
+"Portal_Alcove5_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_34.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove5": {},
+"Portal_Wing3_In_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_35.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing3_In": {},
+"Wing3_Push": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Push.SM_Wing_Push"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_36.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing3_Big_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_37.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing3_Big": {},
+"Portal_Wing3_Small_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_38.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing3_Small": {},
+"Wing3_Light0": {},
+"Wing3_Light1": {},
+"Portal_Alcove3_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_39.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove3": {},
+"Portal_Wing4_In_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_40.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing4_In": {},
+"Wing4_Mouse": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Mouse.SM_Wing_Mouse"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_42.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing4_MouseDoor_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_43.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing4_MouseDoor": {},
+"Portal_Wing4_BigDoor_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_44.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing4_BigDoor": {},
+"Ped_Rune3": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Hex/SM_Hex_Pedestal.SM_Hex_Pedestal"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_45.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing4_Light0": {},
+"Wing4_Light1": {},
+"Portal_Alcove2_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_46.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove2": {},
+"Portal_Wing5_In_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_47.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing5_In": {},
+"Wing5_Mirror": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Mirror.SM_Wing_Mirror"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_48.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing5_BlindDoor_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_49.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing5_WindowW_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_50.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing5_WindowW": {},
+"Portal_Wing5_WindowE_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_51.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing5_WindowE": {},
+"Ped_Rune4": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Hex/SM_Hex_Pedestal.SM_Hex_Pedestal"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_52.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing5_Inscription": {
+"Text": "COUNT THE MIRRORS",
+"WorldSize": 45,
+"TextRenderColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"HorizontalAlignment": "EHTA_Center"
+},
+"Wing5_Light0": {},
+"Wing5_Light1": {},
+"Telescope_Eyepiece_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_53.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Telescope_Eyepiece": {},
+"Telescope_Lens_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_55.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Telescope_Lens": {},
+"Ped_Rune5": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Hex/SM_Hex_Pedestal.SM_Hex_Pedestal"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_56.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove1_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_58.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Alcove1": {},
+"Portal_Wing6_In_Frame": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Observatory/SM_Obs_Doorframe.SM_Obs_Doorframe"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_59.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Portal_Wing6_In": {},
+"Wing6_Telescope": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Wings/SM_Wing_Telescope.SM_Wing_Telescope"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_60.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Wing6_Light0": {},
+"Wing6_Light1": {},
+"RestoreFont": {},
+"PPV_Global": {},
+"Telescope": {
+"Lens": {
+"refPath": "/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.Portal_26"
+},
+"LensFrame": {
+"refPath": "/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_55"
+},
+"LensBase": {
+"x": 290000,
+"y": 1800,
+"z": 0
+},
+"Setting": 0
+},
+"Out_Tree_0": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_5.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_1": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_6.StaticMeshComponent0' (StaticMeshComponent): the fo"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_2": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_12.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_3": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_C.SM_Out_DeadTree_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_14.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_4": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_54.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_5": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_57.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_6": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_61.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_7": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_C.SM_Out_DeadTree_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_62.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_8": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_63.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_9": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_64.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_10": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_65.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_11": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_66.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_12": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_67.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_13": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_68.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_14": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_69.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_15": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_70.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_16": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_C.SM_Out_DeadTree_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_71.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_17": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_72.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_18": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_73.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_19": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_74.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_20": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_C.SM_Out_DeadTree_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_75.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_21": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_76.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_22": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_77.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_23": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_B.SM_Out_DeadTree_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_78.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_24": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_A.SM_Out_DeadTree_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_79.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Tree_25": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_DeadTree_C.SM_Out_DeadTree_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_80.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_0": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_81.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_1": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_B.SM_Out_Rock_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_82.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_2": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_83.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_3": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_84.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_4": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_85.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_5": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_Slab.SM_Out_Rock_Slab"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_86.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_6": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_A.SM_Out_Rock_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_87.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_7": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_88.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_8": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_A.SM_Out_Rock_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_89.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_9": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_A.SM_Out_Rock_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_90.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_10": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_B.SM_Out_Rock_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_91.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_11": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_92.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_12": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_B.SM_Out_Rock_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_93.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_13": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_B.SM_Out_Rock_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_94.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_14": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_Slab.SM_Out_Rock_Slab"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_95.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_15": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_96.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_16": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_Slab.SM_Out_Rock_Slab"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_97.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_17": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_B.SM_Out_Rock_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_98.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_18": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_B.SM_Out_Rock_B"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_99.StaticMeshComponent0' (StaticMeshComponent): the f"
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_19": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_100.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_20": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_A.SM_Out_Rock_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_101.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_21": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_A.SM_Out_Rock_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_102.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_22": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_A.SM_Out_Rock_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_103.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_23": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_Slab.SM_Out_Rock_Slab"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_104.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_24": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_Slab.SM_Out_Rock_Slab"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_105.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_25": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_A.SM_Out_Rock_A"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_106.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_26": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_Slab.SM_Out_Rock_Slab"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_107.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_27": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_Slab.SM_Out_Rock_Slab"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_108.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_28": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_109.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Out_Rock_29": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/Outdoor/SM_Out_Rock_C.SM_Out_Rock_C"
+},
+"mats": {
+"OverrideMaterials": []
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_110.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"Moonlight": {},
+"NightFog": {},
+"StarDome": {
+"StaticMesh": {
+"refPath": "/Game/Hexfold/Meshes/SM_SkyDome.SM_SkyDome"
+},
+"mats": {
+"OverrideMaterials": [
+{
+"refPath": "/Game/Hexfold/Materials/M_NightSky.M_NightSky"
+}
+]
+},
+"col": {
+"err": "GetObjectProperties on '/Game/Levels/L_Observatory.L_Observatory:PersistentLevel.StaticMeshActor_111.StaticMeshComponent0' (StaticMeshComponent): the "
+},
+"vis": {
+"bHiddenInGame": false
+}
+},
+"AmbienceManager": {},
+"KV_Mirror": {
+"RespawnTransform": {
+"location": {
+"x": 50000,
+"y": 800,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Outside": {
+"RespawnTransform": {
+"location": {
+"x": 0,
+"y": 2500,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Rotunda": {
+"RespawnTransform": {
+"location": {
+"x": 50000,
+"y": 800,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Telescope": {
+"RespawnTransform": {
+"location": {
+"x": 290000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Chasm": {
+"RespawnTransform": {
+"location": {
+"x": 80000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_ChasmPit": {
+"RespawnTransform": {
+"location": {
+"x": 80000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Study": {
+"RespawnTransform": {
+"location": {
+"x": 110000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Closet": {
+"RespawnTransform": {
+"location": {
+"x": 110000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Vault": {
+"RespawnTransform": {
+"location": {
+"x": 110000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Push": {
+"RespawnTransform": {
+"location": {
+"x": 200000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"KV_Mouse": {
+"RespawnTransform": {
+"location": {
+"x": 230000,
+"y": 300,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+}
+},
+"Rune5": {
+"RuneIndex": 5
+},
+"Rune0": {
+"RuneIndex": 0
+},
+"Rune1": {
+"RuneIndex": 1
+},
+"Rune2": {
+"RuneIndex": 2
+},
+"Rune3": {
+"RuneIndex": 3
+},
+"Rune4": {
+"RuneIndex": 4
+},
+"HexSeal": {
+"SocketEnabled": [
+true,
+true,
+true,
+true,
+true,
+true
+]
+},
+"BuoyancyManager0": {},
+"DefaultPhysicsVolume0": {},
+"GameplayDebuggerPlayerManager0": {},
+"Actor": {},
+"AbstractNavData-Default": {}
+}

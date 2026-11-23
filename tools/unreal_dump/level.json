@@ -1,0 +1,5327 @@
+[
+{
+"id": "WorldSettings",
+"label": "WorldSettings",
+"class": {
+"refPath": "/Script/Engine.WorldSettings"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "Brush_0",
+"label": "Brush0",
+"class": {
+"refPath": "/Script/Engine.Brush"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "DirectionalLight_0",
+"label": "DirectionalLight",
+"class": {
+"refPath": "/Script/Engine.DirectionalLight"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 15.000000000000009,
+"yaw": 30.000000000000004,
+"roll": -8.231881255527396e-16
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "SkyLight_0",
+"label": "SkyLight",
+"class": {
+"refPath": "/Script/Engine.SkyLight"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 3000
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "SkyAtmosphere_0",
+"label": "SkyAtmosphere",
+"class": {
+"refPath": "/Script/Engine.SkyAtmosphere"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PlayerStart_0",
+"label": "PlayerStart",
+"class": {
+"refPath": "/Script/Engine.PlayerStart"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 2500,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_41",
+"label": "Ground",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": -70
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 400,
+"y": 400,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.0"
+]
+},
+{
+"id": "StaticMeshActor_0",
+"label": "Obs_Exterior",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.0"
+]
+},
+{
+"id": "StaticMeshActor_1",
+"label": "Obs_DoorframeOut",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 500,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1.5,
+"y": 1.5,
+"z": 1.5
+}
+},
+"tags": [
+"PortalSpace.0"
+]
+},
+{
+"id": "Portal_0",
+"label": "Portal_Entrance_Out",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 500,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1.5,
+"y": 1.5,
+"z": 1.5
+}
+},
+"tags": [
+"PortalSpace.0"
+]
+},
+{
+"id": "StaticMeshActor_2",
+"label": "Rot_Shell",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 50000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "StaticMeshActor_3",
+"label": "Rot_DoorframeIn",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 50000,
+"y": 2000,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1.5,
+"y": 1.5,
+"z": 1.5
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "Portal_1",
+"label": "Portal_Entrance_In",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 50000,
+"y": 2000,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1.5,
+"y": 1.5,
+"z": 1.5
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "PointLight_0",
+"label": "Rot_LightDome",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 50000,
+"y": 0,
+"z": 1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_2",
+"label": "Rot_LightRing0",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 51201.04339226467,
+"y": 497.48846207461673,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_3",
+"label": "Rot_LightRing1",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 50497.488462074616,
+"y": 1201.0433922646728,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_4",
+"label": "Rot_LightRing2",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 49502.511537925384,
+"y": 1201.0433922646728,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_5",
+"label": "Rot_LightRing3",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 48798.95660773533,
+"y": 497.48846207461685,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_6",
+"label": "Rot_LightRing4",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 48798.95660773533,
+"y": -497.48846207461656,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_7",
+"label": "Rot_LightRing5",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 49502.511537925384,
+"y": -1201.043392264673,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_8",
+"label": "Rot_LightRing6",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 50497.488462074616,
+"y": -1201.0433922646725,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_9",
+"label": "Rot_LightRing7",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 51201.04339226467,
+"y": -497.48846207461645,
+"z": 600
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_4",
+"label": "Ped_Rune0",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 2300,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "StaticMeshActor_7",
+"label": "Portal_Alcove7_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 48345.370132023476,
+"y": 1654.6298679765207,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 45.000000000000036,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "Portal_2",
+"label": "Portal_Alcove7",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 48345.370132023476,
+"y": 1654.6298679765207,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 45.000000000000036,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "StaticMeshActor_8",
+"label": "Portal_Wing1_In_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "Portal_3",
+"label": "Portal_Wing1_In",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "StaticMeshActor_9",
+"label": "Wing1_Chasm",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "StaticMeshActor_10",
+"label": "Portal_Wing1_WindowA_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 79700,
+"y": 797,
+"z": 160
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.4875,
+"y": 0.375,
+"z": 0.4875
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "Portal_4",
+"label": "Portal_Wing1_WindowA",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 79700,
+"y": 797,
+"z": 160
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.4875,
+"y": 0.375,
+"z": 0.4875
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "StaticMeshActor_11",
+"label": "Portal_Wing1_WindowB_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 2183,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.4875,
+"y": 0.375,
+"z": 0.4875
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "Portal_5",
+"label": "Portal_Wing1_WindowB",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 2183,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.4875,
+"y": 0.375,
+"z": 0.4875
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "StaticMeshActor_13",
+"label": "Wing1_WindowA_Stand",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 79700,
+"y": 800,
+"z": 54
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.4,
+"y": 0.2,
+"z": 1.08
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "StaticMeshActor_15",
+"label": "Wing1_WindowB_Stand",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 2180,
+"z": 49
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.4,
+"y": 0.2,
+"z": 0.98
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "StaticMeshActor_16",
+"label": "Wing1_ChasmBlocker",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 1010,
+"z": 400
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 12,
+"y": 0.1,
+"z": 8
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "PointLight_1",
+"label": "Wing1_Light0",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 500,
+"z": 550
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_10",
+"label": "Wing1_Light1",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 2300,
+"z": 550
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_11",
+"label": "Wing1_LightPit",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 1500,
+"z": -250
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_17",
+"label": "Portal_Alcove6_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 47660,
+"y": -4.2985102650072093e-13,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000003,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "Portal_6",
+"label": "Portal_Alcove6",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 47660,
+"y": -4.2985102650072093e-13,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 90.00000000000003,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "StaticMeshActor_18",
+"label": "Portal_Wing2_In_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "Portal_7",
+"label": "Portal_Wing2_In",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_19",
+"label": "Wing2_Study",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_20",
+"label": "Wing2_Closet",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 140000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.4"
+]
+},
+{
+"id": "StaticMeshActor_21",
+"label": "Wing2_Vault",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 170000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.5"
+]
+},
+{
+"id": "StaticMeshActor_22",
+"label": "Portal_Cabinet_Mercury_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 109600,
+"y": 1200,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "Portal_8",
+"label": "Portal_Cabinet_Mercury",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 109600,
+"y": 1200,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_23",
+"label": "Planet_Mercury",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 109600,
+"y": 1185,
+"z": 265
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.32,
+"y": 0.32,
+"z": 0.32
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_24",
+"label": "Portal_Cabinet_Venus_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 1200,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "Portal_9",
+"label": "Portal_Cabinet_Venus",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 1200,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_25",
+"label": "Planet_Venus",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 1185,
+"z": 265
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.32,
+"y": 0.32,
+"z": 0.32
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_26",
+"label": "Portal_Cabinet_Mars_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 110400,
+"y": 1200,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "Portal_10",
+"label": "Portal_Cabinet_Mars",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 110400,
+"y": 1200,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_27",
+"label": "Planet_Mars",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 110400,
+"y": 1185,
+"z": 265
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.32,
+"y": 0.32,
+"z": 0.32
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_28",
+"label": "Portal_ClosetDoor_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 140000,
+"y": 0,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.4"
+]
+},
+{
+"id": "Portal_11",
+"label": "Portal_ClosetDoor",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 140000,
+"y": 0,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.4"
+]
+},
+{
+"id": "StaticMeshActor_29",
+"label": "Portal_VaultDoor_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 170000,
+"y": 0,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.5"
+]
+},
+{
+"id": "Portal_12",
+"label": "Portal_VaultDoor",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 170000,
+"y": 0,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.5"
+]
+},
+{
+"id": "StaticMeshActor_30",
+"label": "Mural_Mars",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 109415,
+"y": 900,
+"z": 260
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.45,
+"y": 0.45,
+"z": 0.45
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "TextRenderActor_0",
+"label": "Mural_Num0",
+"class": {
+"refPath": "/Script/Engine.TextRenderActor"
+},
+"xf": {
+"location": {
+"x": 109410,
+"y": 900,
+"z": 180
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_31",
+"label": "Mural_Venus",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 109415,
+"y": 600,
+"z": 260
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.45,
+"y": 0.45,
+"z": 0.45
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "TextRenderActor_1",
+"label": "Mural_Num1",
+"class": {
+"refPath": "/Script/Engine.TextRenderActor"
+},
+"xf": {
+"location": {
+"x": 109410,
+"y": 600,
+"z": 180
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_32",
+"label": "Mural_Mercury",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 109415,
+"y": 300,
+"z": 260
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.45,
+"y": 0.45,
+"z": 0.45
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "TextRenderActor_2",
+"label": "Mural_Num2",
+"class": {
+"refPath": "/Script/Engine.TextRenderActor"
+},
+"xf": {
+"location": {
+"x": 109410,
+"y": 300,
+"z": 180
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_33",
+"label": "Ped_Rune1",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 170000,
+"y": 500,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.5"
+]
+},
+{
+"id": "PointLight_12",
+"label": "Wing2_StudyLight0",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 109700,
+"y": 400,
+"z": 420
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_13",
+"label": "Wing2_StudyLight1",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 110300,
+"y": 800,
+"z": 420
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_14",
+"label": "Wing2_ClosetLight",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 140000,
+"y": 150,
+"z": 260
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_15",
+"label": "Wing2_VaultLight",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 170000,
+"y": 400,
+"z": 360
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "BP_CabinetPuzzle_C_0",
+"label": "CabinetPuzzle",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_CabinetPuzzle.BP_CabinetPuzzle_C"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 600,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.3"
+]
+},
+{
+"id": "StaticMeshActor_34",
+"label": "Portal_Alcove5_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 48345.370132023476,
+"y": -1654.6298679765216,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 135.00000000000003,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "Portal_13",
+"label": "Portal_Alcove5",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 48345.370132023476,
+"y": -1654.6298679765216,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 135.00000000000003,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "StaticMeshActor_35",
+"label": "Portal_Wing3_In_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "Portal_14",
+"label": "Portal_Wing3_In",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "StaticMeshActor_36",
+"label": "Wing3_Push",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "StaticMeshActor_37",
+"label": "Portal_Wing3_Big_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 1600,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "Portal_15",
+"label": "Portal_Wing3_Big",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 1600,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "StaticMeshActor_38",
+"label": "Portal_Wing3_Small_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 199500,
+"y": 400,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "Portal_16",
+"label": "Portal_Wing3_Small",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 199500,
+"y": 400,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "PointLight_16",
+"label": "Wing3_Light0",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 400,
+"z": 520
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_17",
+"label": "Wing3_Light1",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 1200,
+"z": 520
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_39",
+"label": "Portal_Alcove3_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 51654.629867976524,
+"y": -1654.6298679765212,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": -134.99999999999997,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "Portal_17",
+"label": "Portal_Alcove3",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 51654.629867976524,
+"y": -1654.6298679765212,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": -134.99999999999997,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "StaticMeshActor_40",
+"label": "Portal_Wing4_In_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 230000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "Portal_18",
+"label": "Portal_Wing4_In",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 230000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "StaticMeshActor_42",
+"label": "Wing4_Mouse",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 230000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "StaticMeshActor_43",
+"label": "Portal_Wing4_MouseDoor_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 229700,
+"y": 1200,
+"z": 50
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "Portal_19",
+"label": "Portal_Wing4_MouseDoor",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 229700,
+"y": 1200,
+"z": 50
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "StaticMeshActor_44",
+"label": "Portal_Wing4_BigDoor_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 230500,
+"y": 600,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 89.99999999999999,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "Portal_20",
+"label": "Portal_Wing4_BigDoor",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 230500,
+"y": 600,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 89.99999999999999,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "StaticMeshActor_45",
+"label": "Ped_Rune3",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 229800,
+"y": 700,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "PointLight_18",
+"label": "Wing4_Light0",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 230000,
+"y": 300,
+"z": 430
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_19",
+"label": "Wing4_Light1",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 230000,
+"y": 900,
+"z": 430
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_46",
+"label": "Portal_Alcove2_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 52340,
+"y": 1.4328367550024033e-13,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "Portal_21",
+"label": "Portal_Alcove2",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 52340,
+"y": 1.4328367550024033e-13,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "StaticMeshActor_47",
+"label": "Portal_Wing5_In_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "Portal_22",
+"label": "Portal_Wing5_In",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": -2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "StaticMeshActor_48",
+"label": "Wing5_Mirror",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "StaticMeshActor_49",
+"label": "Wing5_BlindDoor_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 2000,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "StaticMeshActor_50",
+"label": "Portal_Wing5_WindowW_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 259500,
+"y": 1000,
+"z": 140
+},
+"rotation": {
+"pitch": 0,
+"yaw": 89.99999999999999,
+"roll": 0
+},
+"scale": {
+"x": 0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "Portal_23",
+"label": "Portal_Wing5_WindowW",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 259500,
+"y": 1000,
+"z": 140
+},
+"rotation": {
+"pitch": 0,
+"yaw": 89.99999999999999,
+"roll": 0
+},
+"scale": {
+"x": 0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "StaticMeshActor_51",
+"label": "Portal_Wing5_WindowE_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 260500,
+"y": 1000,
+"z": 140
+},
+"rotation": {
+"pitch": 0,
+"yaw": 89.99999999999999,
+"roll": 0
+},
+"scale": {
+"x": 0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "Portal_24",
+"label": "Portal_Wing5_WindowE",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 260500,
+"y": 1000,
+"z": 140
+},
+"rotation": {
+"pitch": 0,
+"yaw": 89.99999999999999,
+"roll": 0
+},
+"scale": {
+"x": -0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "StaticMeshActor_52",
+"label": "Ped_Rune4",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 1000,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "TextRenderActor_3",
+"label": "Wing5_Inscription",
+"class": {
+"refPath": "/Script/Engine.TextRenderActor"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 1985,
+"z": 470
+},
+"rotation": {
+"pitch": 0,
+"yaw": -90.00000000000001,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "PointLight_20",
+"label": "Wing5_Light0",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 500,
+"z": 520
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_21",
+"label": "Wing5_Light1",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 1500,
+"z": 520
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_53",
+"label": "Telescope_Eyepiece_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 700,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "Portal_25",
+"label": "Portal_Telescope_Eyepiece",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 700,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "StaticMeshActor_55",
+"label": "Telescope_Lens_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 1800,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "Portal_26",
+"label": "Portal_Telescope_Lens",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 1800,
+"z": 100
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "StaticMeshActor_56",
+"label": "Ped_Rune5",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 289400,
+"y": 700,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "StaticMeshActor_58",
+"label": "Portal_Alcove1_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 51654.629867976524,
+"y": 1654.6298679765214,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": -45,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "Portal_27",
+"label": "Portal_Alcove1",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 51654.629867976524,
+"y": 1654.6298679765214,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": -45,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "StaticMeshActor_59",
+"label": "Portal_Wing6_In_Frame",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "Portal_28",
+"label": "Portal_Wing6_In",
+"class": {
+"refPath": "/Script/PortalWorlds.Portal"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 0,
+"z": 200
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "StaticMeshActor_60",
+"label": "Wing6_Telescope",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "PointLight_22",
+"label": "Wing6_Light0",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 400,
+"z": 700
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "PointLight_23",
+"label": "Wing6_Light1",
+"class": {
+"refPath": "/Script/Engine.PointLight"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 1400,
+"z": 700
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "BP_RestoreFont_C_0",
+"label": "RestoreFont",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_RestoreFont.BP_RestoreFont_C"
+},
+"xf": {
+"location": {
+"x": 50000,
+"y": 1100,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "PostProcessVolume_0",
+"label": "PPV_Global",
+"class": {
+"refPath": "/Script/Engine.PostProcessVolume"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "BP_Telescope_C_0",
+"label": "Telescope",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_Telescope.BP_Telescope_C"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 700,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "StaticMeshActor_5",
+"label": "Out_Tree_0",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -2406.5561605245803,
+"y": -1681.378439258547,
+"z": -70
+},
+"rotation": {
+"pitch": 2.9567074477672586,
+"yaw": 36.974673885852155,
+"roll": 2.8657208327204002
+},
+"scale": {
+"x": 1.2459867022465914,
+"y": 1.2459867022465914,
+"z": 1.2459867022465914
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_6",
+"label": "Out_Tree_1",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2567.6502538565683,
+"y": -486.7321247545157,
+"z": -70
+},
+"rotation": {
+"pitch": 1.6441198149696001,
+"yaw": -34.46601167321207,
+"roll": 1.737743544392289
+},
+"scale": {
+"x": 1.0710991957224905,
+"y": 1.0710991957224905,
+"z": 1.0710991957224905
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_12",
+"label": "Out_Tree_2",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1244.2023997627953,
+"y": 180.07961463068114,
+"z": -70
+},
+"rotation": {
+"pitch": 0.5065745171159516,
+"yaw": 81.9599636457861,
+"roll": -2.953787460923197
+},
+"scale": {
+"x": 1.2609434247482567,
+"y": 1.2609434247482567,
+"z": 1.2609434247482567
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_14",
+"label": "Out_Tree_3",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -1933.7965990391476,
+"y": -816.3627529130669,
+"z": -70
+},
+"rotation": {
+"pitch": -0.32219301257282473,
+"yaw": -12.39327114075422,
+"roll": 0.3460207292810081
+},
+"scale": {
+"x": 1.1756010880693792,
+"y": 1.1756010880693792,
+"z": 1.1756010880693792
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_54",
+"label": "Out_Tree_4",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1379.6671137657436,
+"y": -3620.691421285019,
+"z": -70
+},
+"rotation": {
+"pitch": 1.9106122814118864,
+"yaw": 49.33686325326566,
+"roll": 2.0076829399913554
+},
+"scale": {
+"x": 1.0969917954411357,
+"y": 1.0969917954411357,
+"z": 1.0969917954411357
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_57",
+"label": "Out_Tree_5",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -474.2894838685648,
+"y": -4850.697439387971,
+"z": -70
+},
+"rotation": {
+"pitch": 2.4764691861346377,
+"yaw": -139.6590969711542,
+"roll": -0.5099988291040062
+},
+"scale": {
+"x": 1.0529625351540743,
+"y": 1.0529625351540743,
+"z": 1.0529625351540743
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_61",
+"label": "Out_Tree_6",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 6212.459985184683,
+"y": 994.72487717134,
+"z": -70
+},
+"rotation": {
+"pitch": -0.5451405029743912,
+"yaw": 78.04957179352643,
+"roll": -2.0019923932850365
+},
+"scale": {
+"x": 1.1399597431067376,
+"y": 1.1399597431067376,
+"z": 1.1399597431067376
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_62",
+"label": "Out_Tree_7",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2193.049378325103,
+"y": 1723.1445829162396,
+"z": -70
+},
+"rotation": {
+"pitch": 0.5264830542728312,
+"yaw": -142.5440806522966,
+"roll": 2.261388164944948
+},
+"scale": {
+"x": 1.0186070553958415,
+"y": 1.0186070553958415,
+"z": 1.0186070553958415
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_63",
+"label": "Out_Tree_8",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -1886.6792823022809,
+"y": -2482.189300094556,
+"z": -70
+},
+"rotation": {
+"pitch": -1.37444881349802,
+"yaw": -10.031552743166689,
+"roll": -0.051732284948229804
+},
+"scale": {
+"x": 1.158149857399985,
+"y": 1.158149857399985,
+"z": 1.158149857399985
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_64",
+"label": "Out_Tree_9",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -2741.0500465507266,
+"y": -3780.9520032335186,
+"z": -70
+},
+"rotation": {
+"pitch": -0.6020297622308141,
+"yaw": -93.92360508441935,
+"roll": -2.2669014232233184
+},
+"scale": {
+"x": 1.168800709862262,
+"y": 1.168800709862262,
+"z": 1.168800709862262
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_65",
+"label": "Out_Tree_10",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 162.85732176052443,
+"y": -1198.2475742732436,
+"z": -70
+},
+"rotation": {
+"pitch": -1.4159599766135222,
+"yaw": -90.16980243846778,
+"roll": 2.5085790473967804
+},
+"scale": {
+"x": 1.1591832790058105,
+"y": 1.1591832790058105,
+"z": 1.1591832790058105
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_66",
+"label": "Out_Tree_11",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1769.9355871472505,
+"y": -2490.7089537876464,
+"z": -70
+},
+"rotation": {
+"pitch": 0.7051658565178522,
+"yaw": -4.742035567760472,
+"roll": 2.644102717749777
+},
+"scale": {
+"x": 0.9394831453450024,
+"y": 0.9394831453450024,
+"z": 0.9394831453450024
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_67",
+"label": "Out_Tree_12",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2390.393700101632,
+"y": -1803.1677282798935,
+"z": -70
+},
+"rotation": {
+"pitch": 1.6021775733679537,
+"yaw": 24.5206171832979,
+"roll": -1.023662813007832
+},
+"scale": {
+"x": 1.313965181680396,
+"y": 1.313965181680396,
+"z": 1.313965181680396
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_68",
+"label": "Out_Tree_13",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 3088.1652626060195,
+"y": -6255.510960010153,
+"z": -70
+},
+"rotation": {
+"pitch": 1.053229280747473,
+"yaw": 47.11537241935733,
+"roll": -1.356410284526647
+},
+"scale": {
+"x": 1.1724427548237144,
+"y": 1.1724427548237144,
+"z": 1.1724427548237144
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_69",
+"label": "Out_Tree_14",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2463.4966340293404,
+"y": -1254.8702913946406,
+"z": -70
+},
+"rotation": {
+"pitch": 1.0263592880219223,
+"yaw": 130.77428614720702,
+"roll": -2.0427111312746997
+},
+"scale": {
+"x": 1.238285667123273,
+"y": 1.238285667123273,
+"z": 1.238285667123273
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_70",
+"label": "Out_Tree_15",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 4324.726637873146,
+"y": 2540.5971913300523,
+"z": -70
+},
+"rotation": {
+"pitch": 2.3700860207900396,
+"yaw": 54.19386718422177,
+"roll": 1.3882664674893017
+},
+"scale": {
+"x": 0.9624316046014428,
+"y": 0.9624316046014428,
+"z": 0.9624316046014428
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_71",
+"label": "Out_Tree_16",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2508.7897180887076,
+"y": -8.43249607705866,
+"z": -70
+},
+"rotation": {
+"pitch": -1.9253768138587486,
+"yaw": -87.75723790749913,
+"roll": 0.16641567461192558
+},
+"scale": {
+"x": 1.3604762529488652,
+"y": 1.3604762529488652,
+"z": 1.3604762529488652
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_72",
+"label": "Out_Tree_17",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -3005.0153780982905,
+"y": 185.0751836134268,
+"z": -70
+},
+"rotation": {
+"pitch": 1.113801618106664,
+"yaw": 149.1843239217997,
+"roll": -0.28789696935564296
+},
+"scale": {
+"x": 1.1294709547422825,
+"y": 1.1294709547422825,
+"z": 1.1294709547422825
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_73",
+"label": "Out_Tree_18",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 5331.46401279035,
+"y": 1899.1972086301041,
+"z": -70
+},
+"rotation": {
+"pitch": 2.8739072922617215,
+"yaw": 43.650762867182564,
+"roll": 2.3302976824343222
+},
+"scale": {
+"x": 1.2238162903580814,
+"y": 1.2238162903580814,
+"z": 1.2238162903580814
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_74",
+"label": "Out_Tree_19",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -2547.9303088256297,
+"y": 121.54062625286141,
+"z": -70
+},
+"rotation": {
+"pitch": 2.6386306760832685,
+"yaw": 118.9545733854175,
+"roll": 1.554691647179426
+},
+"scale": {
+"x": 1.1926309835165738,
+"y": 1.1926309835165738,
+"z": 1.1926309835165738
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_75",
+"label": "Out_Tree_20",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2024.3293183996714,
+"y": 3024.088509195588,
+"z": -70
+},
+"rotation": {
+"pitch": 2.170734867453576,
+"yaw": 5.286538917571308,
+"roll": -2.1862032618373646
+},
+"scale": {
+"x": 1.136570183886215,
+"y": 1.136570183886215,
+"z": 1.136570183886215
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_76",
+"label": "Out_Tree_21",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 3615.807746169944,
+"y": 4909.163135701993,
+"z": -70
+},
+"rotation": {
+"pitch": -1.3293717792257669,
+"yaw": 141.09760120511055,
+"roll": 0.37953222077339904
+},
+"scale": {
+"x": 1.2441294045187532,
+"y": 1.2441294045187532,
+"z": 1.2441294045187532
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_77",
+"label": "Out_Tree_22",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 523.8615447134586,
+"y": -5409.046520636158,
+"z": -70
+},
+"rotation": {
+"pitch": -0.8514878544956448,
+"yaw": 37.9049353860319,
+"roll": -1.3461967706680302
+},
+"scale": {
+"x": 1.245945581095293,
+"y": 1.245945581095293,
+"z": 1.245945581095293
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_78",
+"label": "Out_Tree_23",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -1605.2698816984332,
+"y": 4974.184383872922,
+"z": -70
+},
+"rotation": {
+"pitch": 2.8221684386953707,
+"yaw": 63.49346805363896,
+"roll": -0.4147814651951197
+},
+"scale": {
+"x": 1.1088029785081743,
+"y": 1.1088029785081743,
+"z": 1.1088029785081743
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_79",
+"label": "Out_Tree_24",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 3611.077515129769,
+"y": 4128.841602217129,
+"z": -70
+},
+"rotation": {
+"pitch": -1.005737353116274,
+"yaw": -157.78331955894825,
+"roll": -2.0000671986490492
+},
+"scale": {
+"x": 0.9111345255281776,
+"y": 0.9111345255281776,
+"z": 0.9111345255281776
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_80",
+"label": "Out_Tree_25",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -880.5796640595602,
+"y": 850.8929050532024,
+"z": -70
+},
+"rotation": {
+"pitch": -2.103680628351867,
+"yaw": -179.84581120312217,
+"roll": 0.1327499588951469
+},
+"scale": {
+"x": 1.2127312469296156,
+"y": 1.2127312469296156,
+"z": 1.2127312469296156
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_81",
+"label": "Out_Rock_0",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -148.6169699239932,
+"y": -1645.0371351385857,
+"z": -70
+},
+"rotation": {
+"pitch": 0.2740162778645756,
+"yaw": 60.104968529194586,
+"roll": 0.870225515216589
+},
+"scale": {
+"x": 1.261635148897767,
+"y": 1.261635148897767,
+"z": 1.261635148897767
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_82",
+"label": "Out_Rock_1",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -4102.760180797574,
+"y": -3179.182882041892,
+"z": -70
+},
+"rotation": {
+"pitch": -1.468633462674916,
+"yaw": -22.73241374641658,
+"roll": 0.9197303624823695
+},
+"scale": {
+"x": 1.5115652918815614,
+"y": 1.5115652918815614,
+"z": 1.5115652918815614
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_83",
+"label": "Out_Rock_2",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1038.1430304434462,
+"y": -957.1987686350254,
+"z": -70
+},
+"rotation": {
+"pitch": -1.5066819414496424,
+"yaw": -45.35058332607158,
+"roll": -1.4993439596146352
+},
+"scale": {
+"x": 0.8662251811474562,
+"y": 0.8662251811474562,
+"z": 0.8662251811474562
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_84",
+"label": "Out_Rock_3",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -2442.8424734379532,
+"y": -5008.08776368584,
+"z": -70
+},
+"rotation": {
+"pitch": -1.807190305553378,
+"yaw": -107.65948981046684,
+"roll": -1.5795027958229193
+},
+"scale": {
+"x": 1.5057570226490498,
+"y": 1.5057570226490498,
+"z": 1.5057570226490498
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_85",
+"label": "Out_Rock_4",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 4738.468664950987,
+"y": 1481.2542271877742,
+"z": -70
+},
+"rotation": {
+"pitch": -1.495522426441312,
+"yaw": 10.959346946328889,
+"roll": 1.5086697265505788
+},
+"scale": {
+"x": 1.0717608232051135,
+"y": 1.0717608232051135,
+"z": 1.0717608232051135
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_86",
+"label": "Out_Rock_5",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 5907.763761676479,
+"y": -504.8520532981771,
+"z": -70
+},
+"rotation": {
+"pitch": -2.0540617788210533,
+"yaw": -6.04881282895804,
+"roll": -1.1817449843510994
+},
+"scale": {
+"x": 1.5856658771634102,
+"y": 1.5856658771634102,
+"z": 1.5856658771634102
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_87",
+"label": "Out_Rock_6",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -3483.224426991052,
+"y": -242.29276384441624,
+"z": -70
+},
+"rotation": {
+"pitch": -0.448913510888815,
+"yaw": 122.86522323265672,
+"roll": -0.3738843519240618
+},
+"scale": {
+"x": 0.8666868325322867,
+"y": 0.8666868325322867,
+"z": 0.8666868325322867
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_88",
+"label": "Out_Rock_7",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 574.87343988538,
+"y": -1869.3627860646611,
+"z": -70
+},
+"rotation": {
+"pitch": -2.9133781744167244,
+"yaw": -175.14515809714797,
+"roll": -2.4689312512055066
+},
+"scale": {
+"x": 1.495847185701132,
+"y": 1.495847185701132,
+"z": 1.495847185701132
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_89",
+"label": "Out_Rock_8",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -4603.077082139403,
+"y": 3073.2940122051614,
+"z": -70
+},
+"rotation": {
+"pitch": 0.9629877302795646,
+"yaw": -113.3110545761884,
+"roll": -2.864146035164596
+},
+"scale": {
+"x": 1.3260625753551722,
+"y": 1.3260625753551722,
+"z": 1.3260625753551722
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_90",
+"label": "Out_Rock_9",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -5278.793385590666,
+"y": -1651.8813878679618,
+"z": -70
+},
+"rotation": {
+"pitch": -2.17876544315368,
+"yaw": -47.95389432460072,
+"roll": 0.9281037049368029
+},
+"scale": {
+"x": 1.276136353611946,
+"y": 1.276136353611946,
+"z": 1.276136353611946
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_91",
+"label": "Out_Rock_10",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -3775.8079200814445,
+"y": 3131.732776096124,
+"z": -70
+},
+"rotation": {
+"pitch": -1.9187138378620157,
+"yaw": 7.610579151660216,
+"roll": -0.38102880679070966
+},
+"scale": {
+"x": 0.8873829495161772,
+"y": 0.8873829495161772,
+"z": 0.8873829495161772
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_92",
+"label": "Out_Rock_11",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -1559.086309067596,
+"y": 3292.3377156243114,
+"z": -70
+},
+"rotation": {
+"pitch": -0.981338663958013,
+"yaw": 48.86610254645348,
+"roll": 0.3957800148054959
+},
+"scale": {
+"x": 0.8837222255766393,
+"y": 0.8837222255766393,
+"z": 0.8837222255766393
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_93",
+"label": "Out_Rock_12",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2372.327066548979,
+"y": 1199.1038860531228,
+"z": -70
+},
+"rotation": {
+"pitch": -2.564056769013406,
+"yaw": -159.10208193585277,
+"roll": -1.1241761650890116
+},
+"scale": {
+"x": 1.3590466093271971,
+"y": 1.3590466093271971,
+"z": 1.3590466093271971
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_94",
+"label": "Out_Rock_13",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 3727.858159527183,
+"y": 3796.217027577662,
+"z": -70
+},
+"rotation": {
+"pitch": 0.9955408880487087,
+"yaw": -121.04264661669733,
+"roll": -0.9445180865004659
+},
+"scale": {
+"x": 1.18078106418252,
+"y": 1.18078106418252,
+"z": 1.18078106418252
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_95",
+"label": "Out_Rock_14",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -4238.767356267498,
+"y": -1722.303200045301,
+"z": -70
+},
+"rotation": {
+"pitch": 0.7752422299236058,
+"yaw": 17.311728503555067,
+"roll": 1.6829352378845215
+},
+"scale": {
+"x": 1.1137702215462923,
+"y": 1.1137702215462923,
+"z": 1.1137702215462923
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_96",
+"label": "Out_Rock_15",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -445.33776542750536,
+"y": -2876.355219330748,
+"z": -70
+},
+"rotation": {
+"pitch": -0.9942848989740016,
+"yaw": -53.46365522593261,
+"roll": 1.0793588021770122
+},
+"scale": {
+"x": 0.8416822597384453,
+"y": 0.8416822597384453,
+"z": 0.8416822597384453
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_97",
+"label": "Out_Rock_16",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 4728.761113939577,
+"y": 135.2569587760018,
+"z": -70
+},
+"rotation": {
+"pitch": 2.356789659708737,
+"yaw": -15.180630292743453,
+"roll": -0.2791522387415172
+},
+"scale": {
+"x": 1.1842328872531653,
+"y": 1.1842328872531653,
+"z": 1.1842328872531653
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_98",
+"label": "Out_Rock_17",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 3493.9945925419265,
+"y": -467.7954020946632,
+"z": -70
+},
+"rotation": {
+"pitch": -2.090514558367431,
+"yaw": -123.1720865517855,
+"roll": -1.4725446263328197
+},
+"scale": {
+"x": 1.1589841060340405,
+"y": 1.1589841060340405,
+"z": 1.1589841060340405
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_99",
+"label": "Out_Rock_18",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1149.0086497588272,
+"y": -2588.362475670153,
+"z": -70
+},
+"rotation": {
+"pitch": -2.7746858429163703,
+"yaw": 75.36873338744044,
+"roll": -1.5102818347513687
+},
+"scale": {
+"x": 1.5092100981622936,
+"y": 1.5092100981622936,
+"z": 1.5092100981622936
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_100",
+"label": "Out_Rock_19",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -2226.208049348308,
+"y": 3028.3909697675676,
+"z": -70
+},
+"rotation": {
+"pitch": 0.12925607990473498,
+"yaw": 101.03086855262522,
+"roll": 0.7235839935019612
+},
+"scale": {
+"x": 0.8313370108604432,
+"y": 0.8313370108604432,
+"z": 0.8313370108604432
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_101",
+"label": "Out_Rock_20",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1643.907458754782,
+"y": 2107.583634648908,
+"z": -70
+},
+"rotation": {
+"pitch": 0.7600790038704873,
+"yaw": -169.46813179180026,
+"roll": -2.5653114002197976
+},
+"scale": {
+"x": 0.8214436393231154,
+"y": 0.8214436393231154,
+"z": 0.8214436393231154
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_102",
+"label": "Out_Rock_21",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 768.9859760569975,
+"y": -3915.172308948989,
+"z": -70
+},
+"rotation": {
+"pitch": -0.7352569168433545,
+"yaw": 16.301718056201945,
+"roll": -0.4214554773643611
+},
+"scale": {
+"x": 1.1980236299335958,
+"y": 1.1980236299335958,
+"z": 1.1980236299335958
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_103",
+"label": "Out_Rock_22",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 2746.0030396432203,
+"y": 2175.1018767428773,
+"z": -70
+},
+"rotation": {
+"pitch": 2.312600327655674,
+"yaw": 9.603887256234895,
+"roll": 2.3086414262652397
+},
+"scale": {
+"x": 1.185840441659093,
+"y": 1.185840441659093,
+"z": 1.185840441659093
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_104",
+"label": "Out_Rock_23",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 5224.82357260666,
+"y": 672.672079769841,
+"z": -70
+},
+"rotation": {
+"pitch": 0.017893544398248203,
+"yaw": 1.835143603384495,
+"roll": 0.7183515513315797
+},
+"scale": {
+"x": 1.5791718795895577,
+"y": 1.5791718795895577,
+"z": 1.5791718795895577
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_105",
+"label": "Out_Rock_24",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -2283.830405320232,
+"y": -395.73433410352726,
+"z": -70
+},
+"rotation": {
+"pitch": -0.987116631120444,
+"yaw": -2.064970191568138,
+"roll": -1.1143989879637963
+},
+"scale": {
+"x": 0.946631395444274,
+"y": 0.946631395444274,
+"z": 0.946631395444274
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_106",
+"label": "Out_Rock_25",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1186.4450957558518,
+"y": -4092.958199282003,
+"z": -70
+},
+"rotation": {
+"pitch": -2.36772995721549,
+"yaw": 70.17274685204032,
+"roll": -2.0874285036698
+},
+"scale": {
+"x": 1.4420177541673185,
+"y": 1.4420177541673185,
+"z": 1.4420177541673185
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_107",
+"label": "Out_Rock_26",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 885.1982849453983,
+"y": 1342.1923961768823,
+"z": -70
+},
+"rotation": {
+"pitch": 1.9090598411858093,
+"yaw": -158.04883813485506,
+"roll": 1.3942029308527715
+},
+"scale": {
+"x": 1.337147956714034,
+"y": 1.337147956714034,
+"z": 1.337147956714034
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_108",
+"label": "Out_Rock_27",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": -1758.7571439186363,
+"y": -2036.4912322842588,
+"z": -70
+},
+"rotation": {
+"pitch": -0.6508437199518086,
+"yaw": 115.24219192564492,
+"roll": -2.0472150826826696
+},
+"scale": {
+"x": 0.9385412953794003,
+"y": 0.9385412953794003,
+"z": 0.9385412953794003
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_109",
+"label": "Out_Rock_28",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 4857.674223520129,
+"y": -3041.641959890847,
+"z": -70
+},
+"rotation": {
+"pitch": 1.6321625355631109,
+"yaw": -161.29305141046646,
+"roll": -0.06693985685706136
+},
+"scale": {
+"x": 1.4660849425941707,
+"y": 1.4660849425941707,
+"z": 1.4660849425941707
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_110",
+"label": "Out_Rock_29",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 1381.9844097762,
+"y": 722.7614229864369,
+"z": -70
+},
+"rotation": {
+"pitch": 1.665441560558975,
+"yaw": 164.00723051279783,
+"roll": -0.9816059125587342
+},
+"scale": {
+"x": 1.2820541590452195,
+"y": 1.2820541590452195,
+"z": 1.2820541590452195
+}
+},
+"tags": []
+},
+{
+"id": "DirectionalLight_1",
+"label": "Moonlight",
+"class": {
+"refPath": "/Script/Engine.DirectionalLight"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 3000
+},
+"rotation": {
+"pitch": -38,
+"yaw": -119.99999999999999,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"MoonLight"
+]
+},
+{
+"id": "ExponentialHeightFog_0",
+"label": "NightFog",
+"class": {
+"refPath": "/Script/Engine.ExponentialHeightFog"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": -70
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "StaticMeshActor_111",
+"label": "StarDome",
+"class": {
+"refPath": "/Script/Engine.StaticMeshActor"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 600,
+"y": 600,
+"z": 600
+}
+},
+"tags": [
+"StarDome"
+]
+},
+{
+"id": "BP_AmbienceManager_C_0",
+"label": "AmbienceManager",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_AmbienceManager.BP_AmbienceManager_C"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 300
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_9",
+"label": "KV_Mirror",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 1000,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_0",
+"label": "KV_Outside",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": -2000
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 937.5,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_1",
+"label": "KV_Rotunda",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 50000,
+"y": 0,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 125,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_10",
+"label": "KV_Telescope",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 290000,
+"y": 900,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_2",
+"label": "KV_Chasm",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 1300,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_3",
+"label": "KV_ChasmPit",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 1510,
+"z": -500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 15.625,
+"z": 1.5625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_4",
+"label": "KV_Study",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 110000,
+"y": 600,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_5",
+"label": "KV_Closet",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 140000,
+"y": 600,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_6",
+"label": "KV_Vault",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 170000,
+"y": 600,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_7",
+"label": "KV_Push",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 800,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_KillVolume_C_8",
+"label": "KV_Mouse",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_KillVolume.BP_KillVolume_C"
+},
+"xf": {
+"location": {
+"x": 230000,
+"y": 600,
+"z": -1500
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 93.75,
+"z": 15.625
+}
+},
+"tags": []
+},
+{
+"id": "BP_Rune_C_7",
+"label": "Rune5",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_Rune.BP_Rune_C"
+},
+"xf": {
+"location": {
+"x": 289400,
+"y": 700,
+"z": 104
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": -89.99999999999999
+},
+"scale": {
+"x": -0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.9"
+]
+},
+{
+"id": "BP_Rune_C_0",
+"label": "Rune0",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_Rune.BP_Rune_C"
+},
+"xf": {
+"location": {
+"x": 80000,
+"y": 2300,
+"z": 107
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": -89.99999999999999
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.2"
+]
+},
+{
+"id": "BP_Rune_C_3",
+"label": "Rune1",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_Rune.BP_Rune_C"
+},
+"xf": {
+"location": {
+"x": 170000,
+"y": 500,
+"z": 107
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": -89.99999999999999
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.5"
+]
+},
+{
+"id": "BP_Rune_C_4",
+"label": "Rune2",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_Rune.BP_Rune_C"
+},
+"xf": {
+"location": {
+"x": 200000,
+"y": 900,
+"z": 13
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": -89.99999999999999
+},
+"scale": {
+"x": 2,
+"y": 2,
+"z": 2
+}
+},
+"tags": [
+"PortalSpace.6"
+]
+},
+{
+"id": "BP_Rune_C_5",
+"label": "Rune3",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_Rune.BP_Rune_C"
+},
+"xf": {
+"location": {
+"x": 229800,
+"y": 700,
+"z": 104
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": -89.99999999999999
+},
+"scale": {
+"x": 0.5,
+"y": 0.5,
+"z": 0.5
+}
+},
+"tags": [
+"PortalSpace.7"
+]
+},
+{
+"id": "BP_Rune_C_6",
+"label": "Rune4",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_Rune.BP_Rune_C"
+},
+"xf": {
+"location": {
+"x": 260000,
+"y": 1000,
+"z": 107
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": -89.99999999999999
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.8"
+]
+},
+{
+"id": "BP_HexSeal_C_0",
+"label": "HexSeal",
+"class": {
+"refPath": "/Game/Hexfold/Blueprints/BP_HexSeal.BP_HexSeal_C"
+},
+"xf": {
+"location": {
+"x": 50000,
+"y": 1960,
+"z": 150
+},
+"rotation": {
+"pitch": 0,
+"yaw": 180,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": [
+"PortalSpace.1"
+]
+},
+{
+"id": "BuoyancyManager_0",
+"label": "BuoyancyManager0",
+"class": {
+"refPath": "/Script/Water.BuoyancyManager"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "DefaultPhysicsVolume_0",
+"label": "DefaultPhysicsVolume0",
+"class": {
+"refPath": "/Script/Engine.DefaultPhysicsVolume"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "GameplayDebuggerPlayerManager_0",
+"label": "GameplayDebuggerPlayerManager0",
+"class": {
+"refPath": "/Script/GameplayDebugger.GameplayDebuggerPlayerManager"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "ChaosDebugDrawActor",
+"label": "Actor",
+"class": {
+"refPath": "/Script/Engine.Actor"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+},
+{
+"id": "AbstractNavData-Default",
+"label": "AbstractNavData-Default",
+"class": {
+"refPath": "/Script/NavigationSystem.AbstractNavData"
+},
+"xf": {
+"location": {
+"x": 0,
+"y": 0,
+"z": 0
+},
+"rotation": {
+"pitch": 0,
+"yaw": 0,
+"roll": 0
+},
+"scale": {
+"x": 1,
+"y": 1,
+"z": 1
+}
+},
+"tags": []
+}
+]

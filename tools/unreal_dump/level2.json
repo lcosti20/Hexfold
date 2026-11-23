@@ -1,0 +1,1015 @@
+{
+"WorldSettings": {},
+"Brush0": {},
+"DirectionalLight": {
+"comps": [
+"PersistentLevel.DirectionalLight_0.LightComponent0",
+"PersistentLevel.DirectionalLight_0.ArrowComponent0",
+"PersistentLevel.DirectionalLight_0.BillboardComponent_0"
+],
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"SkyLight": {
+"comps": [
+"PersistentLevel.SkyLight_0.Sprite",
+"PersistentLevel.SkyLight_0.SkyLightComponent0",
+"PersistentLevel.SkyLight_0.BillboardComponent_0"
+],
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"SkyAtmosphere": {},
+"PlayerStart": {},
+"Ground": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Obs_Exterior": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Obs_DoorframeOut": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Entrance_Out": {
+"FrontLink": "Portal_Entrance_In",
+"BackLink": "Portal_Entrance_In"
+},
+"Rot_Shell": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Rot_DoorframeIn": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Entrance_In": {
+"FrontLink": "Portal_Entrance_Out",
+"BackLink": "Portal_Entrance_Out"
+},
+"Rot_LightDome": {
+"comps": [
+"PersistentLevel.PointLight_0.LightComponent0",
+"PersistentLevel.PointLight_0.BillboardComponent_0"
+],
+"Intensity": 20000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 4500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing0": {
+"comps": [
+"PersistentLevel.PointLight_2.LightComponent0",
+"PersistentLevel.PointLight_2.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing1": {
+"comps": [
+"PersistentLevel.PointLight_3.LightComponent0",
+"PersistentLevel.PointLight_3.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing2": {
+"comps": [
+"PersistentLevel.PointLight_4.LightComponent0",
+"PersistentLevel.PointLight_4.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing3": {
+"comps": [
+"PersistentLevel.PointLight_5.LightComponent0",
+"PersistentLevel.PointLight_5.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing4": {
+"comps": [
+"PersistentLevel.PointLight_6.LightComponent0",
+"PersistentLevel.PointLight_6.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing5": {
+"comps": [
+"PersistentLevel.PointLight_7.LightComponent0",
+"PersistentLevel.PointLight_7.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing6": {
+"comps": [
+"PersistentLevel.PointLight_8.LightComponent0",
+"PersistentLevel.PointLight_8.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Rot_LightRing7": {
+"comps": [
+"PersistentLevel.PointLight_9.LightComponent0",
+"PersistentLevel.PointLight_9.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2500,
+"SourceRadius": 30,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Ped_Rune0": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove7_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove7": {
+"FrontLink": "Portal_Wing1_In",
+"BackLink": "Portal_Wing1_In"
+},
+"Portal_Wing1_In_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing1_In": {
+"FrontLink": "Portal_Alcove7",
+"BackLink": "Portal_Alcove7"
+},
+"Wing1_Chasm": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing1_WindowA_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing1_WindowA": {
+"FrontLink": "Portal_Wing1_WindowB",
+"BackLink": "Portal_Wing1_WindowB"
+},
+"Portal_Wing1_WindowB_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing1_WindowB": {
+"FrontLink": "Portal_Wing1_WindowA",
+"BackLink": "Portal_Wing1_WindowA"
+},
+"Wing1_WindowA_Stand": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing1_WindowB_Stand": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing1_ChasmBlocker": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing1_Light0": {
+"comps": [
+"PersistentLevel.PointLight_1.LightComponent0",
+"PersistentLevel.PointLight_1.BillboardComponent_0"
+],
+"Intensity": 8000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2200,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing1_Light1": {
+"comps": [
+"PersistentLevel.PointLight_10.LightComponent0",
+"PersistentLevel.PointLight_10.BillboardComponent_0"
+],
+"Intensity": 8000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2000,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing1_LightPit": {
+"comps": [
+"PersistentLevel.PointLight_11.LightComponent0",
+"PersistentLevel.PointLight_11.BillboardComponent_0"
+],
+"Intensity": 3000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1200,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Portal_Alcove6_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove6": {
+"FrontLink": "Portal_Wing2_In",
+"BackLink": "Portal_Wing2_In"
+},
+"Portal_Wing2_In_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing2_In": {
+"FrontLink": "Portal_Alcove6",
+"BackLink": "Portal_Alcove6"
+},
+"Wing2_Study": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing2_Closet": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing2_Vault": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Cabinet_Mercury_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Cabinet_Mercury": {
+"FrontLink": "Portal_ClosetDoor",
+"BackLink": "Portal_ClosetDoor"
+},
+"Planet_Mercury": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Cabinet_Venus_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Cabinet_Venus": {
+"FrontLink": "Portal_ClosetDoor",
+"BackLink": "Portal_ClosetDoor"
+},
+"Planet_Venus": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Cabinet_Mars_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Cabinet_Mars": {
+"FrontLink": "Portal_ClosetDoor",
+"BackLink": "Portal_ClosetDoor"
+},
+"Planet_Mars": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_ClosetDoor_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_ClosetDoor": {
+"FrontLink": "Portal_Cabinet_Mercury",
+"BackLink": "Portal_Cabinet_Mercury"
+},
+"Portal_VaultDoor_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_VaultDoor": {
+"FrontLink": "Portal_Cabinet_Mercury",
+"BackLink": "Portal_Cabinet_Mercury"
+},
+"Mural_Mars": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Mural_Num0": {},
+"Mural_Venus": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Mural_Num1": {},
+"Mural_Mercury": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Mural_Num2": {},
+"Ped_Rune1": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing2_StudyLight0": {
+"comps": [
+"PersistentLevel.PointLight_12.LightComponent0",
+"PersistentLevel.PointLight_12.BillboardComponent_0"
+],
+"Intensity": 4000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1500,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing2_StudyLight1": {
+"comps": [
+"PersistentLevel.PointLight_13.LightComponent0",
+"PersistentLevel.PointLight_13.BillboardComponent_0"
+],
+"Intensity": 4000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1500,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing2_ClosetLight": {
+"comps": [
+"PersistentLevel.PointLight_14.LightComponent0",
+"PersistentLevel.PointLight_14.BillboardComponent_0"
+],
+"Intensity": 800,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 600,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing2_VaultLight": {
+"comps": [
+"PersistentLevel.PointLight_15.LightComponent0",
+"PersistentLevel.PointLight_15.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1200,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"CabinetPuzzle": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove5_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove5": {
+"FrontLink": "Portal_Wing3_In",
+"BackLink": "Portal_Wing3_In"
+},
+"Portal_Wing3_In_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing3_In": {
+"FrontLink": "Portal_Alcove5",
+"BackLink": "Portal_Alcove5"
+},
+"Wing3_Push": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing3_Big_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing3_Big": {
+"FrontLink": "Portal_Wing3_Small",
+"BackLink": "Portal_Wing3_Small"
+},
+"Portal_Wing3_Small_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing3_Small": {
+"FrontLink": "Portal_Wing3_Big",
+"BackLink": "Portal_Wing3_Big"
+},
+"Wing3_Light0": {
+"comps": [
+"PersistentLevel.PointLight_16.LightComponent0",
+"PersistentLevel.PointLight_16.BillboardComponent_0"
+],
+"Intensity": 6000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1800,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing3_Light1": {
+"comps": [
+"PersistentLevel.PointLight_17.LightComponent0",
+"PersistentLevel.PointLight_17.BillboardComponent_0"
+],
+"Intensity": 6000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1800,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Portal_Alcove3_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove3": {
+"FrontLink": "Portal_Wing4_In",
+"BackLink": "Portal_Wing4_In"
+},
+"Portal_Wing4_In_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing4_In": {
+"FrontLink": "Portal_Alcove3",
+"BackLink": "Portal_Alcove3"
+},
+"Wing4_Mouse": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing4_MouseDoor_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing4_MouseDoor": {
+"FrontLink": "Portal_Wing4_BigDoor",
+"BackLink": "Portal_Wing4_BigDoor"
+},
+"Portal_Wing4_BigDoor_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing4_BigDoor": {
+"FrontLink": "Portal_Wing4_MouseDoor",
+"BackLink": "Portal_Wing4_MouseDoor"
+},
+"Ped_Rune3": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing4_Light0": {
+"comps": [
+"PersistentLevel.PointLight_18.LightComponent0",
+"PersistentLevel.PointLight_18.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1600,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing4_Light1": {
+"comps": [
+"PersistentLevel.PointLight_19.LightComponent0",
+"PersistentLevel.PointLight_19.BillboardComponent_0"
+],
+"Intensity": 5000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1600,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Portal_Alcove2_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove2": {
+"FrontLink": "Portal_Wing5_In",
+"BackLink": "Portal_Wing5_In"
+},
+"Portal_Wing5_In_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing5_In": {
+"FrontLink": "Portal_Alcove2",
+"BackLink": "Portal_Alcove2"
+},
+"Wing5_Mirror": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing5_BlindDoor_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing5_WindowW_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing5_WindowW": {
+"FrontLink": "Portal_Wing5_WindowE",
+"BackLink": null
+},
+"Portal_Wing5_WindowE_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing5_WindowE": {
+"FrontLink": null,
+"BackLink": "Portal_Wing5_WindowW"
+},
+"Ped_Rune4": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing5_Inscription": {},
+"Wing5_Light0": {
+"comps": [
+"PersistentLevel.PointLight_20.LightComponent0",
+"PersistentLevel.PointLight_20.BillboardComponent_0"
+],
+"Intensity": 6000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1800,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing5_Light1": {
+"comps": [
+"PersistentLevel.PointLight_21.LightComponent0",
+"PersistentLevel.PointLight_21.BillboardComponent_0"
+],
+"Intensity": 6000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 1800,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Telescope_Eyepiece_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Telescope_Eyepiece": {
+"FrontLink": "Portal_Telescope_Lens",
+"BackLink": "Portal_Telescope_Lens"
+},
+"Telescope_Lens_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Telescope_Lens": {
+"FrontLink": "Portal_Telescope_Eyepiece",
+"BackLink": "Portal_Telescope_Eyepiece"
+},
+"Ped_Rune5": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove1_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Alcove1": {
+"FrontLink": "Portal_Wing6_In",
+"BackLink": "Portal_Wing6_In"
+},
+"Portal_Wing6_In_Frame": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Portal_Wing6_In": {
+"FrontLink": "Portal_Alcove1",
+"BackLink": "Portal_Alcove1"
+},
+"Wing6_Telescope": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Wing6_Light0": {
+"comps": [
+"PersistentLevel.PointLight_22.LightComponent0",
+"PersistentLevel.PointLight_22.BillboardComponent_0"
+],
+"Intensity": 9000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2600,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"Wing6_Light1": {
+"comps": [
+"PersistentLevel.PointLight_23.LightComponent0",
+"PersistentLevel.PointLight_23.BillboardComponent_0"
+],
+"Intensity": 9000,
+"LightColor": {
+"r": 1,
+"g": 1,
+"b": 1,
+"a": 1
+},
+"AttenuationRadius": 2600,
+"SourceRadius": 20,
+"Temperature": 6500,
+"bUseTemperature": false,
+"IntensityUnits": "Lumens",
+"CastShadows": true
+},
+"RestoreFont": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"PPV_Global": {},
+"Telescope": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_0": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_1": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_2": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_3": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_4": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_5": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_6": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_7": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_8": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_9": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_10": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_11": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_12": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_13": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_14": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_15": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_16": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_17": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_18": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_19": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_20": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_21": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_22": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_23": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_24": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Tree_25": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_0": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_1": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_2": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_3": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_4": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_5": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_6": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_7": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_8": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_9": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_10": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_11": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_12": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_13": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_14": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_15": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_16": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_17": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_18": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_19": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_20": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_21": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_22": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_23": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_24": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_25": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_26": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_27": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_28": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Out_Rock_29": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Moonlight": {
+"comps": [
+"PersistentLevel.DirectionalLight_1.LightComponent0",
+"PersistentLevel.DirectionalLight_1.ArrowComponent0",
+"PersistentLevel.DirectionalLight_1.BillboardComponent_0"
+],
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"NightFog": {},
+"StarDome": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"AmbienceManager": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Mirror": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Outside": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Rotunda": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Telescope": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Chasm": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_ChasmPit": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Study": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Closet": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Vault": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Push": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"KV_Mouse": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Rune5": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Rune0": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Rune1": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Rune2": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Rune3": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"Rune4": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"HexSeal": {
+"err": "Expecting value: line 1 column 1 (char 0)"
+},
+"BuoyancyManager0": {},
+"DefaultPhysicsVolume0": {},
+"GameplayDebuggerPlayerManager0": {},
+"Actor": {},
+"AbstractNavData-Default": {}
+}
