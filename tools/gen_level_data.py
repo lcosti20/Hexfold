@@ -86,8 +86,15 @@ def emit(name, ty, items):
     out.append("];\n")
 
 # Rebuild with explicit field names for Placed and Rune (rot/scale named)
+# The Unreal level has the Observatory's floor (z = 0) 20 cm above the top of the Ground cube
+# (z = -20), so the door stood on a step. The exterior, its doorframe and the entrance portal are
+# lowered by that much (cm). The interior (Rotunda, Portal_Entrance_In) keeps its heights: portals
+# map heights relative to themselves, so the player still arrives on the Rotunda floor.
+LOWER = {"Obs_Exterior": 20, "Obs_DoorframeOut": 20, "Portal_Entrance_Out": 20}
+
 def named(o, fields):
-    x = o["xf"]; l, r, s = x["location"], x["rotation"], x["scale"]
+    x = o["xf"]; l, r, s = dict(x["location"]), x["rotation"], x["scale"]
+    l["z"] -= LOWER.get(o["label"], 0)
     g = lambda v: "%g" % (0 if abs(v) < 1e-6 else round(v, 4))
     return "loc: [%s, %s, %s], rot: [%s, %s, %s], scale: [%s, %s, %s]" % (g(l["x"]), g(l["y"]), g(l["z"]), g(r["pitch"]), g(r["yaw"]), g(r["roll"]), g(s["x"]), g(s["y"]), g(s["z"]))
 

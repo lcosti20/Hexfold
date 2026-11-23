@@ -13,8 +13,8 @@ pub struct TextDef { pub text: &'static str, pub loc: [f32; 3], pub rot: [f32; 3
 
 pub const STATICS: &[Placed] = &[
     Placed { name: "Ground", mesh: "Cube", loc: [0.0, 0.0, -70.0], rot: [0.0, 0.0, 0.0], scale: [400.0, 400.0, 1.0], space: 0 },
-    Placed { name: "Obs_Exterior", mesh: "SM_Obs_Exterior", loc: [0.0, 0.0, 0.0], rot: [0.0, 0.0, 0.0], scale: [1.0, 1.0, 1.0], space: 0 },
-    Placed { name: "Obs_DoorframeOut", mesh: "SM_Obs_Doorframe", loc: [0.0, 500.0, 150.0], rot: [0.0, 0.0, 0.0], scale: [1.5, 1.5, 1.5], space: 0 },
+    Placed { name: "Obs_Exterior", mesh: "SM_Obs_Exterior", loc: [0.0, 0.0, -20.0], rot: [0.0, 0.0, 0.0], scale: [1.0, 1.0, 1.0], space: 0 },
+    Placed { name: "Obs_DoorframeOut", mesh: "SM_Obs_Doorframe", loc: [0.0, 500.0, 130.0], rot: [0.0, 0.0, 0.0], scale: [1.5, 1.5, 1.5], space: 0 },
     Placed { name: "Rot_Shell", mesh: "SM_Obs_Rotunda", loc: [50000.0, 0.0, 0.0], rot: [0.0, 0.0, 0.0], scale: [1.0, 1.0, 1.0], space: 1 },
     Placed { name: "Rot_DoorframeIn", mesh: "SM_Obs_Doorframe", loc: [50000.0, 2000.0, 150.0], rot: [0.0, 0.0, 0.0], scale: [1.5, 1.5, 1.5], space: 1 },
     Placed { name: "Ped_Rune0", mesh: "SM_Hex_Pedestal", loc: [80000.0, 2300.0, 0.0], rot: [0.0, 0.0, 0.0], scale: [1.0, 1.0, 1.0], space: 2 },
@@ -127,7 +127,7 @@ pub const STATICS: &[Placed] = &[
 ];
 
 pub const PORTALS: &[PortalDef] = &[
-    PortalDef { name: "Portal_Entrance_Out", loc: [0.0, 500.0, 150.0], rot: [0.0, 0.0, 0.0], scale: [1.5, 1.5, 1.5], space: 0, front: "Portal_Entrance_In", back: "Portal_Entrance_In" },
+    PortalDef { name: "Portal_Entrance_Out", loc: [0.0, 500.0, 130.0], rot: [0.0, 0.0, 0.0], scale: [1.5, 1.5, 1.5], space: 0, front: "Portal_Entrance_In", back: "Portal_Entrance_In" },
     PortalDef { name: "Portal_Entrance_In", loc: [50000.0, 2000.0, 150.0], rot: [0.0, 0.0, 0.0], scale: [1.5, 1.5, 1.5], space: 1, front: "Portal_Entrance_Out", back: "Portal_Entrance_Out" },
     PortalDef { name: "Portal_Alcove7", loc: [48345.4, 1654.63, 200.0], rot: [0.0, 45.0, 0.0], scale: [2.0, 2.0, 2.0], space: 1, front: "Portal_Wing1_In", back: "Portal_Wing1_In" },
     PortalDef { name: "Portal_Wing1_In", loc: [80000.0, 0.0, 200.0], rot: [0.0, 0.0, 0.0], scale: [2.0, 2.0, 2.0], space: 2, front: "Portal_Alcove7", back: "Portal_Alcove7" },

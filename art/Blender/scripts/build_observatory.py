@@ -145,7 +145,7 @@ def build_exterior():
     STONE, TRIM, COPPER, DARK = range(4)
 
     bm = bmesh.new()
-    _cyl(bm, 4.7, -0.4, 0.0, TRIM)                                   # plinth
+    _cyl(bm, 4.7, -0.4, 0.01, TRIM)                                  # plinth (1 cm proud of the ground it is set into: the level lowers the exterior 20 cm onto the ground, 0.2 m below the door floor)
     _cyl(bm, DRUM_R, 0.0, DRUM_H, STONE)                             # drum
     _cyl(bm, DRUM_R + 0.1, 0.0, 0.35, TRIM)                          # base course
     _cyl(bm, DRUM_R + 0.25, DRUM_H, DRUM_H + 0.25, TRIM)            # cornice
