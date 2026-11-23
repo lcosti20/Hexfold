@@ -21,7 +21,7 @@ Running the exe directly (not through cargo) needs `BEVY_ASSET_ROOT=<repo root>`
 
 ## Automated checks (no keyboard needed)
 
-`HEXFOLD_SCRIPT` drives the game: steps separated by `;`: `wait:N`, `tp:x,y,z,yaw,pitch,space` (Unreal cm and degrees), `walk:dx,dy,dz,frames` (m/s, Unreal axes), `key:E`, `click`, `runetp:i,x,y,z`, `runevel:i,vx,vy,vz`, `pos` (logs player and runes), `shot:name` (writes `shots/name.png`), `quit`. Example:
+`HEXFOLD_SCRIPT` drives the game: steps separated by `;`: `wait:N`, `tp:x,y,z,yaw,pitch,space` (Unreal cm and degrees), `walk:dx,dy,dz,frames` (m/s, Unreal axes), `key:E`, `click`, `runetp:i,x,y,z`, `runevel:i,vx,vy,vz`, `sunrise:f` (jump the ending to f in 0..1), `pos` (logs player and runes), `shot:name` (writes `shots/name.png`), `quit`. Example:
 
 ```
 BEVY_ASSET_ROOT=. HEXFOLD_SCRIPT="wait:300;tp:50000,1560,100,90,0,1;wait:60;shot:hex;quit" ./target/debug/hexfold.exe

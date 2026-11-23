@@ -26,6 +26,7 @@
 use bevy::asset::RenderAssetUsages;
 use bevy::camera::visibility::RenderLayers;
 use bevy::camera::{ClearColorConfig, Exposure, Hdr, RenderTarget};
+use bevy::light::{AmbientLight, GlobalAmbientLight};
 use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat, TextureUsages};
 use bevy::render::view::Msaa;
@@ -88,11 +89,14 @@ pub struct PortalSettings {
     /// Exposure of the player's camera, shared by every portal view (each view's pixels are
     /// already exposed when the surface shows them).
     pub exposure_ev100: f32,
+    /// Ambient light (colour, brightness) per space, set on every view that renders that space.
+    /// Spaces not listed use the `GlobalAmbientLight`.
+    pub space_ambient: Vec<(i32, Color, f32)>,
 }
 
 impl Default for PortalSettings {
     fn default() -> Self {
-        Self { max_depth: 4, max_captures: 32, resolution_falloff: 1.0, dynamic_near_plane: true, debug: false, hide: false, exposure_ev100: Exposure::EV100_BLENDER }
+        Self { max_depth: 4, max_captures: 32, resolution_falloff: 1.0, dynamic_near_plane: true, debug: false, hide: false, exposure_ev100: Exposure::EV100_BLENDER, space_ambient: Vec::new() }
     }
 }
 
@@ -304,7 +308,25 @@ pub fn render_portals(
         (Without<PortalCamera>, Without<PortalSurfaceTag>),
     >,
     mut surfaces: Query<(&mut Transform, &mut RenderLayers, &mut Visibility), (With<PortalSurfaceTag>, Without<PortalCamera>)>,
+    mut ambients: Query<&mut AmbientLight>,
+    main_entity: Query<Entity, With<PortalCamera>>,
+    global_ambient: Res<GlobalAmbientLight>,
 ) {
+    // Each view lights the space it renders with that space's ambient light.
+    let mut set_ambient = |entity: Entity, space: Option<i32>| {
+        let (color, brightness) = space
+            .and_then(|s| settings.space_ambient.iter().find(|a| a.0 == s))
+            .map_or((global_ambient.color, global_ambient.brightness), |a| (a.1, a.2));
+        if let Ok(mut a) = ambients.get_mut(entity)
+            && (a.brightness != brightness || a.color != color)
+        {
+            a.color = color;
+            a.brightness = brightness;
+        }
+    };
+    if let Ok(e) = main_entity.single() {
+        set_ambient(e, player_space.0);
+    }
     let Ok((cam_t, mut cam_proj, cam, mut cam_layers)) = main.single_mut() else { return };
     let Ok(traveller) = pawn.single() else { return };
     let Projection::Custom(custom) = &mut *cam_proj else { return };
@@ -355,8 +377,10 @@ pub fn render_portals(
                 RenderTarget::Image(image.clone().into()),
                 Hdr,
                 Tonemapping::None,
-                Msaa::Off,
+                // Same anti-aliasing as the player's view, or edges seen through a portal crawl.
+                Msaa::Sample4,
                 Exposure { ev100: settings.exposure_ev100 },
+                AmbientLight { color: global_ambient.color, brightness: global_ambient.brightness, ..default() },
                 Projection::Perspective(PerspectiveProjection::default()),
                 Transform::IDENTITY,
                 RenderLayers::layer(0),
@@ -404,6 +428,7 @@ pub fn render_portals(
                 eprintln!("node {n} depth {} loc {:?} fwd {:?} space {:?} clip n_view {:?} d {d} size {:?}", node.depth, node.location, node.forward, node.space, n_view, camera.size);
             }
         }
+        set_ambient(camera.entity, node.space);
         cam.order = -(node.depth as isize) * 64 - (n as isize % 64);
         cam.is_active = true;
         *layers = view_layers(node.space, NODE_LAYER_BASE + n);

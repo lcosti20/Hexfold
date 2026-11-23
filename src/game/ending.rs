@@ -1,13 +1,14 @@
 //! The night sky, and the ending: breaking the hex turns the moon gold and lets it sink towards a
 //! dawn horizon; walking back outside shows the escape screen.
 
+use bevy::asset::RenderAssetUsages;
 use bevy::camera::visibility::RenderLayers;
-use bevy::light::{DirectionalLight, GlobalAmbientLight, NotShadowCaster, NotShadowReceiver};
+use bevy::light::{DirectionalLight, NotShadowCaster, NotShadowReceiver};
+use bevy::mesh::VertexAttributeValues;
 use bevy::prelude::*;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat};
-use bevy::asset::RenderAssetUsages;
 
-use crate::portal::{PortalSpace, layers_for_space};
+use crate::portal::{PortalSettings, PortalSpace, layers_for_space};
 use crate::ue;
 
 use super::hex::HexEvent;
@@ -16,13 +17,42 @@ use super::{AppState, Ending};
 
 #[derive(Component)]
 pub struct MoonLight;
-#[derive(Component)]
-pub struct StarDome(pub Handle<StandardMaterial>);
 
-/// A star field: dark blue with scattered bright points.
+/// The sky: a gradient dome (night blue to an orange dawn) with a star dome inside it.
+#[derive(Resource)]
+pub struct Sky {
+    stars: Handle<StandardMaterial>,
+    gradient: Handle<StandardMaterial>,
+    mesh: Handle<Mesh>,
+    dirs: Vec<Vec3>,
+}
+
+/// Moonlight on the outdoor scene (lux) before the sunrise.
+const MOON_LUX: f32 = 3.0;
+/// Outdoor ambient light (linear colour, brightness) at night and at dawn.
+const NIGHT_AMBIENT: (Vec3, f32) = (Vec3::new(0.35, 0.45, 0.85), 0.3);
+const DAWN_AMBIENT: (Vec3, f32) = (Vec3::new(1.0, 0.7, 0.5), 7.0);
+
+/// The ambient light outside at sunrise progress `sunrise` (0 = night, 1 = dawn).
+pub fn outdoor_ambient(sunrise: f32) -> (Color, f32) {
+    let a = smooth(sunrise);
+    let c = NIGHT_AMBIENT.0.lerp(DAWN_AMBIENT.0, a);
+    (Color::linear_rgb(c.x, c.y, c.z), NIGHT_AMBIENT.1 + (DAWN_AMBIENT.1 - NIGHT_AMBIENT.1) * a)
+}
+
+fn smooth(t: f32) -> f32 {
+    let t = t.clamp(0.0, 1.0);
+    t * t * (3.0 - 2.0 * t)
+}
+
+/// A star field on black, drawn additively over the gradient. Stars are widened towards the poles
+/// so they don't stretch into streaks on the sphere.
 fn star_texture() -> Image {
-    let (w, h) = (2048u32, 1024u32);
+    let (w, h) = (4096u32, 2048u32);
     let mut data = vec![0u8; (w * h * 4) as usize];
+    for px in data.chunks_exact_mut(4) {
+        px[3] = 255;
+    }
     let mut seed: u32 = 0x1234_5678;
     let mut rand = || {
         seed ^= seed << 13;
@@ -30,28 +60,23 @@ fn star_texture() -> Image {
         seed ^= seed << 5;
         seed as f32 / u32::MAX as f32
     };
-    for y in 0..h {
-        // A faint glow towards the horizon.
-        let t = 1.0 - (y as f32 / h as f32 - 0.5).abs() * 2.0;
-        for x in 0..w {
-            let i = ((y * w + x) * 4) as usize;
-            data[i] = (6.0 + 10.0 * t * t) as u8;
-            data[i + 1] = (10.0 + 14.0 * t * t) as u8;
-            data[i + 2] = (28.0 + 30.0 * t * t) as u8;
-            data[i + 3] = 255;
-        }
-    }
-    for _ in 0..5200 {
-        let x = (rand() * w as f32) as u32 % w;
-        let y = (rand() * h as f32) as u32 % h;
-        let b = 90.0 + rand() * 165.0;
-        for (dx, dy, f) in [(0i32, 0i32, 1.0f32), (1, 0, 0.5), (0, 1, 0.5)] {
-            let (px, py) = ((x as i32 + dx) as u32 % w, (y as i32 + dy) as u32 % h);
-            let i = ((py * w + px) * 4) as usize;
-            let v = (b * f) as u8;
-            data[i] = data[i].max(v);
-            data[i + 1] = data[i + 1].max(v);
-            data[i + 2] = data[i + 2].max((v as f32 * 1.05).min(255.0) as u8);
+    for _ in 0..7000 {
+        let x = (rand() * w as f32) as i32;
+        let lat = (2.0 * rand() - 1.0).asin(); // uniform on the sphere
+        let y = ((0.5 - lat / std::f32::consts::PI) * h as f32) as i32;
+        let spread = (1.0 / lat.cos().max(0.05)).min(12.0);
+        let b = 0.25 + rand() * rand() * 0.75;
+        let tint = [0.85 + 0.15 * rand(), 0.9 + 0.1 * rand(), 1.0];
+        for dy in -1i32..=1 {
+            let reach = (spread * if dy == 0 { 1.0 } else { 0.5 }).round() as i32;
+            for dx in -reach..=reach {
+                let falloff = (1.0 - dx.abs() as f32 / (reach as f32 + 1.0)) * if dy == 0 { 1.0 } else { 0.4 };
+                let (px, py) = ((x + dx).rem_euclid(w as i32) as u32, (y + dy).clamp(0, h as i32 - 1) as u32);
+                let i = ((py * w + px) * 4) as usize;
+                for c in 0..3 {
+                    data[i + c] = data[i + c].max((255.0 * b * falloff * tint[c]) as u8);
+                }
+            }
         }
     }
     Image::new(Extent3d { width: w, height: h, depth_or_array_layers: 1 }, TextureDimension::D2, data, TextureFormat::Rgba8UnormSrgb, RenderAssetUsages::default())
@@ -59,31 +84,50 @@ fn star_texture() -> Image {
 
 pub fn spawn_sky(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mut materials: ResMut<Assets<StandardMaterial>>, mut images: ResMut<Assets<Image>>) {
     let tex = images.add(star_texture());
-    let mat = materials.add(StandardMaterial {
-        // Unlit materials show only the base colour, so the star texture goes there.
+    let stars = materials.add(StandardMaterial {
         base_color: Color::WHITE,
         base_color_texture: Some(tex),
         unlit: true,
+        alpha_mode: AlphaMode::Add,
         cull_mode: None,
         ..default()
     });
-    // The dome is only seen from outside (space 0).
+    let gradient = materials.add(StandardMaterial { base_color: Color::WHITE, unlit: true, cull_mode: None, ..default() });
+    let mut dome = Sphere::new(1.0).mesh().uv(96, 48);
+    let dirs: Vec<Vec3> = match dome.attribute(Mesh::ATTRIBUTE_POSITION) {
+        Some(VertexAttributeValues::Float32x3(v)) => v.iter().map(|p| Vec3::from(*p).normalize_or_zero()).collect(),
+        _ => Vec::new(),
+    };
+    dome.insert_attribute(Mesh::ATTRIBUTE_COLOR, vec![[0.0f32, 0.0, 0.0, 1.0]; dirs.len()]);
+    let mesh = meshes.add(dome);
+    // The domes are only seen from outside (space 0).
+    let layers = layers_for_space(Some(0));
     commands.spawn((
-        Name::new("StarDome"),
-        StarDome(mat.clone()),
-        Mesh3d(meshes.add(Sphere::new(1.0).mesh().uv(48, 24))),
-        MeshMaterial3d(mat),
+        Name::new("SkyGradient"),
+        Mesh3d(mesh.clone()),
+        MeshMaterial3d(gradient.clone()),
         Transform::from_scale(Vec3::splat(600.0)),
         PortalSpace(0),
-        layers_for_space(Some(0)),
+        layers.clone(),
         NotShadowCaster,
         NotShadowReceiver,
     ));
-    // The moon: 0.6 lux of blue light from yaw -120, pitch -38 (Unreal). Outside only.
+    commands.spawn((
+        Name::new("StarDome"),
+        Mesh3d(meshes.add(Sphere::new(1.0).mesh().uv(64, 32))),
+        MeshMaterial3d(stars.clone()),
+        Transform::from_scale(Vec3::splat(580.0)),
+        PortalSpace(0),
+        layers,
+        NotShadowCaster,
+        NotShadowReceiver,
+    ));
+    commands.insert_resource(Sky { stars, gradient, mesh, dirs });
+    // The moon: blue light from yaw -120, pitch -38 (Unreal). Outside only.
     commands.spawn((
         Name::new("Moonlight"),
         MoonLight,
-        DirectionalLight { illuminance: 0.6 * super::MOON_SCALE, color: Color::srgb(0.5, 0.62, 1.0), shadow_maps_enabled: true, ..default() },
+        DirectionalLight { illuminance: MOON_LUX * super::MOON_SCALE, color: Color::srgb(0.5, 0.62, 1.0), shadow_maps_enabled: true, ..default() },
         Transform::from_rotation(moon_rotation(-38.0)),
         PortalSpace(0),
         RenderLayers::layer(crate::portal::space_layer(0)),
@@ -91,7 +135,7 @@ pub fn spawn_sky(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mut m
     // A faint dusk sun, as in the Unreal level.
     commands.spawn((
         Name::new("Sun"),
-        DirectionalLight { illuminance: 0.05 * super::MOON_SCALE, color: Color::WHITE, shadow_maps_enabled: false, ..default() },
+        DirectionalLight { illuminance: 0.3 * super::MOON_SCALE, color: Color::srgb(1.0, 0.85, 0.7), shadow_maps_enabled: false, ..default() },
         Transform::from_rotation(ue::rot([-15.0, 30.0, 0.0]) * Quat::from_rotation_y(-std::f32::consts::FRAC_PI_2)),
         PortalSpace(0),
         RenderLayers::layer(crate::portal::space_layer(0)),
@@ -105,6 +149,63 @@ fn moon_rotation(pitch: f32) -> Quat {
     ue::rot([pitch, -120.0, 0.0]) * Quat::from_rotation_y(-std::f32::consts::FRAC_PI_2)
 }
 
+fn sunrise_pitch(sunrise: f32) -> f32 {
+    -38.0 + 28.0 * sunrise
+}
+
+/// What the sky looks like in direction `dir` at sunrise progress `a`, as displayed (linear) pixels.
+fn sky_colour(dir: Vec3, sun: Vec3, a: f32) -> Vec3 {
+    let t = dir.y.clamp(0.0, 1.0);
+    let night = Vec3::new(0.012, 0.02, 0.05).lerp(Vec3::new(0.002, 0.004, 0.02), t.sqrt());
+
+    let dawn_zenith = Vec3::new(0.05, 0.10, 0.32);
+    let dawn_mid = Vec3::new(0.40, 0.22, 0.28);
+    let dawn_horizon = Vec3::new(0.95, 0.38, 0.08);
+    let mut dawn = if t < 0.35 { dawn_horizon.lerp(dawn_mid, (t / 0.35).sqrt()) } else { dawn_mid.lerp(dawn_zenith, ((t - 0.35) / 0.65).sqrt()) };
+    // A glow where the sun is coming up.
+    let flat = |v: Vec3| Vec3::new(v.x, 0.0, v.z).normalize_or_zero();
+    let toward_sun = flat(dir).dot(flat(sun)).max(0.0).powi(4);
+    let low = (1.0 - t).powi(3);
+    dawn += Vec3::new(1.4, 0.7, 0.2) * toward_sun * low;
+    dawn += Vec3::new(2.5, 1.6, 0.7) * dir.dot(sun).max(0.0).powi(80);
+    night.lerp(dawn, smooth(a))
+}
+
+/// Paints the sky for the current sunrise and fades the stars.
+pub fn update_sky(
+    sky: Option<Res<Sky>>,
+    ending: Res<Ending>,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
+    mut painted: Local<f32>,
+) {
+    let Some(sky) = sky else { return };
+    if *painted != ending.sunrise + 1.0 {
+        *painted = ending.sunrise + 1.0;
+        let sun = moon_rotation(sunrise_pitch(ending.sunrise)) * Vec3::Z;
+        let colours: Vec<[f32; 4]> = sky
+            .dirs
+            .iter()
+            .map(|d| {
+                let c = sky_colour(*d, sun, ending.sunrise);
+                [c.x, c.y, c.z, 1.0]
+            })
+            .collect();
+        if let Some(mut m) = meshes.get_mut(&sky.mesh) {
+            m.insert_attribute(Mesh::ATTRIBUTE_COLOR, colours);
+        }
+    }
+    // Unlit materials skip the camera exposure, so the sky shows exactly the colours painted here.
+    if let Some(mut m) = materials.get_mut(&sky.gradient) {
+        m.base_color = Color::WHITE;
+    }
+    if let Some(mut m) = materials.get_mut(&sky.stars) {
+        // The stars fade out as the sky brightens.
+        let b = (1.0 - ending.sunrise * 1.5).clamp(0.0, 1.0) * 0.9;
+        m.base_color = Color::linear_rgb(b, b, b);
+    }
+}
+
 /// Starts the sunrise when the hex breaks, and the countdown to the escape screen.
 pub fn ending_logic(
     time: Res<Time>,
@@ -112,9 +213,7 @@ pub fn ending_logic(
     mut ending: ResMut<Ending>,
     mut moon: Query<(&mut DirectionalLight, &mut Transform), With<MoonLight>>,
     mut clear: ResMut<ClearColor>,
-    mut ambient: ResMut<GlobalAmbientLight>,
-    domes: Query<&StarDome>,
-    mut materials: ResMut<Assets<StandardMaterial>>,
+    mut settings: ResMut<PortalSettings>,
     player: Query<&Transform, (With<Player>, Without<MoonLight>)>,
     mut next: ResMut<NextState<AppState>>,
 ) {
@@ -131,19 +230,18 @@ pub fn ending_logic(
         ending.sunrise = (ending.sunrise + time.delta_secs() / 12.0).min(1.0);
         let a = ending.sunrise;
         if let Ok((mut light, mut t)) = moon.single_mut() {
-            light.color = Color::srgb(0.5 + 0.5 * a, 0.62 + 0.08 * a, 1.0 - 0.65 * a);
-            light.illuminance = (0.6 + 40.0 * a) * super::MOON_SCALE;
-            *t = Transform::from_rotation(moon_rotation(-38.0 + 28.0 * a));
+            let k = smooth(a);
+            light.color = Color::srgb(0.5 + 0.5 * k, 0.62 + 0.08 * k, 1.0 - 0.65 * k);
+            light.illuminance = (MOON_LUX + 40.0 * k) * super::MOON_SCALE;
+            *t = Transform::from_rotation(moon_rotation(sunrise_pitch(a)));
         }
-        for d in &domes {
-            if let Some(mut m) = materials.get_mut(&d.0) {
-                // Stars fade and the sky warms towards dawn.
-                let g = 1.0 - 0.6 * a;
-                m.base_color = Color::linear_rgb(g + 1.2 * a, g + 0.55 * a, g * 0.9 + 0.2 * a);
-            }
-        }
+        // Whatever shows past the sky dome takes the horizon colour.
         clear.0 = Color::srgb(0.01 + 0.5 * a, 0.015 + 0.25 * a, 0.04 + 0.1 * a);
-        ambient.brightness = 8.0 + 30.0 * a;
+        let (colour, brightness) = outdoor_ambient(a);
+        if let Some(entry) = settings.space_ambient.iter_mut().find(|e| e.0 == 0) {
+            entry.1 = colour;
+            entry.2 = brightness;
+        }
     }
     // CheckEscape: back outside (more than 250 m from the Rotunda's side of the world).
     if !ending.escaped

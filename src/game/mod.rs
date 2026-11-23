@@ -72,7 +72,7 @@ impl Plugin for HexfoldPlugin {
             .add_message::<hex::HexEvent>()
             .add_message::<rune::ReturnToPedestal>()
             .insert_resource(Gravity(Vec3::NEG_Y * 9.81))
-            .insert_resource(PortalSettings { max_depth: 3, resolution_falloff: 0.5, exposure_ev100: EXPOSURE_EV100, ..default() })
+            .insert_resource(PortalSettings { max_depth: 3, resolution_falloff: 0.75, exposure_ev100: EXPOSURE_EV100, space_ambient: vec![(0, ending::outdoor_ambient(0.0).0, ending::outdoor_ambient(0.0).1)], ..default() })
             .insert_resource(GlobalAmbientLight { color: Color::srgb(0.6, 0.65, 0.8), brightness: 8.0, ..default() })
             .insert_resource(ClearColor(Color::srgb(0.01, 0.015, 0.04)))
             .add_systems(
@@ -106,7 +106,7 @@ impl Plugin for HexfoldPlugin {
                     (player::grab_cursor, player::look, player::walk, player::apply_scale).chain(),
                     (ui::pause_key, ui::freeze_time, ui::toast_system, ui::hud_events),
                     (hex::hex_logic, puzzles::cabinet_logic, puzzles::telescope_logic, puzzles::kill_volume_logic, puzzles::restore_font_logic, rune::return_to_pedestal),
-                    (ending::ending_logic, ambience::update_ambience, world_text::finish_bakes, adapt_exposure),
+                    (ending::ending_logic, ending::update_sky, ambience::update_ambience, world_text::finish_bakes, adapt_exposure),
                 ),
             );
     }

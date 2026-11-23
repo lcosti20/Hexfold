@@ -41,7 +41,7 @@ fn colour(name: &str) -> Color {
     if name.contains("Doorframe") || name.ends_with("_Frame") {
         Color::srgb(0.30, 0.27, 0.24)
     } else if name == "Ground" {
-        Color::srgb(0.06, 0.09, 0.04)
+        Color::srgb(0.10, 0.14, 0.06)
     } else if name.starts_with("Out_Tree") {
         Color::srgb(0.10, 0.08, 0.06)
     } else if name.starts_with("Out_Rock") {

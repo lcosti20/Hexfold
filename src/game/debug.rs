@@ -27,6 +27,8 @@ enum Step {
     RuneTp(u8, [f32; 3]),
     Key(KeyCode),
     Click,
+    /// Jump the ending to this progress (0 = night, 1 = dawn).
+    Sunrise(f32),
     Quit,
 }
 
@@ -60,6 +62,7 @@ pub fn load_script() -> Option<DebugScript> {
             "click" => steps.push(Step::Click),
             "runetp" if nums.len() >= 4 => steps.push(Step::RuneTp(nums[0] as u8, [nums[1], nums[2], nums[3]])),
             "runevel" if nums.len() >= 4 => steps.push(Step::RuneVel(nums[0] as u8, Vec3::new(nums[1], nums[3], nums[2]))),
+            "sunrise" => steps.push(Step::Sunrise(nums.first().copied().unwrap_or(1.0))),
             "quit" => steps.push(Step::Quit),
             "" => {}
             other => warn!("unknown debug step {other}"),
@@ -77,6 +80,7 @@ pub fn run_script(
     mut rune_vel: Query<(&super::rune::Rune, &mut LinearVelocity, &mut Transform, Option<&mut Position>, &PortalTraveller), Without<PortalPawn>>,
     mut keys: ResMut<ButtonInput<KeyCode>>,
     mut mouse: ResMut<ButtonInput<MouseButton>>,
+    mut ending: ResMut<super::Ending>,
 ) {
     let Some(mut s) = script else { return };
     if let Some((v, frames)) = s.walk {
@@ -141,6 +145,10 @@ pub fn run_script(
         }
         Step::Key(k) => keys.press(k),
         Step::Click => mouse.press(MouseButton::Left),
+        Step::Sunrise(a) => {
+            ending.broken = true;
+            ending.sunrise = a.clamp(0.0, 1.0);
+        }
         Step::Quit => {
             exit.write(AppExit::Success);
         }

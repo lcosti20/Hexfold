@@ -207,7 +207,8 @@ pub fn update_grab(
                     let target = hold_target(&held, eye, forward, size, pawn.yaw, traveller.mirrored);
                     let allowed = t.translation.distance(target.0) / (size * matrix_scale(&warp)) + grab.break_distance;
                     // While held, the object ignores the player and gravity.
-                    commands.entity(entity).insert(CollisionLayers::new(crate::level::Layer::Prop, [crate::level::Layer::World]));
+                    // Triggers still see it, so a held rune can be seated by bringing it to a socket.
+                    commands.entity(entity).insert(CollisionLayers::new(crate::level::Layer::Prop, [crate::level::Layer::World, crate::level::Layer::Trigger]));
                     match gravity {
                         Some(mut g) => g.0 = 0.0,
                         None => {
