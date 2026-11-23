@@ -52,7 +52,7 @@ All of these run in `Update` (`src/game/mod.rs`), except the plugin's own work (
 
 | System | Responsibility |
 |---|---|
-| `player` | A flat-bottomed cylinder body (a dynamic avian body with locked rotation). Mouse look, walking, jumping. Movement, gravity, collider and mass scale with the player's size (`PortalPawn::scale`); mouse yaw and strafing are reversed while mirrored. |
+| `player` | A flat-bottomed cylinder body (a dynamic avian body with locked rotation), held just above the floor by ground rays so it never rests on floor contacts. Mouse look, walking, jumping. Movement, gravity, collider and mass scale with the player's size (`PortalPawn::scale`); mouse yaw and strafing are reversed while mirrored. |
 | `rune` | Spawns the six runes: a rigid body with a hex collider, a `visual` child (two meshes: strokes and plate) that carries the mirror flip, `PortalObject` + `PortalTraveller` + `PortalClipped`. `ReturnToPedestal` puts one back where it started. |
 | `hex` | The win condition. A trigger 4 m into the Rotunda seals the door (web, sockets and barrier appear). A rune entering a socket trigger is checked in order: right rune, size within 10% of 1, not mirrored. Accepted: released from the player's hands, frozen in the socket, plate and glyph lit. Rejected: pushed gently out, its plate flashes, a message says why. All six: the hex breaks. |
 | `puzzles::CabinetPuzzle` | Rune 2. Tracks the order of cabinets visited (reads `PortalTraversed`) and relinks the portals: every cabinet leads to the closet, except the last one in the sequence, which leads to the vault once the earlier steps are done. |

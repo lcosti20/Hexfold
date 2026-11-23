@@ -26,6 +26,18 @@ pub const JUMP_SPEED: f32 = 4.2;
 pub const ACCEL: f32 = 40.0;
 pub const MOUSE_SENSITIVITY: f32 = 0.0022;
 pub const MASS: f32 = 80.0;
+/// Gap kept between the bottom of the collider and the floor (see [`walk`]).
+pub const HOVER: f32 = 0.025;
+
+/// The gap for a player of this size. A small player keeps the full gap: any closer and the
+/// floor's triangle edges start pushing back.
+fn hover(scale: f32) -> f32 {
+    HOVER * scale.max(1.0)
+}
+/// How far below its feet the player still counts as standing (and is pulled down to the floor).
+const SNAP: f32 = 0.08;
+/// Time after a jump during which the player isn't held to the floor.
+const JUMP_RELEASE: f32 = 0.2;
 
 /// The player body.
 #[derive(Component)]
@@ -33,6 +45,8 @@ pub struct Player {
     /// The size the collider and movement were last built for.
     pub applied_scale: f32,
     pub grounded: bool,
+    /// Seconds left before the floor may hold the player again after a jump.
+    pub jump_release: f32,
 }
 
 /// Where the player started: the respawn point outside.
@@ -42,6 +56,9 @@ pub const START_YAW: f32 = -90.0;
 /// The player's collider: a cylinder with chamfered ends. A capsule's rounded bottom would let the
 /// player ride up over low objects (a rune lying on the floor), like a ramp; Unreal's character
 /// had Can Step Up On = No on runes so they'd be pushed instead. A flat bottom does the same.
+///
+/// The bottom stops [`HOVER`] short of the feet: the player is held at that height by [`walk`]
+/// and doesn't rest on the floor.
 pub fn capsule(scale: f32) -> Collider {
     const SEGMENTS: usize = 20;
     const CHAMFER: f32 = 0.04;
@@ -51,7 +68,8 @@ pub fn capsule(scale: f32) -> Collider {
     for k in 0..SEGMENTS {
         let a = k as f32 / SEGMENTS as f32 * std::f32::consts::TAU;
         let (s, co) = a.sin_cos();
-        for (y, rr) in [(-h, r - c), (-h + c, r), (h - c, r), (h, r - c)] {
+        let foot = -h + hover(scale);
+        for (y, rr) in [(foot, r - c), (foot + c, r), (h - c, r), (h, r - c)] {
             points.push(Vec3::new(co * rr, y, s * rr));
         }
     }
@@ -62,7 +80,7 @@ pub fn spawn_player(mut commands: Commands) {
     let pos = ue::pos(START);
     commands.spawn((
         Name::new("Player"),
-        Player { applied_scale: 1.0, grounded: false },
+        Player { applied_scale: 1.0, grounded: false, jump_release: 0.0 },
         PortalPawn { yaw: ue::view_yaw(START_YAW), pitch: 0.0, scale: 1.0, eye_height: EYE_HEIGHT },
         PortalTraveller::default(),
         PortalGrab::default(),
@@ -171,8 +189,19 @@ pub fn look(
     pawn.yaw = pawn.yaw.rem_euclid(std::f32::consts::TAU);
 }
 
+/// Walking, jumping and standing.
+///
+/// The player doesn't rest on the floor. A flat-bottomed hull lying on a flat floor is the worst
+/// case for the contact solver: every so often a contact comes back with a tilted normal (at the
+/// edges between a floor mesh's triangles, on very large boxes, and far from the origin, where
+/// the rooms are), and walking into a tilted contact at speed throws the player into the air.
+/// So the hull ends [`HOVER`] above the feet, and this system holds the feet on the floor found by
+/// a few rays: the vertical speed is set to close the gap. The hull only touches the floor when
+/// landing from a fall.
 pub fn walk(
     time: Res<Time>,
+    gravity: Res<Gravity>,
+    substeps: Res<SubstepCount>,
     keys: Res<ButtonInput<KeyCode>>,
     state: Res<State<super::AppState>>,
     spatial: SpatialQuery,
@@ -181,9 +210,35 @@ pub fn walk(
     let Ok((entity, mut p, pawn, traveller, t, mut vel)) = player.single_mut() else { return };
     let scale = pawn.scale;
 
-    // Ground check.
+    let dt = time.delta_secs();
+    p.jump_release = (p.jump_release - dt).max(0.0);
+
+    // The floor under the feet: the highest hit of five rays, so the player stays up while any
+    // part of the body is over the floor. Props (a rune on the floor) are no floor to stand on:
+    // they're pushed by the hull instead.
+    let feet = t.translation.y - HALF_HEIGHT * scale;
+    let world = SpatialQueryFilter::from_excluded_entities([entity]).with_mask([Layer::World]);
+    let mut floor: Option<f32> = None;
+    for (ox, oz) in [(0.0, 0.0), (0.6, 0.0), (-0.6, 0.0), (0.0, 0.6), (0.0, -0.6)] {
+        let origin = t.translation + Vec3::new(ox, 0.0, oz) * RADIUS * scale;
+        let Some(hit) = spatial.cast_ray(origin, Dir3::NEG_Y, (HALF_HEIGHT + SNAP) * scale, true, &world) else { continue };
+        let y = origin.y - hit.distance;
+        // Anything higher than the bottom of the hull is a step, which the hull has to deal with.
+        if y <= feet + hover(scale) * 1.5 {
+            floor = Some(floor.map_or(y, |f| f.max(y)));
+        }
+    }
+    let held = floor.filter(|_| p.jump_release <= 0.0);
+    if let Some(floor) = held {
+        // Close the gap over a few frames, and cancel the fall gravity adds during this step
+        // (it is applied once per substep, so on average a little over half of it counts).
+        let rate = 15f32.min(0.5 / dt.max(1e-4));
+        let n = substeps.0.max(1) as f32;
+        vel.y = (floor - feet) * rate + gravity.0.length() * scale * dt * (n + 1.0) / (2.0 * n);
+    }
+    // Standing on a prop also counts for jumping and footsteps.
     let filter = SpatialQueryFilter::from_excluded_entities([entity]).with_mask([Layer::World, Layer::Prop]);
-    p.grounded = spatial.cast_ray(t.translation, Dir3::NEG_Y, (HALF_HEIGHT + 0.06) * scale, true, &filter).is_some();
+    p.grounded = held.is_some() || spatial.cast_ray(t.translation, Dir3::NEG_Y, (HALF_HEIGHT + 0.06) * scale, true, &filter).is_some();
 
     let mut input = Vec2::ZERO;
     let mut jump = false;
@@ -210,7 +265,6 @@ pub fn walk(
     let wish = yaw_rot * Vec3::new(input.x, 0.0, -input.y);
     let wish = if wish.length_squared() > 1.0 { wish.normalize() } else { wish };
     let target = wish * WALK_SPEED * scale;
-    let dt = time.delta_secs();
     let accel = ACCEL * scale * if p.grounded { 1.0 } else { 0.35 };
     let current = Vec3::new(vel.x, 0.0, vel.z);
     let diff = target - current;
@@ -220,6 +274,7 @@ pub fn walk(
     vel.z = new.z;
     if jump && p.grounded {
         vel.y = JUMP_SPEED * scale;
+        p.jump_release = JUMP_RELEASE;
     }
 }
 
