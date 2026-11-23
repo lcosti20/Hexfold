@@ -2,7 +2,7 @@
 
 //! Units are Unreal's: centimetres, degrees (pitch, yaw, roll), Unreal axes.
 
-#![allow(clippy::all)]
+#![allow(clippy::all, dead_code)] // the dump keeps every field, used or not
 
 pub struct Placed { pub name: &'static str, pub mesh: &'static str, pub loc: [f32; 3], pub rot: [f32; 3], pub scale: [f32; 3], pub space: i32 }
 pub struct PortalDef { pub name: &'static str, pub loc: [f32; 3], pub rot: [f32; 3], pub scale: [f32; 3], pub space: i32, pub front: &'static str, pub back: &'static str }
