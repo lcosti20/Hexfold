@@ -66,7 +66,12 @@ impl Plugin for PortalWorldsPlugin {
             (PortalSystems::Refresh, PortalSystems::Traverse, PortalSystems::Camera, PortalSystems::Objects, PortalSystems::Render)
                 .chain()
                 .after(PhysicsSystems::Writeback)
-                .before(TransformSystems::Propagate),
+                .before(TransformSystems::Propagate)
+                // `camera_system` caches each camera's projection matrix (near plane, oblique clip
+                // plane, flip) from `Projection`. Unordered, it can run before `render_portals`
+                // edits those and the views are drawn with last frame's values: flicker while the
+                // camera moves or turns.
+                .before(bevy::camera::CameraUpdateSystems),
         )
         .add_systems(
             PostUpdate,
