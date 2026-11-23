@@ -161,14 +161,16 @@ pub fn telescope_logic(
             t.setting = i as i32;
             // Gemini mirrors, Lynx halves, Cygnus doubles; standing on the floor.
             let (sx, s, name) = match i {
-                0 => (-1.0, 1.0, "Gemini: the twins. The lens mirrors."),
+                0 => (-1.0f32, 1.0, "Gemini: the twins. The lens mirrors."),
                 1 => (0.5, 0.5, "Lynx: the lens halves."),
                 _ => (2.0, 2.0, "Cygnus: the lens doubles."),
             };
-            for e in [t.lens, t.frame] {
+            // Only the lens (a portal) is mirrored; the frame is symmetric, and a mesh given a
+            // negative scale renders inside out, so it keeps a positive scale.
+            for (e, fx) in [(t.lens, sx), (t.frame, sx.abs())] {
                 if let Ok(mut tf) = transforms.get_mut(e) {
                     tf.translation = ue::pos([t.base[0], t.base[1], s * 100.0]);
-                    tf.scale = ue::scale([sx, s, s]);
+                    tf.scale = ue::scale([fx, s, s]);
                 }
             }
             toast.write(Toast(name.into()));

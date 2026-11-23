@@ -72,7 +72,7 @@ impl Plugin for HexfoldPlugin {
             .add_message::<hex::HexEvent>()
             .add_message::<rune::ReturnToPedestal>()
             .insert_resource(Gravity(Vec3::NEG_Y * 9.81))
-            .insert_resource(PortalSettings { max_depth: 3, resolution_falloff: 0.75, exposure_ev100: EXPOSURE_EV100, prewarm_per_depth: 10, space_ambient: vec![(0, ending::outdoor_ambient(0.0).0, ending::outdoor_ambient(0.0).1)], ..default() })
+            .insert_resource(PortalSettings { max_depth: 6, resolution_falloff: 0.75, exposure_ev100: EXPOSURE_EV100, prewarm_per_depth: 10, space_ambient: vec![(0, ending::outdoor_ambient(0.0).0, ending::outdoor_ambient(0.0).1)], ..default() })
             .insert_resource(GlobalAmbientLight { color: Color::srgb(0.6, 0.65, 0.8), brightness: 8.0, ..default() })
             .insert_resource(ClearColor(Color::srgb(0.01, 0.015, 0.04)))
             .add_systems(

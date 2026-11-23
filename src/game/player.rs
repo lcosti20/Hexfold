@@ -91,7 +91,7 @@ pub fn spawn_player(mut commands: Commands) {
         LockedAxes::ROTATION_LOCKED,
         Friction::ZERO.with_combine_rule(CoefficientCombine::Min),
         Restitution::ZERO.with_combine_rule(CoefficientCombine::Min),
-        CollisionLayers::new(Layer::Player, [Layer::World, Layer::Prop, Layer::Trigger]),
+        CollisionLayers::new(Layer::Player, [Layer::World, Layer::Trigger]),
         SleepingDisabled,
         LinearDamping(0.0),
     ));
@@ -235,8 +235,8 @@ pub fn walk(
         let n = substeps.0.max(1) as f32;
         vel.y = (floor - feet) * rate + gravity.0.length() * scale * dt * (n + 1.0) / (2.0 * n);
     }
-    // Standing on a prop also counts for jumping and footsteps.
-    let filter = SpatialQueryFilter::from_excluded_entities([entity]).with_mask([Layer::World, Layer::Prop]);
+    // The player passes through props, so only the world counts as ground.
+    let filter = SpatialQueryFilter::from_excluded_entities([entity]).with_mask([Layer::World]);
     p.grounded = held.is_some() || spatial.cast_ray(t.translation, Dir3::NEG_Y, (HALF_HEIGHT + 0.06) * scale, true, &filter).is_some();
 
     let mut input = Vec2::ZERO;

@@ -76,7 +76,9 @@ pub fn spawn_runes(mut commands: Commands, assets: Res<AssetServer>, mats: Res<M
             SweptCcd::default(),
             Friction::new(0.6),
             Restitution::new(0.05),
-            CollisionLayers::new(Layer::Prop, [Layer::World, Layer::Player, Layer::Prop, Layer::Trigger]),
+            // Runes and the player pass through each other, so the player can't shove a rune
+            // into a wall or out of the level.
+            CollisionLayers::new(Layer::Prop, [Layer::World, Layer::Prop, Layer::Trigger]),
             PortalTraveller::new(mirrored),
             PortalObject { visual },
             PortalClipped::new(parts, RUNE_RADIUS),
