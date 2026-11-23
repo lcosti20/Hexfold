@@ -2,7 +2,9 @@
 
 3D puzzle project for my Game Tech course at SCAD.
 
-Hexfold is a first-person puzzle game built around non-Euclidean portals: doorways that lead somewhere else, rooms that are bigger on the inside, and portals that change your size. It's made in Unreal Engine 5.8 with Blueprints only (no C++ in the project).
+Hexfold is a first-person puzzle game built around non-Euclidean portals: doorways that lead somewhere else, rooms that are bigger on the inside, and portals that change your size. It's written in Rust with the [Bevy](https://bevy.org) engine (0.20), with [avian3d](https://github.com/avianphysics/avian) for physics.
+
+It started as an Unreal Engine 5 Blueprint project built on a C++ plugin called PortalWorlds. This branch rewrites both the game and the plugin in Rust and combines them into one codebase: `src/portal/` is the plugin, `src/game/` is the game.
 
 ## The game
 
@@ -12,74 +14,45 @@ As soon as you're through the door, a **hex** seals it behind you. The hex shows
 
 Finding a rune isn't enough. Some are the wrong size or a mirror image of the shape on the hex, so you have to shrink, grow or flip them with portals before they fit. Each rune is guarded by a portal puzzle: rooms nested inside rooms, doorways that change your size, mirrored corridors, and portals that lead somewhere new each time you go through.
 
-The design and build plan is in [`Docs/Design/Plan.md`](Docs/Design/Plan.md).
+The design and build plan is in [`docs/Design/Plan.md`](docs/Design/Plan.md). How the code is put together is in [`docs/Architecture.md`](docs/Architecture.md).
 
-> **Status:** in development. All six rune puzzles are playable in greybox in `L_Observatory`; safety nets, art and sound come next. See [`Docs/Architecture.md`](Docs/Architecture.md) for how it's built.
+## Running it
 
-## Requirements
-
-- **Unreal Engine 5.8**
-- **Git LFS.** All `.uasset`/`.umap` files and the plugin's prebuilt `.dll` are stored in LFS. Run `git lfs install` once before cloning.
-- **Windows.** The PortalWorlds plugin ships a prebuilt Win64 editor binary only.
-- **To package a build:** Visual Studio with the "Game development with C++" workload. Unreal compiles a game executable that includes the plugin's code. The project itself stays Blueprint-only.
-
-## Getting started
+You need a recent Rust toolchain (the project uses edition 2024) and a GPU with Vulkan, Metal or DirectX 12.
 
 ```
-git lfs install
-git clone https://github.com/lcosti20/Hexfold.git
+cargo run --release
 ```
 
-Open `Hexfold.uproject`. The editor loads the PortalWorlds plugin from its prebuilt binary without compiling anything. If it asks to rebuild modules, the LFS files probably weren't pulled; run `git lfs pull`.
-
-The editor opens `Content/Levels/L_Observatory`, which is also the game's default map. Press Play, walk up to the Observatory and go in. To try each portal feature on its own, open `Content/Levels/L_PortalTest`.
+The first build compiles Bevy and takes a few minutes. `cargo run` (debug) works too; dependencies are optimised even in debug builds.
 
 ## Controls
 
-| Action | Keyboard / mouse | Gamepad |
-|---|---|---|
-| Move | WASD | Left stick |
-| Look | Mouse | Right stick |
-| Jump | Space | A (bottom face button) |
-| Grab / drop | E | X (left face button) |
-| Throw | Left mouse | Right trigger |
-
-## Portal test level
-
-`L_PortalTest` has four areas:
-
-1. **Doorway pair:** two doorways 10 m apart. Walk through one and come out of the other.
-2. **Bigger inside:** a 3 × 3 m shed whose door opens into a 20 × 20 m hall hidden underground.
-3. **Shrink portal:** a full-size doorway linked to a half-size one. Walking through halves your size.
-4. **Physics cubes:** grab them, carry them through portals, or throw them through.
+| Action | Keyboard / mouse |
+|---|---|
+| Move | WASD |
+| Look | Mouse |
+| Jump | Space |
+| Grab / drop | E |
+| Throw | Left mouse |
+| Pause | Esc |
 
 ## Project layout
 
 | Path | Contents |
 |---|---|
-| `Content/FirstPerson/` | Player Blueprints from the UE first-person template, adapted for portals |
-| `Content/Input/` | Enhanced Input actions and mapping contexts |
-| `Content/Levels/` | Hexfold levels: `L_Observatory` (the game) and `L_PortalTest` |
-| `Content/Hexfold/Meshes/` | Meshes imported from Blender |
-| `Art/Blender/` | Blender source files and the Python scripts that build them |
-| `Art/Export/` | FBX exports imported into Unreal |
-| `Content/LevelPrototyping/` | Template prototyping meshes and materials |
-| `Plugins/PortalWorlds/` | Portal rendering, traversal and grabbing (see its `README.md`) |
-| `Docs/Architecture.md` | System architecture: layers, custom Blueprints and their responsibilities, runtime flows, level structure |
-| `Docs/Design/` | Game design and build plan |
-| `Docs/PortalWorlds/` | Plugin guide and API reference for this project |
-
-## How the portals are wired up
-
-- `BP_FirstPersonCameraManager` inherits from `PortalPlayerCameraManager`, which renders the portal views each frame.
-- `BP_FirstPersonCharacter` has a **Portal Traversal** component, which teleports the player through portals. It also has a **Portal Grab** component, which carries objects, even through portals.
-- `Config/DefaultEngine.ini` enables `r.AllowGlobalClipPlane` (required by the plugin) and disables occlusion queries (stops geometry popping in portal views).
-
-The plugin's own [README](Plugins/PortalWorlds/README.md) covers placing and linking portals, scaling and mirroring portals, spaces, and every Blueprint node. [`Docs/PortalWorlds/`](Docs/PortalWorlds/README.md) has a project-specific [guide](Docs/PortalWorlds/Guide.md) and a full [API reference](Docs/PortalWorlds/API.md).
+| `src/portal/` | The PortalWorlds plugin: portals, traversal, recursive rendering, spaces, grabbing, objects cut at a portal. See [`docs/PortalWorlds/README.md`](docs/PortalWorlds/README.md) |
+| `src/game/` | The game: player, runes, hex seal, puzzles, ending, UI, sound |
+| `src/level/` | Builds the Observatory from `data.rs` (generated from the Unreal level) |
+| `src/ue.rs` | Unreal-to-Bevy coordinate conversion |
+| `assets/models/` | glTF meshes (converted from `art/Export/`), `assets/shaders/`, `assets/sounds/` |
+| `art/Blender/` | Blender source files and the Python scripts that build the meshes; `export_glb.py` converts the FBX exports to glTF |
+| `tools/` | `gen_level_data.py` and the JSON dumps of the Unreal level it reads |
+| `docs/` | Design plan, architecture, plugin guide |
 
 ## Credits
 
-The PortalWorlds plugin is a port of the technique in CodeParade's [NonEuclidean](https://github.com/HackerPoet/NonEuclidean) engine. See `Plugins/PortalWorlds/THIRD_PARTY_NOTICES.md`.
+The PortalWorlds plugin is a port of the technique in CodeParade's [NonEuclidean](https://github.com/HackerPoet/NonEuclidean) engine (MIT).
 
 ## License
 

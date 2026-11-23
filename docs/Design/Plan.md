@@ -1,5 +1,7 @@
 # Hexfold: design and build plan
 
+> **Note:** this plan was written for the Unreal Engine version. The game design (premise, rooms, the six runes, the hex) is unchanged in the Rust/Bevy rewrite. References to Blueprints, the Unreal MCP, `Content/` paths and `CLAUDE.md` tooling notes are historical; see [`Architecture.md`](Architecture.md) for how the Bevy version is built. Distances below are Unreal centimetres; the Bevy version uses metres.
+
 ## Premise
 
 1. The player starts outside the **Observatory**, a small domed building, and walks in. The inside is much bigger than the outside.
