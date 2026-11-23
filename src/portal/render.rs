@@ -81,10 +81,20 @@ const CLUSTER_FAR: f32 = 100.0;
 /// the player's camera jumps when it goes through a portal; with the stale depth, the lights of
 /// the new place fall outside the grid and the view is lit by ambient light alone until the
 /// statistics catch up: a portal that goes dark for about three frames.
+///
+/// On the web (WebGL2) the grid is smaller. Without storage buffers Bevy keeps a view's light lists
+/// in a uniform buffer of 16384 entries, filled cluster by cluster from the top row of the screen
+/// down; when it is full, the remaining clusters (the bottom rows) get no lights at all and show
+/// as an ambient-lit grey bar. The Observatory's nine lights each reach across the whole room, so
+/// the worst case is about nine entries per cluster: 1536 clusters x 9 fits, 4096 x 9 does not.
 pub fn view_cluster_config() -> ClusterConfig {
+    #[cfg(not(target_arch = "wasm32"))]
+    let (total, z_slices) = (4096, 24);
+    #[cfg(target_arch = "wasm32")]
+    let (total, z_slices) = (1536, 16);
     ClusterConfig::FixedZ {
-        total: 4096,
-        z_slices: 24,
+        total,
+        z_slices,
         z_config: ClusterZConfig { first_slice_depth: 5.0, far_z_mode: ClusterFarZMode::Constant(CLUSTER_FAR) },
         dynamic_resizing: true,
     }
