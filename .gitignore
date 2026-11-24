@@ -3,6 +3,9 @@
 __pycache__/
 *.pyc
 
+dist/*
+!dist/index.html
+
 # Visual Studio 2015 user specific files
 .vs/
 
