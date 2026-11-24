@@ -73,7 +73,7 @@ impl Plugin for HexfoldPlugin {
         } else {
             false
         };
-        let skip_title = scripted || std::env::var("HEXFOLD_SKIP_TITLE").is_ok();
+        let skip_title = scripted || debug::var("HEXFOLD_SKIP_TITLE").is_some();
         app.add_plugins(LevelPlugin)
             .insert_state(if skip_title { AppState::Playing } else { AppState::Title })
             .add_observer(ui::on_button)
@@ -111,7 +111,7 @@ impl Plugin for HexfoldPlugin {
                 PostUpdate,
                 player::update_body.after(crate::portal::PortalSystems::Camera).before(TransformSystems::Propagate),
             )
-            .add_systems(Last, debug::trace.run_if(|| std::env::var("HEXFOLD_TRACE").is_ok()))
+            .add_systems(Last, debug::trace.run_if(|| debug::var("HEXFOLD_TRACE").is_some()))
             .add_systems(OnEnter(AppState::Title), ui::open_title)
             .add_systems(OnExit(AppState::Title), ui::close_menus)
             .add_systems(OnEnter(AppState::Paused), ui::open_pause)
@@ -127,6 +127,11 @@ impl Plugin for HexfoldPlugin {
                     (ending::ending_logic, ending::update_sky, ambience::update_ambience, world_text::finish_bakes, adapt_exposure),
                 ),
             );
+        if debug::var("HEXFOLD_PIPELINES").is_some()
+            && let Some(render) = app.get_sub_app_mut(bevy::render::RenderApp)
+        {
+            render.add_systems(bevy::render::Render, debug::log_new_pipelines.in_set(bevy::render::RenderSystems::Cleanup));
+        }
     }
 }
 

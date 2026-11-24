@@ -17,7 +17,7 @@ wasm-bindgen-futures = "0.4.80"
 js-sys = "0.3.107"
 web-sys = { version = "0.3.107", features = [
     "AudioBuffer", "AudioBufferSourceNode", "AudioContext", "AudioContextState", "AudioDestinationNode",
-    "AudioNode", "AudioParam", "AudioScheduledSourceNode", "Document", "GainNode", "Response", "Window",
+    "AudioNode", "AudioParam", "AudioScheduledSourceNode", "Document", "GainNode", "Location", "Response", "UrlSearchParams", "Window", "console",
 ] }
 
 # Enable a small amount of optimization in the dev profile.

@@ -82,10 +82,30 @@ pub struct DebugScript {
     pressed_click: bool,
 }
 
+/// A debug setting: the environment variable `name`, or on the web the page's URL parameter of
+/// the same name (`index.html?HEXFOLD_SCRIPT=wait:300;pos&HEXFOLD_TRACE=1`).
+pub fn var(name: &str) -> Option<String> {
+    #[cfg(not(target_arch = "wasm32"))]
+    return std::env::var(name).ok();
+    #[cfg(target_arch = "wasm32")]
+    {
+        let search = web_sys::window()?.location().search().ok()?;
+        web_sys::UrlSearchParams::new_with_str(&search).ok()?.get(name)
+    }
+}
+
+/// Prints a debug line: to stderr, or on the web to the browser console.
+pub fn log(line: &str) {
+    #[cfg(not(target_arch = "wasm32"))]
+    eprintln!("{line}");
+    #[cfg(target_arch = "wasm32")]
+    web_sys::console::log_1(&line.into());
+}
+
 /// Parses `HEXFOLD_SCRIPT`, or returns `None` if it isn't set. Unknown steps are skipped with a
 /// warning.
 pub fn load_script() -> Option<DebugScript> {
-    let text = std::env::var("HEXFOLD_SCRIPT").ok()?;
+    let text = var("HEXFOLD_SCRIPT")?;
     let mut steps = Vec::new();
     for raw in text.split(';') {
         let raw = raw.trim();
@@ -246,6 +266,22 @@ pub fn run_script(
     }
 }
 
+/// `HEXFOLD_PIPELINES` (render world): logs every render pipeline the frame it is queued.
+pub fn log_new_pipelines(cache: Res<bevy::render::render_resource::PipelineCache>, mut seen: Local<usize>, mut frame: Local<u32>) {
+    use bevy::material::descriptor::PipelineDescriptor;
+    *frame += 1;
+    let all: Vec<_> = cache.pipelines().collect();
+    for (i, p) in all.iter().enumerate().skip(*seen) {
+        let (label, defs) = match &p.descriptor {
+            PipelineDescriptor::RenderPipelineDescriptor(d) => (d.label.clone(), d.fragment.as_ref().map(|f| format!("{:?}", f.shader_defs)).unwrap_or_default()),
+            PipelineDescriptor::ComputePipelineDescriptor(d) => (d.label.clone(), String::new()),
+            PipelineDescriptor::MeshPipelineDescriptor(d) => (d.label.clone(), String::new()),
+        };
+        log(&format!("PIPELINE f={} #{i} {:?} {defs}", *frame, label));
+    }
+    *seen = all.len();
+}
+
 /// `HEXFOLD_TRACE`: one line per frame with the player's motion and the portal view count, and
 /// the player's contacts whose normal isn't straight up.
 pub fn trace(
@@ -269,14 +305,14 @@ pub fn trace(
                 let n = m.normal * sign;
                 if n.y < 0.99 {
                     let root = parents.iter_ancestors(other).last().unwrap_or(other);
-                    eprintln!("  CONTACT f={} with {:?}/{:?} normal(ue)=({:.2},{:.2},{:.2}) points={}", *frame, names.get(root).ok(), names.get(other).ok(), n.x, n.z, n.y, m.points.len());
+                    log(&format!("  CONTACT f={} with {:?}/{:?} normal(ue)=({:.2},{:.2},{:.2}) points={}", *frame, names.get(root).ok(), names.get(other).ok(), n.x, n.z, n.y, m.points.len()));
                 }
             }
         }
     }
     let u = t.translation * 100.0;
-    eprintln!(
+    log(&format!(
         "TRACE f={} dt={:.2}ms ue=({:.1},{:.1},{:.2}) vel=({:.2},{:.2},{:.3}) scale={:.3} trav={} views={} near={:.4} space={:?} gnd={}",
         *frame, time.delta_secs() * 1000.0, u.x, u.z, u.y, lv.x, lv.z, lv.y, pawn.scale, tr.traversal_count, stats.views, stats.near_plane, space.0, p.grounded
-    );
+    ));
 }

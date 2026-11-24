@@ -27,7 +27,7 @@ Run directly (not through cargo), the exe uses the first `assets/` folder beside
 BEVY_ASSET_ROOT=. HEXFOLD_SCRIPT="wait:300;tp:50000,1560,100,90,0,1;wait:60;shot:hex;quit" ./target/debug/hexfold.exe
 ```
 
-To hunt a flicker, `burst` through the moment and compare neighbouring frames; to hunt a bump, run with `HEXFOLD_TRACE` and look for a jump in the vertical velocity. Wait ~300 frames at the start so assets load. A scripted run skips the title screen. Other env vars: `HEXFOLD_TRACE` (a line per frame on stderr: frame time, player position and velocity, crossings, view count, plus any player contact that isn't a level floor), `HEXFOLD_DEBUG` (print the portal view tree), `HEXFOLD_NOCLIP` (no oblique clip), `HEXFOLD_PHYSDEBUG` (draw colliders), `HEXFOLD_SKIP_TITLE`.
+To hunt a flicker, `burst` through the moment and compare neighbouring frames; to hunt a bump, run with `HEXFOLD_TRACE` and look for a jump in the vertical velocity. Wait ~300 frames at the start so assets load. A scripted run skips the title screen. Other env vars: `HEXFOLD_TRACE` (a line per frame on stderr: frame time, player position and velocity, crossings, view count, plus any player contact that isn't a level floor), `HEXFOLD_DEBUG` (print the portal view tree), `HEXFOLD_NOCLIP` (no oblique clip), `HEXFOLD_PHYSDEBUG` (draw colliders), `HEXFOLD_SKIP_TITLE`, `HEXFOLD_PIPELINES` (log each render pipeline the frame it is created).
 
 ## Things that bit us (Bevy 0.20 / avian)
 
@@ -41,6 +41,8 @@ To hunt a flicker, `burst` through the moment and compare neighbouring frames; t
 - The player's collider is a flat-bottomed chamfered cylinder on purpose: a capsule rides up over a rune lying on the floor.
 - The player must not rest on the floor. A hull lying on a floor mesh gets a tilted contact normal now and then and is thrown upward mid-walk. `player::walk` holds the feet on the floor with ground rays, and the hull ends 2.5 cm above them (not scaled down for a small player: at 1.25 cm the bumps come back).
 - Every camera needs `portal::render::view_cluster_config()` (a constant cluster depth). Bevy's default takes the depth from a GPU readback a few frames old, so a camera that jumps (a pooled view camera given another view, the player's camera after a portal) loses its point lights for about three frames: portals flash dark.
+
+- On the web, Bevy compiles each new render pipeline on the main thread, and in Firefox one can take about a second: the game froze the first time it drew a new mesh, material or camera combination. `portal::prewarm` draws a proxy of every (mesh, material) pair with each camera kind (custom projection, custom with inverted culling, perspective) while the level loads. A new material type must be added to its `add_proxies::<M>` list, and a new camera kind to its cameras. Check with `HEXFOLD_PIPELINES`: no pipeline should be created after the first few frames.
 
 ## Portal rules
 

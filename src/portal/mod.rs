@@ -10,11 +10,13 @@
 //! * [`PortalSpace`]: keeps rooms that were built far apart out of sight of each other.
 //! * [`grab`]: pick up, carry and throw physics objects, also through portals.
 //! * [`clip`]: objects partway through a portal are cut at its plane and shown on both sides.
+//! * [`prewarm`]: compiles every render pipeline while the level loads (no shader stalls on the web).
 
 pub mod clip;
 pub mod geom;
 pub mod grab;
 pub mod material;
+pub mod prewarm;
 pub mod projection;
 pub mod render;
 pub mod traversal;
@@ -61,6 +63,7 @@ impl Plugin for PortalWorldsPlugin {
         .init_resource::<PlayerSpace>()
         .init_resource::<PortalStats>()
         .init_resource::<render::PortalRenderState>()
+        .init_resource::<prewarm::PipelinePrewarm>()
         .add_message::<PortalTraversed>()
         .add_message::<ReleaseObject>()
         .configure_sets(
@@ -85,7 +88,19 @@ impl Plugin for PortalWorldsPlugin {
                 render::render_portals.in_set(PortalSystems::Render),
             ),
         )
-        .add_systems(Update, grab::update_grab);
+        .add_systems(Update, grab::update_grab)
+        .add_systems(
+            Last,
+            (
+                prewarm::start_prewarm,
+                prewarm::add_proxies::<StandardMaterial>,
+                prewarm::add_proxies::<clip::ClipMaterial>,
+                prewarm::add_proxies::<PortalSurfaceMaterial>,
+                prewarm::finish_prewarm,
+            )
+                .chain()
+                .run_if(|state: Res<prewarm::PipelinePrewarm>| !state.done()),
+        );
     }
 }
 
