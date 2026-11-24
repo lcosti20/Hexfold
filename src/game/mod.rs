@@ -122,7 +122,7 @@ impl Plugin for HexfoldPlugin {
                 (
                     debug::run_script.before(crate::portal::grab::update_grab).before(player::walk),
                     (player::grab_cursor, player::look, player::walk, player::apply_scale).chain(),
-                    (ui::pause_key, ui::freeze_time, ui::toast_system, ui::hud_events),
+                    (ui::pause_key, ui::freeze_time, ui::toast_system, ui::hud_events, ui::fit_ui_scale),
                     (hex::hex_logic, puzzles::cabinet_logic, puzzles::telescope_logic, puzzles::kill_volume_logic, puzzles::restore_font_logic, rune::return_to_pedestal),
                     (ending::ending_logic, ending::update_sky, ambience::update_ambience, world_text::finish_bakes, adapt_exposure),
                 ),

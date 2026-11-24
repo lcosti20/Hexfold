@@ -19,7 +19,14 @@ use bevy::prelude::*;
 fn main() {
     let mut app = App::new();
     let defaults = DefaultPlugins.set(WindowPlugin {
-        primary_window: Some(Window { title: "Hexfold".into(), ..default() }),
+        primary_window: Some(Window {
+            title: "Hexfold".into(),
+            // Web: draw into the page's `#hexfold` canvas and keep it the size of its parent, so
+            // the game fills whatever frame it's embedded in (itch.io's iframe, fullscreen, ...).
+            canvas: Some("#hexfold".into()),
+            fit_canvas_to_parent: true,
+            ..default()
+        }),
         ..default()
     }).set(AssetPlugin { file_path: asset_dir(), ..default() });
     // The web build plays its sound through Web Audio itself (see `game/ambience.rs`).

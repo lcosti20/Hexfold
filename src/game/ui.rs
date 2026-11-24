@@ -2,6 +2,7 @@
 
 use bevy::prelude::*;
 use bevy::ui_widgets::{Activate, Button};
+use bevy::window::PrimaryWindow;
 
 use super::AppState;
 use super::hex::HexEvent;
@@ -248,5 +249,21 @@ pub fn freeze_time(state: Res<State<AppState>>, mut time: ResMut<Time<Virtual>>)
         }
     } else if !time.is_paused() {
         time.pause();
+    }
+}
+
+/// The window size the HUD and menus were laid out for.
+const UI_DESIGN_SIZE: Vec2 = Vec2::new(1280.0, 720.0);
+
+/// Scales the HUD and menus with the window, so a 1280 x 720 layout fits any window (a small
+/// itch.io frame, a phone-sized browser, a 4K screen) without overflowing or looking tiny.
+pub fn fit_ui_scale(window: Single<&Window, With<PrimaryWindow>>, mut scale: ResMut<UiScale>) {
+    let size = window.size();
+    if size.x <= 0.0 || size.y <= 0.0 {
+        return;
+    }
+    let fit = (size / UI_DESIGN_SIZE).min_element().clamp(0.25, 4.0);
+    if (scale.0 - fit).abs() > 1e-3 {
+        scale.0 = fit;
     }
 }
