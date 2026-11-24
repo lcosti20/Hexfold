@@ -6,8 +6,8 @@
 //! * `walk:dx,dy,dz,frames`  push the player with a velocity (Unreal axes, m/s) for some frames
 //! * `fwd:speed,frames`  walk the way the player faces (m/s), through portals too
 //! * `turn:dyaw,dpitch,frames`  turn the view (degrees per frame) while the next steps run
-//! * `key:E` / `key:Space`  press a key (E grabs or drops)
-//! * `click`             press the left mouse button (throws what is held)
+//! * `key:E` / `key:Space`  tap a key: pressed for one frame (E grabs or drops)
+//! * `click`             tap the left mouse button (throws what is held)
 //! * `runetp:i,x,y,z`    teleport rune `i` (Unreal cm)
 //! * `runevel:i,vx,vy,vz`  set rune `i`'s velocity (Unreal axes, m/s)
 //! * `sunrise:f`         jump the ending to progress `f` (0 = night, 1 = dawn)
@@ -48,9 +48,9 @@ enum Step {
     RuneVel(u8, Vec3),
     /// Teleport a rune (Unreal cm).
     RuneTp(u8, [f32; 3]),
-    /// Press a key.
+    /// Tap a key (released the next frame).
     Key(KeyCode),
-    /// Press the left mouse button.
+    /// Tap the left mouse button (released the next frame).
     Click,
     /// Jump the ending to this progress (0 = night, 1 = dawn).
     Sunrise(f32),
@@ -76,6 +76,10 @@ pub struct DebugScript {
     turn: Option<(f32, f32, u32)>,
     /// Name, next frame number and total frames; runs alongside later steps.
     burst: Option<(String, u32, u32)>,
+    /// Keys pressed last frame, released this frame (a scripted press is a one-frame tap).
+    pressed_keys: Vec<KeyCode>,
+    /// The left mouse button was pressed last frame.
+    pressed_click: bool,
 }
 
 /// Parses `HEXFOLD_SCRIPT`, or returns `None` if it isn't set. Unknown steps are skipped with a
@@ -132,6 +136,14 @@ pub fn run_script(
     mut ending: ResMut<super::Ending>,
 ) {
     let Some(mut s) = script else { return };
+    // Let go of last frame's presses. Without this a key stays held, and pressing it again later
+    // never counts as `just_pressed`.
+    for k in std::mem::take(&mut s.pressed_keys) {
+        keys.release(k);
+    }
+    if std::mem::take(&mut s.pressed_click) {
+        mouse.release(MouseButton::Left);
+    }
     if let Some((dyaw, dpitch, frames)) = s.turn {
         if let Ok((_, mut pawn, _, _)) = player.single_mut() {
             pawn.yaw = (pawn.yaw - dyaw.to_radians()).rem_euclid(std::f32::consts::TAU);
@@ -214,8 +226,14 @@ pub fn run_script(
                 }
             }
         }
-        Step::Key(k) => keys.press(k),
-        Step::Click => mouse.press(MouseButton::Left),
+        Step::Key(k) => {
+            keys.press(k);
+            s.pressed_keys.push(k);
+        }
+        Step::Click => {
+            mouse.press(MouseButton::Left);
+            s.pressed_click = true;
+        }
         Step::Sunrise(a) => {
             ending.broken = true;
             ending.sunrise = a.clamp(0.0, 1.0);
