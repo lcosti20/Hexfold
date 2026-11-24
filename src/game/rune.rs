@@ -1,4 +1,5 @@
-//! Runes: physics objects that can be carried, thrown, pushed and sent through portals.
+//! Runes: physics objects that can be carried, thrown and sent through portals. The player walks
+//! through them (they don't collide), so a rune can't be shoved into a wall or out of the level.
 //!
 //! A rune's gameplay state lives entirely in the engine: its world scale (the root's uniform
 //! scale) and its mirrored flag (`PortalTraveller::mirrored`). Portals change both; nothing else
@@ -18,12 +19,16 @@ use super::mats::Mats;
 /// Bounding radius of a rune at normal size (m): the hex plate's corner radius plus its depth.
 pub const RUNE_RADIUS: f32 = 0.43;
 
+/// A rune and where it started.
 #[derive(Component, Debug)]
 pub struct Rune {
+    /// Which hex socket it belongs to (0-5).
     pub index: u8,
     /// Where it started (restored by `ReturnToPedestal`).
     pub spawn: Transform,
+    /// Whether it started mirrored.
     pub spawn_mirrored: bool,
+    /// The space it started in.
     pub spawn_space: Option<i32>,
 }
 
@@ -43,6 +48,10 @@ fn hex_points(radius: f32, half_thickness: f32) -> Vec<Vec3> {
     pts
 }
 
+/// Spawns the six runes from the level data: a dynamic body with a hexagonal hull (the backing
+/// plate's outline, with swept CCD so it can't fall through a floor), a portal traveller and
+/// object, and clip materials so it is cut at portals. A negative X scale in the data means the
+/// rune starts mirrored.
 pub fn spawn_runes(mut commands: Commands, assets: Res<AssetServer>, mats: Res<Mats>, mut clip_materials: ResMut<Assets<ClipMaterial>>) {
     for r in RUNES {
         let mut t = ue::transform(r.loc, r.rot, r.scale);

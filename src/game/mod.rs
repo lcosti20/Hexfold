@@ -4,7 +4,9 @@
 //! * [`rune`], [`hex`]: the six runes and the seal that wants them back.
 //! * [`puzzles`]: the orrery cabinets, the telescope dial, kill volumes and the restore font.
 //! * [`ending`]: the night sky and the sunrise after the hex breaks.
-//! * [`ui`], [`ambience`]: HUD, menus, sound.
+//! * [`ui`], [`ambience`], [`world_text`]: HUD, menus, sound, and text in the world.
+//! * [`mats`]: shared materials.
+//! * [`debug`](mod@debug): the scripted driver for automated checks (`HEXFOLD_SCRIPT`, `HEXFOLD_TRACE`).
 
 pub mod ambience;
 pub mod debug;
@@ -33,24 +35,34 @@ pub const LIGHT_SCALE: f32 = 1.0;
 /// Scale for the outdoor lights (lux).
 pub const MOON_SCALE: f32 = 1.0;
 
+/// Which screen the game is on. Time only runs while `Playing`.
 #[derive(States, Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum AppState {
+    /// The title screen (skipped by a scripted run or `HEXFOLD_SKIP_TITLE`).
     #[default]
     Title,
     Playing,
+    /// Esc pressed.
     Paused,
+    /// The player walked out after breaking the hex: the end screen.
     Escaped,
 }
 
 /// Progress of the ending.
 #[derive(Resource, Default, Debug)]
 pub struct Ending {
+    /// The hex has broken.
     pub broken: bool,
+    /// Sunrise progress, 0 (night) to 1 (dawn), over 12 s after the hex breaks.
     pub sunrise: f32,
+    /// The player has walked back outside after the hex broke.
     pub escaped: bool,
+    /// Seconds left before the escape screen.
     pub escape_timer: f32,
 }
 
+/// The whole game: the level, the actors, their systems, and the portal settings it plays with
+/// (recursion depth 6, resolution falloff 0.75, 10 pooled cameras per depth).
 pub struct HexfoldPlugin;
 
 impl Plugin for HexfoldPlugin {

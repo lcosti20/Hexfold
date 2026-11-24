@@ -25,6 +25,7 @@ pub struct PortalTraveller {
     /// The point that has to cross a portal (the camera for a pawn, the origin for an object).
     /// Kept up to date by the plugin.
     pub eye: Vec3,
+    /// `eye` last frame: the start of the path tested against the portals.
     prev_eye: Option<Vec3>,
     /// Portals passed through since the game began.
     pub traversal_count: u32,
@@ -37,6 +38,7 @@ impl Default for PortalTraveller {
 }
 
 impl PortalTraveller {
+    /// A traveller that starts out mirrored or not (a rune placed with a negative X scale).
     pub fn new(mirrored: bool) -> Self {
         Self { mirrored, ..default() }
     }
@@ -69,10 +71,12 @@ impl Default for PortalPawn {
 }
 
 impl PortalPawn {
+    /// The camera's rotation: yaw about +Y, then pitch about the turned X.
     pub fn view_rotation(&self) -> Quat {
         Quat::from_euler(EulerRot::YXZ, self.yaw, self.pitch, 0.0)
     }
 
+    /// The direction the pawn looks in (unit length).
     pub fn forward(&self) -> Vec3 {
         self.view_rotation() * Vec3::NEG_Z
     }
@@ -82,6 +86,7 @@ impl PortalPawn {
         origin + Vec3::Y * (self.eye_height * self.scale)
     }
 
+    /// Sets yaw and pitch to look along `forward` (no roll). A zero vector changes nothing.
     pub fn set_view_from_forward(&mut self, forward: Vec3) {
         let f = forward.normalize_or_zero();
         if f == Vec3::ZERO {
@@ -97,20 +102,26 @@ impl PortalPawn {
 /// mirror flip as a negative X scale.
 #[derive(Component, Debug)]
 pub struct PortalObject {
+    /// The child entity holding the meshes.
     pub visual: Entity,
 }
 
 /// Sent after a traveller has gone through a portal.
 #[derive(Message, Debug, Clone)]
 pub struct PortalTraversed {
+    /// The traveller.
     pub entity: Entity,
+    /// The portal it went into.
     pub from: Entity,
+    /// The portal it came out of.
     pub to: Entity,
 }
 
-/// Minimum distance (m) the camera's near plane may be pulled to, and the bump distance.
+/// How far (m, at normal size) the portal plane is moved towards the traveller before the
+/// crossing test; the traveller comes out twice that far past the exit plane.
 const BUMP: f32 = 0.002;
 
+/// Updates every traveller's `eye`: the pawn's eye position, or an object's origin.
 pub fn update_eyes(mut q: Query<(&mut PortalTraveller, &Transform, Option<&PortalPawn>)>) {
     for (mut tr, t, pawn) in &mut q {
         tr.eye = match pawn {
@@ -120,10 +131,15 @@ pub fn update_eyes(mut q: Query<(&mut PortalTraveller, &Transform, Option<&Porta
     }
 }
 
+/// A crossing found this frame, applied after the search (the query is borrowed during it).
 struct Crossing {
+    /// The traveller.
     entity: Entity,
+    /// Index of the entry portal in [`PortalSet::list`].
     from: usize,
+    /// Index of the exit portal.
     to: usize,
+    /// The plane offset used for the test, pointing back towards where the traveller came from.
     bump: Vec3,
 }
 
@@ -142,6 +158,8 @@ pub fn decompose_object(m: Mat4) -> (Vec3, Quat, f32, bool) {
     (m.w_axis.truncate(), rot, s, mirrored)
 }
 
+/// Finds every traveller whose eye crossed a linked portal since last frame (at most one portal
+/// each per frame), warps it to the other side, and sends [`PortalTraversed`].
 #[allow(clippy::type_complexity)]
 pub fn traverse(
     set: Res<PortalSet>,

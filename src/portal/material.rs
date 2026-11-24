@@ -12,21 +12,27 @@ use bevy::reflect::TypePath;
 use bevy::render::render_resource::{AsBindGroup, RenderPipelineDescriptor, SpecializedMeshPipelineError};
 use bevy::shader::ShaderRef;
 
+/// A portal surface: shows a view camera's image (`shaders/portal_surface.wesl`), or the "end of
+/// the recursion" fill. That fill is a dim violet void; it is called pink after the Unreal
+/// plugin, which drew flat pink there.
 #[derive(Asset, TypePath, AsBindGroup, Debug, Clone)]
 pub struct PortalSurfaceMaterial {
-    /// x: 1 = flat pink (end of the recursion), y: 1 = flip the sampled image left-right.
+    /// x: 1 = the end-of-recursion fill, y: 1 = flip the sampled image left-right.
     #[uniform(0)]
     pub params: Vec4,
+    /// The image of the view seen through this portal.
     #[texture(1)]
     #[sampler(2)]
     pub texture: Option<Handle<Image>>,
 }
 
 impl PortalSurfaceMaterial {
+    /// A surface showing the end-of-recursion fill.
     pub fn pink() -> Self {
         Self { params: Vec4::new(1.0, 0.0, 0.0, 0.0), texture: None }
     }
 
+    /// Show `texture`, flipped left-right if `mirror_u`.
     pub fn show(&mut self, texture: &Handle<Image>, mirror_u: bool) {
         self.params = Vec4::new(0.0, if mirror_u { 1.0 } else { 0.0 }, 0.0, 0.0);
         if self.texture.as_ref() != Some(texture) {
@@ -34,6 +40,7 @@ impl PortalSurfaceMaterial {
         }
     }
 
+    /// Show the end-of-recursion fill (keeps the texture, which is ignored).
     pub fn show_pink(&mut self) {
         self.params = Vec4::new(1.0, 0.0, 0.0, 0.0);
     }
@@ -44,10 +51,12 @@ impl Material for PortalSurfaceMaterial {
         "shaders/portal_surface.wesl".into()
     }
 
+    /// No prepass: a surface is only an image of what lies beyond it.
     fn enable_prepass() -> bool {
         false
     }
 
+    /// A portal casts no shadow.
     fn enable_shadows() -> bool {
         false
     }

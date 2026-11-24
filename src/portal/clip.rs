@@ -18,8 +18,11 @@ use super::traversal::{PortalObject, PortalTraveller, decompose_object};
 /// A plane keeping the points `p` with `dot(p, plane.xyz) >= plane.w`. `NO_CLIP` keeps everything.
 pub const NO_CLIP: Vec4 = Vec4::new(0.0, 0.0, 0.0, -1.0);
 
+/// A `StandardMaterial` extension that discards fragments on the far side of a plane
+/// (`shaders/portal_clip.wesl`). The plugin sets the plane while the object crosses a portal.
 #[derive(Asset, AsBindGroup, Reflect, Debug, Clone)]
 pub struct PortalClipExt {
+    /// The kept half-space (see [`NO_CLIP`]).
     #[uniform(100)]
     pub plane: Vec4,
 }
@@ -35,16 +38,21 @@ impl MaterialExtension for PortalClipExt {
         "shaders/portal_clip.wesl".into()
     }
 
+    /// No prepass: the prepass shader doesn't know the clip plane, so it would write depth for
+    /// the cut-away part.
     fn enable_prepass() -> bool {
         false
     }
 }
 
+/// The material for meshes of objects that pass through portals: a `StandardMaterial` that can be
+/// cut at a portal plane.
 pub type ClipMaterial = ExtendedMaterial<StandardMaterial, PortalClipExt>;
 
 /// Objects that can be cut at a portal: their materials, and the copy's materials.
 #[derive(Component, Debug)]
 pub struct PortalClipped {
+    /// The object's own materials (their plane is set while it crosses).
     pub materials: Vec<Handle<ClipMaterial>>,
     /// Meshes and materials of the visual, used to build the copy.
     pub parts: Vec<(Handle<Mesh>, Handle<ClipMaterial>)>,
@@ -52,13 +60,19 @@ pub struct PortalClipped {
     pub radius: f32,
     /// Show a copy at the linked portal while partway through.
     pub show_copy: bool,
+    /// The copy entity, spawned the first time the object nears a portal.
     pub(crate) copy: Option<Entity>,
+    /// The copy's own materials (clones of `materials`, with their own plane).
     pub(crate) copy_materials: Vec<Handle<ClipMaterial>>,
+    /// The plane last written to `materials`, so unchanged planes aren't rewritten.
     pub(crate) owner_plane: Vec4,
+    /// The plane last written to `copy_materials`.
     pub(crate) copy_plane: Vec4,
 }
 
 impl PortalClipped {
+    /// An uncut object made of `parts` (the meshes and materials of its visual child), with
+    /// bounding radius `radius` at normal size. Copies are on.
     pub fn new(parts: Vec<(Handle<Mesh>, Handle<ClipMaterial>)>, radius: f32) -> Self {
         let materials = parts.iter().map(|p| p.1.clone()).collect();
         Self { materials, parts, radius, show_copy: true, copy: None, copy_materials: Vec::new(), owner_plane: NO_CLIP, copy_plane: NO_CLIP }
@@ -69,6 +83,8 @@ impl PortalClipped {
 #[derive(Component)]
 pub struct PortalCopy;
 
+/// Sets the clip plane of each material, touching only those whose plane differs (a mutable
+/// asset access re-uploads the material).
 fn write_plane(materials: &mut Assets<ClipMaterial>, handles: &[Handle<ClipMaterial>], plane: Vec4) {
     for h in handles {
         if let Some(m) = materials.get(h)
@@ -80,6 +96,8 @@ fn write_plane(materials: &mut Assets<ClipMaterial>, handles: &[Handle<ClipMater
     }
 }
 
+/// For each clipped object: finds the nearest portal within its bounding radius, cuts the object
+/// at that portal's plane, and places (or hides) its copy at the linked portal.
 #[allow(clippy::type_complexity)]
 pub fn update_crossing_objects(
     mut commands: Commands,
@@ -176,9 +194,12 @@ pub fn update_crossing_objects(
 #[derive(Component, Debug, PartialEq)]
 pub struct CopyMirror(pub bool);
 
+/// Marks a copy's visual child (the one that carries the mirror flip).
 #[derive(Component)]
 pub struct CopyVisual;
 
+/// Spawns a hidden copy of the object's meshes, with its own clones of the materials so the copy
+/// can be cut at a different plane from the object.
 fn spawn_copy(commands: &mut Commands, materials: &mut Assets<ClipMaterial>, clip: &mut PortalClipped) -> Entity {
     let mut copy_mats = Vec::new();
     let mut parts = Vec::new();

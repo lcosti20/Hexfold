@@ -10,34 +10,49 @@ use super::hex::HexEvent;
 #[derive(Message, Debug, Clone)]
 pub struct Toast(pub String);
 
+/// The HUD's root node.
 #[derive(Component)]
 pub struct Hud;
+/// The HUD slot of rune `n`, lit gold when the rune is in the hex.
 #[derive(Component)]
 pub struct RuneSlot(pub u8);
+/// The text of the message line.
 #[derive(Component)]
 pub struct ToastText;
+/// The root of a menu screen (despawned when the screen closes).
 #[derive(Component)]
 pub struct MenuUi;
 
+/// What a menu button does.
 #[derive(Component, Clone, Copy, Debug)]
 pub enum ButtonAction {
+    /// Start playing (title screen).
     Play,
+    /// Back to the game (pause screen).
     Resume,
+    /// Start over: relaunches the executable without the title screen.
     Restart,
+    /// Exit the game.
     Quit,
 }
 
+/// Seconds left before the current message has faded out.
 #[derive(Resource, Default)]
 pub struct ToastTimer(pub f32);
 
+/// Titles, buttons and lit rune slots.
 const GOLD: Color = Color::srgb(1.0, 0.82, 0.35);
+/// Rune slots still to fill.
 const DIM: Color = Color::srgba(0.45, 0.42, 0.35, 0.55);
+/// The rune slots' labels (the Unreal HUD's icon textures weren't exported).
 const NUMERALS: [&str; 6] = ["I", "II", "III", "IV", "V", "VI"];
 
+/// A text node of `size` pixels.
 fn text(s: impl Into<String>, size: f32, color: Color) -> impl Bundle {
     (Text::new(s.into()), TextFont { font_size: FontSize::Px(size), ..default() }, TextColor(color))
 }
 
+/// Spawns the HUD: six rune slots at the top, a crosshair, and the message line.
 pub fn spawn_hud(mut commands: Commands) {
     commands
         .spawn((
@@ -89,6 +104,7 @@ pub fn spawn_hud(mut commands: Commands) {
         });
 }
 
+/// Lights a rune's slot when the hex accepts it.
 pub fn hud_events(
     mut events: MessageReader<HexEvent>,
     mut slots: Query<(&RuneSlot, &mut BorderColor, &Children)>,
@@ -110,6 +126,8 @@ pub fn hud_events(
     }
 }
 
+/// Shows the latest [`Toast`] for 3.5 s, fading out over the last 0.6 s (in real time, so it also
+/// fades on the pause screen).
 pub fn toast_system(
     time: Res<Time<Real>>,
     mut messages: MessageReader<Toast>,
@@ -126,6 +144,7 @@ pub fn toast_system(
     color.0 = Color::srgba(1.0, 0.95, 0.8, alpha);
 }
 
+/// A full-screen menu: a title, an optional subtitle and a column of buttons.
 fn spawn_menu(commands: &mut Commands, title: &str, subtitle: &str, buttons: &[(&str, ButtonAction)]) {
     commands
         .spawn((
@@ -164,18 +183,22 @@ fn spawn_menu(commands: &mut Commands, title: &str, subtitle: &str, buttons: &[(
         });
 }
 
+/// The title screen: Play, Quit.
 pub fn open_title(mut commands: Commands) {
     spawn_menu(&mut commands, "HEXFOLD", "Find the six runes. The Observatory is bigger inside.", &[("Play", ButtonAction::Play), ("Quit", ButtonAction::Quit)]);
 }
 
+/// The pause screen: Resume, Restart, Quit.
 pub fn open_pause(mut commands: Commands) {
     spawn_menu(&mut commands, "PAUSED", "", &[("Resume", ButtonAction::Resume), ("Restart", ButtonAction::Restart), ("Quit", ButtonAction::Quit)]);
 }
 
+/// The end screen: Play Again, Quit.
 pub fn open_escaped(mut commands: Commands) {
     spawn_menu(&mut commands, "YOU ESCAPED", "The seal is broken, and the stars are out.", &[("Play Again", ButtonAction::Restart), ("Quit", ButtonAction::Quit)]);
 }
 
+/// Removes every open menu screen.
 pub fn close_menus(mut commands: Commands, menus: Query<Entity, With<MenuUi>>) {
     for e in &menus {
         commands.entity(e).despawn();

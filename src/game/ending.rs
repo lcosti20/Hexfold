@@ -1,5 +1,6 @@
-//! The night sky, and the ending: breaking the hex turns the moon gold and lets it sink towards a
-//! dawn horizon; walking back outside shows the escape screen.
+//! The night sky, and the ending: breaking the hex starts a 12 s sunrise (the moon turns gold
+//! and sinks towards the horizon, the sky turns orange, the stars fade, the outdoor ambient light
+//! warms up); walking back outside shows the escape screen two seconds later.
 
 use bevy::asset::RenderAssetUsages;
 use bevy::camera::visibility::RenderLayers;
@@ -15,15 +16,21 @@ use super::hex::HexEvent;
 use super::player::Player;
 use super::{AppState, Ending};
 
+/// The moon: the outdoor directional light. At the sunrise it turns gold, brightens and sinks
+/// towards the horizon, becoming the dawn sun.
 #[derive(Component)]
 pub struct MoonLight;
 
 /// The sky: a gradient dome (night blue to an orange dawn) with a star dome inside it.
 #[derive(Resource)]
 pub struct Sky {
+    /// The star dome's material (faded out during the sunrise).
     stars: Handle<StandardMaterial>,
+    /// The gradient dome's material (unlit; the colours are in the mesh's vertex colours).
     gradient: Handle<StandardMaterial>,
+    /// The gradient dome's mesh, repainted as the sunrise progresses.
     mesh: Handle<Mesh>,
+    /// The direction of each of the mesh's vertices from the centre.
     dirs: Vec<Vec3>,
 }
 
@@ -31,6 +38,7 @@ pub struct Sky {
 const MOON_LUX: f32 = 3.0;
 /// Outdoor ambient light (linear colour, brightness) at night and at dawn.
 const NIGHT_AMBIENT: (Vec3, f32) = (Vec3::new(0.35, 0.45, 0.85), 0.3);
+/// See [`NIGHT_AMBIENT`].
 const DAWN_AMBIENT: (Vec3, f32) = (Vec3::new(1.0, 0.7, 0.5), 7.0);
 
 /// The ambient light outside at sunrise progress `sunrise` (0 = night, 1 = dawn).
@@ -40,6 +48,7 @@ pub fn outdoor_ambient(sunrise: f32) -> (Color, f32) {
     (Color::linear_rgb(c.x, c.y, c.z), NIGHT_AMBIENT.1 + (DAWN_AMBIENT.1 - NIGHT_AMBIENT.1) * a)
 }
 
+/// Smoothstep: eases `t` (clamped to 0..1) in and out.
 fn smooth(t: f32) -> f32 {
     let t = t.clamp(0.0, 1.0);
     t * t * (3.0 - 2.0 * t)
@@ -82,6 +91,8 @@ fn star_texture() -> Image {
     Image::new(Extent3d { width: w, height: h, depth_or_array_layers: 1 }, TextureDimension::D2, data, TextureFormat::Rgba8UnormSrgb, RenderAssetUsages::default())
 }
 
+/// Spawns the gradient and star domes, the moonlight and a faint dusk sun, all outside only
+/// (space 0), and inserts the [`Sky`] resource.
 pub fn spawn_sky(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mut materials: ResMut<Assets<StandardMaterial>>, mut images: ResMut<Assets<Image>>) {
     let tex = images.add(star_texture());
     let stars = materials.add(StandardMaterial {
@@ -142,13 +153,14 @@ pub fn spawn_sky(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mut m
     ));
 }
 
-/// A directional light pointing along Unreal's (pitch, yaw 0, roll -120)-style rotation: the light
-/// shines along its local forward (X in Unreal, -Z in Bevy).
+/// The moon's rotation at an Unreal `pitch` (degrees; yaw -120). The light shines along its local
+/// forward (X in Unreal, -Z in Bevy).
 fn moon_rotation(pitch: f32) -> Quat {
     // Unreal's forward is its local X; a Bevy light shines along -Z.
     ue::rot([pitch, -120.0, 0.0]) * Quat::from_rotation_y(-std::f32::consts::FRAC_PI_2)
 }
 
+/// The moon's pitch (degrees) at sunrise progress `sunrise`: from -38 (night) to -10 (dawn).
 fn sunrise_pitch(sunrise: f32) -> f32 {
     -38.0 + 28.0 * sunrise
 }

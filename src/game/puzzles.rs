@@ -26,13 +26,17 @@ use super::ui::Toast;
 pub struct CabinetPuzzle {
     /// Mercury, Venus, Mars.
     pub cabinets: [Entity; 3],
+    /// The closet's door portal (back to whichever cabinet the player came from).
     pub closet_door: Entity,
+    /// The vault's door portal.
     pub vault_door: Entity,
     /// Indices into `cabinets`: Mars, Venus, Mercury.
     pub sequence: [usize; 3],
+    /// Steps of `sequence` done so far.
     pub progress: usize,
 }
 
+/// Finds the cabinet, closet and vault portals and inserts the [`CabinetPuzzle`].
 pub fn setup_cabinets(mut commands: Commands, index: Res<LevelIndex>) {
     commands.insert_resource(CabinetPuzzle {
         cabinets: [index.get("Portal_Cabinet_Mercury"), index.get("Portal_Cabinet_Venus"), index.get("Portal_Cabinet_Mars")],
@@ -43,6 +47,7 @@ pub fn setup_cabinets(mut commands: Commands, index: Res<LevelIndex>) {
     });
 }
 
+/// Points both sides of portal `from` at `to`.
 fn link_both(portals: &mut Query<&mut Portal>, from: Entity, to: Entity) {
     if let Ok(mut p) = portals.get_mut(from) {
         p.front_link = Some(to);
@@ -60,6 +65,9 @@ fn update_links(puzzle: &CabinetPuzzle, portals: &mut Query<&mut Portal>) {
     }
 }
 
+/// Reads the player's portal crossings: going from a cabinet into the closet links the closet back
+/// to that cabinet and advances (or resets) the sequence; entering the vault resets it. Then
+/// relinks the cabinets.
 pub fn cabinet_logic(
     mut messages: MessageReader<PortalTraversed>,
     puzzle: Option<ResMut<CabinetPuzzle>>,
@@ -96,19 +104,29 @@ pub fn cabinet_logic(
 // Rune 6: the Telescope
 // ---------------------------------------------------------------------------------------------
 
+/// The telescope dial: three floor plates that set the lens portal's scale.
 #[derive(Resource)]
 pub struct Telescope {
+    /// The lens portal in the far wall.
     lens: Entity,
+    /// The lens's doorframe mesh, scaled with it.
     frame: Entity,
+    /// The lens's floor-level position (Unreal cm); its centre is raised by its size.
     base: [f32; 3],
+    /// The plate last stepped on (0 Gemini, 1 Lynx, 2 Cygnus), or -1 before any.
     setting: i32,
+    /// The plates' sensors.
     plates: [Entity; 3],
 }
 
+/// The dial's origin in the telescope room (Unreal cm).
 const TELESCOPE_ROOT: [f32; 3] = [290000.0, 700.0, 0.0];
+/// The telescope room's space.
 const TELESCOPE_SPACE: i32 = 9;
+/// The plates' X offsets from the dial's origin (Unreal cm): Gemini, Lynx, Cygnus.
 const PLATE_X: [f32; 3] = [450.0, 750.0, 1050.0];
 
+/// Spawns the dial's three coloured plates and their sensors, and inserts the [`Telescope`].
 pub fn spawn_telescope(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mut materials: ResMut<Assets<StandardMaterial>>, index: Res<LevelIndex>) {
     let disc = meshes.add(Cylinder::new(0.5, 1.0));
     let colours = [Color::srgb(0.3, 0.5, 1.0), Color::srgb(0.9, 0.7, 0.2), Color::srgb(0.85, 0.25, 0.35)];
@@ -146,6 +164,8 @@ pub fn spawn_telescope(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>,
     });
 }
 
+/// When the player steps on a plate, sets the lens: Gemini mirrors it, Lynx halves it, Cygnus
+/// doubles it.
 pub fn telescope_logic(
     telescope: Option<ResMut<Telescope>>,
     sensors: Query<&CollidingEntities>,
@@ -182,10 +202,15 @@ pub fn telescope_logic(
 // Safety nets
 // ---------------------------------------------------------------------------------------------
 
+/// A sensor far below the floor (or over the chasm pit): runes that touch it go back to their
+/// pedestals, and the player is put back at the respawn point.
 #[derive(Component)]
 pub struct KillVolume {
+    /// Where the player is put back (Unreal cm).
     pub respawn: [f32; 3],
+    /// The Unreal yaw the player faces there.
     pub respawn_yaw: f32,
+    /// The space of the respawn point.
     pub respawn_space: i32,
 }
 
@@ -206,12 +231,14 @@ pub fn space_for_x(x: f32) -> i32 {
     }
 }
 
+/// Spawns every kill volume of the level.
 pub fn spawn_kill_volumes(mut commands: Commands) {
     for k in KILL_VOLUMES {
         commands.spawn(kill_volume_bundle(k));
     }
 }
 
+/// A kill volume's sensor, sized the way the Unreal actor was.
 fn kill_volume_bundle(k: &KillDef) -> impl Bundle {
     // BoxExtent X is 30 000 for the outside slab, 600 for the chasm pit, and as wide as it is deep
     // for the others; Y and Z are the default 32 cm times the actor scale.
@@ -257,6 +284,7 @@ pub fn respawn_player(
     player_space.0 = Some(space);
 }
 
+/// Returns runes touching a kill volume to their pedestals and respawns the player.
 #[allow(clippy::type_complexity)]
 pub fn kill_volume_logic(
     volumes: Query<(&KillVolume, &CollidingEntities)>,
@@ -281,6 +309,7 @@ pub fn kill_volume_logic(
 #[derive(Component)]
 pub struct RestoreFont;
 
+/// Spawns the font's sensor and pad in the Rotunda.
 pub fn spawn_restore_font(mut commands: Commands, mut meshes: ResMut<Assets<Mesh>>, mats: Res<Mats>) {
     let centre = [50000.0, 1100.0, 150.0];
     let pad = meshes.add(Cylinder::new(0.5, 1.0));
@@ -306,6 +335,8 @@ pub fn spawn_restore_font(mut commands: Commands, mut meshes: ResMut<Assets<Mesh
     ));
 }
 
+/// Restores a player standing on the font to 1x and unmirrored (the collider follows through
+/// `player::apply_scale`).
 pub fn restore_font_logic(
     fonts: Query<&CollidingEntities, With<RestoreFont>>,
     mut players: Query<(Entity, &mut PortalPawn, &mut PortalTraveller), With<Player>>,

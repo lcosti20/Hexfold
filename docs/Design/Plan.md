@@ -1,6 +1,23 @@
 # Hexfold: design and build plan
 
-> **Note:** this plan was written for the Unreal Engine version. The game design (premise, rooms, the six runes, the hex) is unchanged in the Rust/Bevy rewrite. References to Blueprints, the Unreal MCP, `Content/` paths and `CLAUDE.md` tooling notes are historical; see [`Architecture.md`](Architecture.md) for how the Bevy version is built. Distances below are Unreal centimetres; the Bevy version uses metres.
+> **Note:** this plan was written for the Unreal Engine version. The game design (premise, rooms, the six runes, the hex) is unchanged in the Rust/Bevy rewrite. References to Blueprints, the Unreal MCP, `Content/` paths, `Config/DefaultEngine.ini` and `CLAUDE.md` tooling notes are historical; see [`../Architecture.md`](../Architecture.md) for how the Bevy version is built. Distances below are Unreal centimetres; the Bevy version uses metres, but its level data (`src/level/data.rs`) keeps the Unreal numbers, so most positions in this plan can be found there unchanged.
+
+## In the Bevy version
+
+Where the rewrite differs from this plan, as of the `rust-rewrite` branch:
+
+| Plan | Bevy version |
+|---|---|
+| Blueprints (`BP_Rune`, `BP_HexSeal`, `BP_CabinetPuzzle`, `BP_Telescope`, `BP_KillVolume`, `BP_RestoreFont`) | Rust modules: `game::rune`, `game::hex`, `game::puzzles` (see the architecture doc's [Game systems](../Architecture.md#game-systems)) |
+| **Max Object Radius** lowered to 45 cm, so the 2x heavy rune can't be lifted | `PortalGrab::max_object_radius` is the default 0.9 m. A rune's radius is 0.43 m, so the 2x heavy rune (0.86 m) **can** be lifted |
+| The player pushes the heavy rune into the big portal | The player and runes don't collide (so a rune can't be shoved into a wall or out of the level), so runes can't be pushed. Rune 3's intended solution needs revisiting |
+| Telescope: the lens *and its frame* get scale (-1, 1, 1) on Gemini | Only the lens portal is mirrored; the frame is symmetric and keeps a positive scale (a mesh with a negative scale renders inside out) |
+| `MaxDepth` 3, `ResolutionFalloff` 0.5 (milestone 8) | `max_depth` 6, `resolution_falloff` 0.75, 10 view cameras per depth created at startup |
+| The end of the portal recursion is pink | A dim violet void |
+| Rune HUD icons, `MI_PrototypeGrid_*` greybox materials | Roman numerals; flat colours per mesh |
+| `EndingSky` turns the sun gold at a low dawn angle | A full sunrise over 12 s (sky gradient, stars fade, moon turns gold, ambient light warms), then the escape screen once you walk out |
+| Auto-exposure (`PPV_Global`) | A fixed exposure per place, blended: EV100 0 outside at night, 3.5 inside |
+| The exterior floor 20 cm above the ground | Lowered onto the ground by the level generator |
 
 ## Premise
 
@@ -11,7 +28,7 @@
 
 ## How the plugin's rules shape the design
 
-These facts come from [`Docs/PortalWorlds/Guide.md`](../PortalWorlds/Guide.md), and the puzzles are built on them.
+These facts come from the plugin's guide (now [`PortalWorlds/README.md`](../PortalWorlds/README.md) for the Bevy port), and the puzzles are built on them.
 
 | Plugin behaviour | What it means for puzzles |
 |---|---|

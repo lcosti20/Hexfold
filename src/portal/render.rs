@@ -6,7 +6,8 @@
 //! 1. A tree of views is built. The root is the player's view. For every portal visible in a view,
 //!    a child view is made by warping that view's camera through the portal. Visibility is tested
 //!    on the CPU (facing, clip plane, screen rectangle inside the parent portal's rectangle).
-//!    Portals in views at depth `max_depth - 1` are drawn pink.
+//!    Portals in views at depth `max_depth - 1` show the end-of-recursion fill ("pink", a dim
+//!    violet void; see [`PortalSurfaceMaterial`]).
 //! 2. Each child view is a pooled camera that renders into its own image, deepest first (camera
 //!    order). Its near plane is replaced with the exit portal's plane (an oblique projection), so
 //!    nothing between the virtual camera and the exit portal is drawn.
@@ -38,10 +39,15 @@ use super::material::PortalSurfaceMaterial;
 use super::projection::PortalProjection;
 use super::traversal::PortalTraveller;
 
+/// Render layer of space 0; space `n` is on `SPACE_LAYER_BASE + n`.
 pub const SPACE_LAYER_BASE: usize = 1;
+/// Number of spaces with their own layer. Higher space numbers share the last one.
 pub const MAX_SPACES: usize = 16;
+/// Render layer of the player view's portal surfaces; view `n` of the tree uses
+/// `NODE_LAYER_BASE + n`.
 pub const NODE_LAYER_BASE: usize = 24;
 
+/// The render layer of space `space` (negative numbers count as 0).
 pub fn space_layer(space: i32) -> usize {
     SPACE_LAYER_BASE + (space.max(0) as usize).min(MAX_SPACES - 1)
 }
@@ -104,19 +110,22 @@ pub fn view_cluster_config() -> ClusterConfig {
 #[derive(Component)]
 pub struct PortalCamera;
 
+/// How the portals render. Insert your own to change the defaults.
 #[derive(Resource, Debug, Clone)]
 pub struct PortalSettings {
-    /// Recursion depth: views up to `max_depth - 1` are rendered, deeper portals draw pink.
+    /// Recursion depth: views up to `max_depth - 1` are rendered, deeper portals show the
+    /// end-of-recursion fill.
     pub max_depth: usize,
-    /// Upper limit on portal views per frame; further portals are drawn pink.
+    /// Upper limit on portal views per frame; further portals show the end-of-recursion fill.
     pub max_captures: usize,
     /// Render-target resolution multiplier per recursion level beyond the first.
     pub resolution_falloff: f32,
     /// Pull the near plane in (down to 1 mm) near portals, so the camera never clips through one.
     pub dynamic_near_plane: bool,
-    /// Draw every portal flat pink and skip all extra views.
+    /// Skip all extra views and draw no portal surfaces. (In the Unreal plugin this drew every
+    /// portal flat pink; here it currently does the same as `hide`.)
     pub debug: bool,
-    /// Hide portal surfaces.
+    /// Hide portal surfaces (and render no portal views).
     pub hide: bool,
     /// Exposure of the player's camera, shared by every portal view (each view's pixels are
     /// already exposed when the surface shows them).
@@ -143,14 +152,20 @@ pub struct PlayerSpace(pub Option<i32>);
 /// Statistics for the on-screen debug line.
 #[derive(Resource, Default, Debug)]
 pub struct PortalStats {
+    /// Views in this frame's tree, the player's own included.
     pub views: usize,
+    /// Portal views rendered (`views - 1`).
     pub captures: usize,
+    /// The player camera's near plane this frame (m).
     pub near_plane: f32,
 }
 
+/// The closest the dynamic near plane comes (m).
 const NEAR_MIN: f32 = 0.001;
+/// The near plane far from any portal (m).
 const NEAR_MAX: f32 = 0.1;
 
+/// A screen rectangle in normalised coordinates (0..1, y down).
 #[derive(Clone, Copy, Debug)]
 struct Rect2 {
     min: Vec2,
@@ -158,8 +173,10 @@ struct Rect2 {
 }
 
 impl Rect2 {
+    /// The whole screen.
     const FULL: Rect2 = Rect2 { min: Vec2::ZERO, max: Vec2::ONE };
 
+    /// The overlap of two rectangles, or `None` if they don't overlap.
     fn intersect(self, o: Rect2) -> Option<Rect2> {
         let min = self.min.max(o.min);
         let max = self.max.min(o.max);
@@ -167,26 +184,39 @@ impl Rect2 {
     }
 }
 
+/// A portal visible in a view.
 struct Child {
+    /// Index of the portal in [`PortalSet::list`].
     portal: usize,
+    /// The view seen through it, or `None` if it shows the end-of-recursion fill.
     node: Option<usize>,
 }
 
+/// One view of the tree: a camera placement and the portals it sees.
 struct ViewNode {
     location: Vec3,
+    /// Always a proper rotation; see `mirrored`.
     rotation: Quat,
     forward: Vec3,
+    /// Screen right in world space (reversed while mirrored).
     right: Vec3,
     up: Vec3,
+    /// The view is a mirror image; its camera renders the unmirrored image.
     mirrored: bool,
+    /// The part of the screen this view can show (its portal's rectangle, clipped by its parents).
     screen: Rect2,
+    /// A point on the clip plane (the exit portal pulled towards the camera by the near plane).
     clip_base: Vec3,
+    /// The clip plane's normal, pointing to the side that is drawn. Zero for the root view.
     clip_normal: Vec3,
+    /// 0 for the player's view.
     depth: usize,
+    /// The space the view renders (its exit portal's).
     space: Option<i32>,
     children: Vec<Child>,
 }
 
+/// What [`build_node`] needs from the player camera and the settings.
 struct BuildParams<'a> {
     set: &'a PortalSet,
     tan_x: f32,
@@ -196,6 +226,8 @@ struct BuildParams<'a> {
     max_captures: usize,
 }
 
+/// Adds a view at `location` / `rotation` (seen through the portal `exit`, or the root view if
+/// `None`) and, recursively, the views through every portal it sees. Returns its index in `nodes`.
 fn build_node(p: &BuildParams, nodes: &mut Vec<ViewNode>, location: Vec3, rotation: Quat, mirrored: bool, exit: Option<usize>, screen: Rect2, depth: usize, space: Option<i32>) -> usize {
     let index = nodes.len();
     let mut node = ViewNode {
@@ -271,6 +303,8 @@ fn build_node(p: &BuildParams, nodes: &mut Vec<ViewNode>, location: Vec3, rotati
     index
 }
 
+/// The screen rectangle covered by a portal's corners in a view, or `None` if it's entirely behind
+/// the camera.
 fn screen_rect(p: &BuildParams, node: &ViewNode, corners: &[Vec3; 4]) -> Option<Rect2> {
     let mut min = Vec2::splat(f32::MAX);
     let mut max = Vec2::splat(f32::MIN);
@@ -294,15 +328,18 @@ fn screen_rect(p: &BuildParams, node: &ViewNode, corners: &[Vec3; 4]) -> Option<
     Some(if behind > 0 { Rect2::FULL } else { Rect2 { min, max } })
 }
 
+/// A pooled view camera and the image it renders into.
 struct NodeCamera {
     entity: Entity,
     image: Handle<Image>,
+    /// The image's current size in pixels.
     size: UVec2,
     /// The recursion depth this camera always serves. Its image is sized for that depth, so it is
     /// never resized when the view tree changes shape (a resize leaves the image black for a frame).
     depth: usize,
 }
 
+/// A pooled portal-surface quad and its own material.
 struct SurfaceSlot {
     entity: Entity,
     material: Handle<PortalSurfaceMaterial>,
@@ -313,9 +350,11 @@ struct SurfaceSlot {
 pub struct PortalRenderState {
     cameras: Vec<NodeCamera>,
     surfaces: Vec<SurfaceSlot>,
+    /// The 2 x 2 m quad every surface uses (scaled to the portal).
     quad: Option<Handle<Mesh>>,
 }
 
+/// A new HDR render target of `size` pixels.
 fn new_target(images: &mut Assets<Image>, size: UVec2) -> Handle<Image> {
     let mut image = Image::new_uninit(
         Extent3d { width: size.x, height: size.y, depth_or_array_layers: 1 },
@@ -361,6 +400,10 @@ fn spawn_view_camera(
     NodeCamera { entity, image, size, depth }
 }
 
+/// The portal renderer, once a frame after the player camera is placed: sets the player camera's
+/// near plane, flip and layers, builds the view tree, gives each view a pooled camera (placed,
+/// clipped at its exit portal and lit with its space's ambient light), and puts a surface on every
+/// portal each view sees, showing the image of the view behind it.
 #[allow(clippy::too_many_arguments, clippy::type_complexity)]
 pub fn render_portals(
     mut commands: Commands,

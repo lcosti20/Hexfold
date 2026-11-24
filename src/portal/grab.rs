@@ -34,9 +34,11 @@ pub struct PortalGrab {
     pub hold_gap: f32,
     /// Largest bounding-sphere radius that can be picked up (relative to the player's size).
     pub max_object_radius: f32,
+    /// Speed of a thrown object (m/s).
     pub throw_speed: f32,
     /// The object is dropped if it stays this far from where it should be for half a second.
     pub break_distance: f32,
+    /// The object being carried.
     pub held: Option<Held>,
 }
 
@@ -46,8 +48,10 @@ impl Default for PortalGrab {
     }
 }
 
+/// A carried object and how it is held.
 #[derive(Debug, Clone)]
 pub struct Held {
+    /// The object.
     pub entity: Entity,
     /// Held object's orientation and size in the player's frame (no translation).
     in_frame: Mat4,
@@ -57,6 +61,7 @@ pub struct Held {
     distance: f32,
     /// How far the object may be from its hold point before it's dropped (player's size units).
     allowed_distance: f32,
+    /// How long the object has been further than `allowed_distance` (s).
     stuck_time: f32,
     /// What to restore on release.
     saved_layers: CollisionLayers,
@@ -67,9 +72,13 @@ pub struct Held {
 #[derive(Message, Debug, Clone)]
 pub struct ReleaseObject(pub Entity);
 
+/// How fast the allowed distance shrinks from where the object was picked up to
+/// `break_distance` (player's size units per second).
 const PULL_IN_SPEED: f32 = 3.0;
+/// Seconds an object may stay out of reach before it is dropped.
 const STUCK_TIME_LIMIT: f32 = 0.5;
 
+/// The player's frame: eye position, heading, size, and a left-right flip while mirrored.
 fn player_frame(eye: Vec3, yaw: f32, scale: f32, mirrored: bool) -> Mat4 {
     Mat4::from_translation(eye) * Mat4::from_rotation_y(yaw) * Mat4::from_scale(Vec3::new(if mirrored { -scale } else { scale }, scale, scale))
 }
@@ -131,6 +140,9 @@ fn trace_for_object(
     None
 }
 
+/// The grab, once a frame: follows the portals the player and the held object go through,
+/// handles [`ReleaseObject`], E (grab / drop) and the left mouse button (throw), and pulls the
+/// held object to its hold point (dropping it if it gets stuck).
 #[allow(clippy::type_complexity)]
 pub fn update_grab(
     keys: Res<ButtonInput<KeyCode>>,
@@ -251,6 +263,8 @@ pub fn update_grab(
     av.0 = axis * angle * 12.0;
 }
 
+/// Where the held object should be and how it should be turned: in front of the eye at its hold
+/// distance, in the player's frame, then through the portals between the player and the object.
 fn hold_target(held: &Held, eye: Vec3, forward: Vec3, size: f32, yaw: f32, mirrored: bool) -> (Vec3, Quat) {
     let frame = player_frame(eye, yaw, size, mirrored);
     let mut target = frame * held.in_frame;
@@ -260,6 +274,8 @@ fn hold_target(held: &Held, eye: Vec3, forward: Vec3, size: f32, yaw: f32, mirro
     (loc, rot)
 }
 
+/// Lets go of the held object: restores its collision layers and gravity, stops its spin, and
+/// gives it the `throw` velocity (or most of its speed taken away, when dropped).
 #[allow(clippy::type_complexity)]
 fn release(
     grab: &mut PortalGrab,

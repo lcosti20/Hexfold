@@ -14,16 +14,22 @@ use crate::level::data::TEXTS;
 use crate::portal::{PortalSpace, layers_for_space};
 use crate::ue;
 
+/// Width of a baked label image (pixels).
 const IMAGE_W: u32 = 1024;
+/// Height of a baked label image (pixels).
 const IMAGE_H: u32 = 256;
 /// First render layer used for baking (portal views use 24..).
 const BAKE_LAYER: usize = 100;
 
+/// A 2D camera baking one label into its image.
 #[derive(Component)]
 pub struct TextBake {
+    /// Frames rendered so far.
     frames: u8,
 }
 
+/// Bakes `text` into an image (a 2D camera and the text on a render layer of their own) and shows
+/// it on an emissive quad at `transform`, with letters `letter_height` metres tall.
 #[allow(clippy::too_many_arguments)]
 fn spawn_label(
     commands: &mut Commands,
@@ -89,6 +95,7 @@ fn spawn_label(
     }
 }
 
+/// Spawns a label for every text of the level data, and the telescope dial's three names.
 pub fn spawn_world_text(mut commands: Commands, mut images: ResMut<Assets<Image>>, mut meshes: ResMut<Assets<Mesh>>, mut materials: ResMut<Assets<StandardMaterial>>) {
     let mut index = 0;
     // The quad faces +Z; Unreal's text faces its actor's +X, which is Bevy's local +X.

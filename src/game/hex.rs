@@ -19,8 +19,11 @@ use super::player::Player;
 use super::rune::Rune;
 use super::ui::Toast;
 
+/// Where the hex stands: just inside the Rotunda's entrance (Unreal cm).
 pub const SEAL_LOC: [f32; 3] = [50000.0, 1960.0, 150.0];
+/// The hex's Unreal yaw: turned so its front faces into the room.
 pub const SEAL_YAW: f32 = 180.0;
+/// The Rotunda's space.
 pub const SEAL_SPACE: i32 = 1;
 
 /// Socket k sits on the hex corner at 90 + 60 k degrees (radius 100 cm): socket 0 at the top, then
@@ -30,40 +33,60 @@ fn socket_xz(k: usize) -> (f32, f32) {
     (a.cos() * 100.0, a.sin() * 100.0)
 }
 
+/// The hex seal (`BP_HexSeal` in Unreal): its state and its parts.
 #[derive(Component)]
 pub struct HexSeal {
+    /// Sockets in play (all six). The hex breaks when every enabled socket is filled.
     pub enabled: [bool; 6],
+    /// Sockets holding their rune.
     pub filled: [bool; 6],
+    /// The player has walked in and the door is blocked.
     pub sealed: bool,
+    /// Every rune is in and the door is open again.
     pub broken: bool,
+    /// Parent of the visible parts (web, plates, glyphs), hidden until sealed.
     root: Entity,
+    /// The collider across the doorway.
     barrier: Entity,
+    /// The socket plates, lit when filled or flashed on a rejection.
     plates: [Entity; 6],
+    /// The glyphs showing each rune's correct size and handedness.
     glyphs: [Entity; 6],
+    /// The sensor 4 m into the room that seals the door.
     seal_trigger: Entity,
+    /// The sensor in front of each socket.
     triggers: [Entity; 6],
+    /// What each socket trigger touched last frame, so a rune is judged once when it arrives.
     seen: [Vec<Entity>; 6],
 }
 
+/// A socket plate lit to flag a rejected rune; it goes back to idle when the timer ends.
 #[derive(Component)]
 pub struct FlashPlate(pub Timer);
 
 /// Sent when a rune is locked in or the hex breaks, for the HUD and the ending.
 #[derive(Message, Debug, Clone)]
 pub enum HexEvent {
+    /// The door has been sealed.
     Sealed,
+    /// The rune for this socket has been locked in.
     RuneLit(u8),
+    /// The last rune is in: the hex is gone and the door is open.
     Broken,
 }
 
+/// The barrier's collision layers while the door is sealed: it stops the player and runes.
 fn barrier_layers() -> CollisionLayers {
     CollisionLayers::new(Layer::World, [Layer::Player, Layer::Prop])
 }
 
+/// A point in the hex's local frame, given in Unreal cm and axes.
 fn local(x: f32, y: f32, z: f32) -> Vec3 {
     ue::pos([x, y, z])
 }
 
+/// Spawns the hex in the Rotunda, unsealed: the web, six socket plates, glyphs and triggers, the
+/// (inactive) barrier and the seal trigger.
 pub fn spawn_hex(mut commands: Commands, assets: Res<AssetServer>, mats: Res<Mats>) {
     let root_t = ue::transform(SEAL_LOC, [0.0, SEAL_YAW, 0.0], [1.0, 1.0, 1.0]);
     let layers = layers_for_space(Some(SEAL_SPACE));
@@ -161,6 +184,9 @@ pub fn spawn_hex(mut commands: Commands, assets: Res<AssetServer>, mats: Res<Mat
     e.add_children(&triggers);
 }
 
+/// The hex, once a frame: ends plate flashes, seals the door when the player reaches the seal
+/// trigger, and judges every rune that has just entered a socket trigger (accept, or reject with
+/// a reason), breaking the hex when the last one is in.
 #[allow(clippy::type_complexity)]
 pub fn hex_logic(
     time: Res<Time>,

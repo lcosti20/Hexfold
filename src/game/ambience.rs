@@ -9,13 +9,17 @@ use crate::portal::PlayerSpace;
 use super::player::Player;
 use super::{AppState, Ending};
 
+/// The outdoor wind loop (`sounds/wind_loop.wav`).
 #[derive(Component)]
 pub struct WindLoop;
+/// The interior hum (`sounds/interior_loop.wav`).
 #[derive(Component)]
 pub struct InteriorLoop;
+/// The footstep loop (`sounds/footsteps.wav`), audible only while walking.
 #[derive(Component)]
 pub struct Footsteps;
 
+/// Starts the three loops, silent; [`update_ambience`] sets their volumes.
 pub fn spawn_ambience(mut commands: Commands, assets: Res<AssetServer>) {
     let looped = |vol: f32| PlaybackSettings { mode: bevy::audio::PlaybackMode::Loop, volume: Volume::Linear(vol), ..default() };
     commands.spawn((Name::new("WindLoop"), WindLoop, AudioPlayer::new(assets.load("sounds/wind_loop.wav")), looped(0.0)));
@@ -23,6 +27,9 @@ pub fn spawn_ambience(mut commands: Commands, assets: Res<AssetServer>) {
     commands.spawn((Name::new("Footsteps"), Footsteps, AudioPlayer::new(assets.load("sounds/footsteps.wav")), looped(0.0)));
 }
 
+/// Crossfades wind and hum as the player goes in and out (quieter wind after the hex breaks),
+/// plays footsteps while the player walks on the ground, and silences everything off the
+/// `Playing` screen.
 #[allow(clippy::type_complexity)]
 pub fn update_ambience(
     time: Res<Time>,

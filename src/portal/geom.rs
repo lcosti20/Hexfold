@@ -38,23 +38,34 @@ pub struct PortalSpace(pub i32);
 /// A portal's world-space data for one frame.
 #[derive(Debug, Clone)]
 pub struct PortalGeom {
+    /// The portal entity.
     pub entity: Entity,
+    /// Its (world) transform.
     pub transform: Transform,
+    /// [`Portal::half_extent`].
     pub half_extent: Vec2,
+    /// `transform` as a matrix: portal-local to world.
     pub mat: Mat4,
+    /// World to portal-local.
     pub inv: Mat4,
+    /// Centre of the rectangle.
     pub pos: Vec3,
     /// Unit normal of the front side.
     pub normal: Vec3,
-    /// Half-extent axes in world space (include scale).
+    /// Half-extent axes in world space (include scale): local X ...
     pub ax: Vec3,
+    /// ... and local Y.
     pub ay: Vec3,
+    /// [`Portal::front_link`].
     pub front: Option<Entity>,
+    /// [`Portal::back_link`].
     pub back: Option<Entity>,
+    /// The portal's [`PortalSpace`], if it has one.
     pub space: Option<i32>,
 }
 
 impl PortalGeom {
+    /// Works out the geometry of `portal` placed at `t`.
     pub fn new(entity: Entity, portal: &Portal, t: &Transform, space: Option<i32>) -> Self {
         let mat = t.to_matrix();
         let rot = t.rotation;
@@ -111,6 +122,7 @@ impl PortalGeom {
         (v - (self.ax * px + self.ay * py)).length()
     }
 
+    /// The rectangle's corners in world space, in order around the edge.
     pub fn corners(&self) -> [Vec3; 4] {
         [
             self.pos - self.ax - self.ay,
@@ -129,11 +141,14 @@ impl PortalGeom {
 /// Every portal in play, refreshed once a frame (before traversal and rendering).
 #[derive(Resource, Default)]
 pub struct PortalSet {
+    /// One entry per portal, in query order (systems refer to portals by index into this list).
     pub list: Vec<PortalGeom>,
+    /// Entity to index in `list`.
     index: HashMap<Entity, usize>,
 }
 
 impl PortalSet {
+    /// The geometry of portal `e`, if it exists.
     pub fn get(&self, e: Entity) -> Option<&PortalGeom> {
         self.index.get(&e).map(|&i| &self.list[i])
     }
@@ -144,6 +159,8 @@ impl PortalSet {
     }
 }
 
+/// Rebuilds the [`PortalSet`] from every [`Portal`], so the rest of the frame sees the portals'
+/// current places, sizes and links (puzzles move, rescale and relink them in `Update`).
 pub fn refresh_portal_set(mut set: ResMut<PortalSet>, portals: Query<(Entity, &Portal, &Transform, Option<&PortalSpace>)>) {
     set.list.clear();
     set.index.clear();

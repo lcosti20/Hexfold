@@ -34,13 +34,20 @@ pub use traversal::{PortalObject, PortalPawn, PortalTraveller, PortalTraversed};
 /// propagate, so the frame is rendered from the new position).
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum PortalSystems {
+    /// Snapshot every portal's world geometry into [`PortalSet`].
     Refresh,
+    /// Move travellers that crossed a portal to the other side, and track the player's space.
     Traverse,
+    /// Place the player's camera at the pawn's eye.
     Camera,
+    /// Cut objects partway through a portal, show their copies, and apply space render layers.
     Objects,
+    /// Build the view tree and drive the pooled view cameras and portal surfaces.
     Render,
 }
 
+/// Adds everything the portals need: the two materials, the resources, the messages and the
+/// systems (see [`PortalSystems`] for their order). Physics must run in `PostUpdate`.
 pub struct PortalWorldsPlugin;
 
 impl Plugin for PortalWorldsPlugin {

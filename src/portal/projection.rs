@@ -5,8 +5,11 @@ use bevy::camera::{CameraProjection, PerspectiveProjection, SubCameraView};
 use bevy::math::Vec3A;
 use bevy::prelude::*;
 
+/// The player camera's projection (use it with `Projection::custom`). The plugin sets its near
+/// plane and flip every frame.
 #[derive(Debug, Clone)]
 pub struct PortalProjection {
+    /// The underlying perspective; its vertical `fov` follows `fov_x` and the aspect ratio.
     pub inner: PerspectiveProjection,
     /// Horizontal field of view in radians (kept as the window's aspect changes).
     pub fov_x: f32,
@@ -27,16 +30,19 @@ impl Default for PortalProjection {
 }
 
 impl PortalProjection {
+    /// Tangent of half the vertical field of view.
     pub fn tan_half_y(&self) -> f32 {
         (self.inner.fov * 0.5).tan()
     }
 
+    /// Tangent of half the horizontal field of view.
     pub fn tan_half_x(&self) -> f32 {
         self.tan_half_y() * self.inner.aspect_ratio
     }
 }
 
 impl CameraProjection for PortalProjection {
+    /// The perspective matrix, with X negated while `flip_x` is set.
     fn get_clip_from_view(&self) -> Mat4 {
         let mut m = self.inner.get_clip_from_view();
         if self.flip_x {
@@ -45,6 +51,7 @@ impl CameraProjection for PortalProjection {
         m
     }
 
+    /// As [`Self::get_clip_from_view`], for a sub-view.
     fn get_clip_from_view_for_sub(&self, sub_view: &SubCameraView) -> Mat4 {
         let mut m = self.inner.get_clip_from_view_for_sub(sub_view);
         if self.flip_x {
@@ -53,6 +60,7 @@ impl CameraProjection for PortalProjection {
         m
     }
 
+    /// On a resize, recomputes the vertical field of view so the horizontal one stays `fov_x`.
     fn update(&mut self, width: f32, height: f32) {
         self.inner.update(width, height);
         // Keep the horizontal field of view fixed, like Unreal's default.

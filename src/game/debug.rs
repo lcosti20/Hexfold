@@ -6,6 +6,12 @@
 //! * `walk:dx,dy,dz,frames`  push the player with a velocity (Unreal axes, m/s) for some frames
 //! * `fwd:speed,frames`  walk the way the player faces (m/s), through portals too
 //! * `turn:dyaw,dpitch,frames`  turn the view (degrees per frame) while the next steps run
+//! * `key:E` / `key:Space`  press a key (E grabs or drops)
+//! * `click`             press the left mouse button (throws what is held)
+//! * `runetp:i,x,y,z`    teleport rune `i` (Unreal cm)
+//! * `runevel:i,vx,vy,vz`  set rune `i`'s velocity (Unreal axes, m/s)
+//! * `sunrise:f`         jump the ending to progress `f` (0 = night, 1 = dawn)
+//! * `pos`               log the player and every rune (position, scale, mirrored)
 //! * `shot:name`         save `shots/name.png`
 //! * `burst:name,N`      save `shots/name_0000.png` ... for the next N frames, while the next steps run
 //! * `quit`              exit
@@ -23,39 +29,57 @@ use bevy::render::view::screenshot::{Screenshot, save_to_disk};
 use crate::portal::{PlayerSpace, PortalPawn, PortalTraveller};
 use crate::ue;
 
+/// One step of a script (see the module docs for the syntax).
 #[derive(Debug, Clone)]
 enum Step {
+    /// Do nothing for N frames.
     Wait(u32),
+    /// Teleport the player (Unreal cm and degrees; space -1 = none).
     Teleport { loc: [f32; 3], yaw: f32, pitch: f32, space: i32 },
+    /// Set the player's horizontal velocity (Bevy axes, m/s) for some frames.
     Walk { v: Vec3, frames: u32 },
     /// Walk the way the player faces (m/s) for some frames, like holding W.
     Forward(f32, u32),
+    /// Save a screenshot.
     Shot(String),
+    /// Log the player and the runes.
     Pos,
+    /// Set a rune's velocity (Bevy axes, m/s).
     RuneVel(u8, Vec3),
+    /// Teleport a rune (Unreal cm).
     RuneTp(u8, [f32; 3]),
+    /// Press a key.
     Key(KeyCode),
+    /// Press the left mouse button.
     Click,
     /// Jump the ending to this progress (0 = night, 1 = dawn).
     Sunrise(f32),
     /// Turn the view by (yaw, pitch) degrees per frame for some frames, while later steps run.
     Turn(f32, f32, u32),
-    /// Save a screenshot every frame for N frames (`shots/name_0001.png` ...), while later steps run.
+    /// Save a screenshot every frame for N frames (`shots/name_0000.png` ...), while later steps run.
     Burst(String, u32),
+    /// Exit the game.
     Quit,
 }
 
+/// A running script: its steps and the steps still in progress (each with frames left).
 #[derive(Resource, Default)]
 pub struct DebugScript {
     steps: Vec<Step>,
+    /// Index of the next step to start.
     next: usize,
+    /// Frames left of a `wait` (or the pause after a `shot`).
     wait: u32,
     walk: Option<(Vec3, u32)>,
     forward: Option<(f32, u32)>,
+    /// Turn per frame (degrees) and frames left; runs alongside later steps.
     turn: Option<(f32, f32, u32)>,
+    /// Name, next frame number and total frames; runs alongside later steps.
     burst: Option<(String, u32, u32)>,
 }
 
+/// Parses `HEXFOLD_SCRIPT`, or returns `None` if it isn't set. Unknown steps are skipped with a
+/// warning.
 pub fn load_script() -> Option<DebugScript> {
     let text = std::env::var("HEXFOLD_SCRIPT").ok()?;
     let mut steps = Vec::new();
@@ -93,6 +117,9 @@ pub fn load_script() -> Option<DebugScript> {
     Some(DebugScript { steps, ..default() })
 }
 
+/// Advances the script by one frame: continues the steps in progress (`turn` and `burst` alongside
+/// the rest; `fwd` and `walk` hold the script until they finish), then starts the next step.
+/// Runs before the player and grab systems, so a scripted key press is seen the same frame.
 pub fn run_script(
     mut commands: Commands,
     script: Option<ResMut<DebugScript>>,

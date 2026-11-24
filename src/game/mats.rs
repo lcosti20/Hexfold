@@ -2,18 +2,29 @@
 
 use bevy::prelude::*;
 
+/// The materials, made once at startup.
 #[derive(Resource)]
 pub struct Mats {
+    /// A rune's strokes. Kept as a plain material: each rune wraps its own copy in a
+    /// `ClipMaterial`, because each is cut at a portal on its own.
     pub rune_gold: StandardMaterial,
+    /// A rune's hexagonal backing plate (also wrapped per rune).
     pub rune_plate: StandardMaterial,
+    /// An empty hex socket.
     pub plate_idle: Handle<StandardMaterial>,
+    /// A filled socket, or one flashing a rejection.
     pub plate_lit: Handle<StandardMaterial>,
+    /// A socket's glyph while its rune is missing.
     pub glyph_idle: Handle<StandardMaterial>,
+    /// A socket's glyph once its rune is in.
     pub glyph_lit: Handle<StandardMaterial>,
+    /// The glowing web of the hex.
     pub hex_web: Handle<StandardMaterial>,
+    /// The restore font's glowing pad.
     pub font_pad: Handle<StandardMaterial>,
 }
 
+/// Creates the [`Mats`] resource.
 pub fn setup_materials(mut commands: Commands, mut materials: ResMut<Assets<StandardMaterial>>) {
     commands.insert_resource(Mats {
         rune_gold: StandardMaterial {

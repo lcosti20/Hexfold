@@ -18,13 +18,21 @@ use crate::portal::render::NODE_LAYER_BASE;
 use crate::portal::{PortalCamera, PortalGrab, PortalPawn, PortalProjection, PortalTraveller};
 use crate::ue;
 
+/// Collider radius at normal size (m).
 pub const RADIUS: f32 = 0.34;
+/// Half the collider's height at normal size (m): the body's origin is this far above the feet.
 pub const HALF_HEIGHT: f32 = 0.88;
+/// Eye height above the body's origin at normal size (m).
 pub const EYE_HEIGHT: f32 = 0.70;
+/// Walking speed at normal size (m/s).
 pub const WALK_SPEED: f32 = 5.0;
+/// Upward speed of a jump at normal size (m/s).
 pub const JUMP_SPEED: f32 = 4.2;
+/// How fast the walking speed changes on the ground (m/s²); 35% of it in the air.
 pub const ACCEL: f32 = 40.0;
+/// Radians of turn per pixel of mouse movement.
 pub const MOUSE_SENSITIVITY: f32 = 0.0022;
+/// Mass at normal size (kg); it scales with the cube of the size.
 pub const MASS: f32 = 80.0;
 /// Gap kept between the bottom of the collider and the floor (see [`walk`]).
 pub const HOVER: f32 = 0.025;
@@ -44,6 +52,7 @@ const JUMP_RELEASE: f32 = 0.2;
 pub struct Player {
     /// The size the collider and movement were last built for.
     pub applied_scale: f32,
+    /// Standing on the level (props don't count).
     pub grounded: bool,
     /// Seconds left before the floor may hold the player again after a jump.
     pub jump_release: f32,
@@ -51,6 +60,7 @@ pub struct Player {
 
 /// Where the player started: the respawn point outside.
 pub const START: [f32; 3] = [0.0, 2500.0, 100.0];
+/// The Unreal yaw at the start: facing the Observatory's door.
 pub const START_YAW: f32 = -90.0;
 
 /// The player's collider: a cylinder with chamfered ends. A capsule's rounded bottom would let the
@@ -60,7 +70,9 @@ pub const START_YAW: f32 = -90.0;
 /// The bottom stops [`HOVER`] short of the feet: the player is held at that height by [`walk`]
 /// and doesn't rest on the floor.
 pub fn capsule(scale: f32) -> Collider {
+    /// Points around the circumference.
     const SEGMENTS: usize = 20;
+    /// Size of the chamfer at each end (m, at normal size).
     const CHAMFER: f32 = 0.04;
     let (r, h) = (RADIUS * scale, HALF_HEIGHT * scale);
     let c = CHAMFER * scale;
@@ -76,6 +88,8 @@ pub fn capsule(scale: f32) -> Collider {
     Collider::convex_hull(&points).expect("player hull")
 }
 
+/// Spawns the player body (a dynamic rigid body with locked rotation, the portal pawn, traveller
+/// and grab) at the start, and the player's camera.
 pub fn spawn_player(mut commands: Commands) {
     let pos = ue::pos(START);
     commands.spawn((
@@ -125,6 +139,7 @@ fn body_layers() -> RenderLayers {
     RenderLayers::from_layers(&(1..=MAX_VIEW_LAYERS).map(|n| NODE_LAYER_BASE + n).collect::<Vec<_>>())
 }
 
+/// Spawns the visible body model, on the portal views' layers only.
 pub fn spawn_player_body(mut commands: Commands, assets: Res<AssetServer>, mut materials: ResMut<Assets<StandardMaterial>>) {
     let layers = body_layers();
     // Same colours as the Blender materials: cloth, gold trim (like the runes), glowing visor.
@@ -160,6 +175,7 @@ pub fn update_body(
     b.scale = Vec3::splat(pawn.scale);
 }
 
+/// Locks and hides the mouse cursor while playing; frees it on the menus.
 pub fn grab_cursor(mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>, state: Res<State<super::AppState>>) {
     let playing = *state.get() == super::AppState::Playing;
     if playing {
@@ -171,6 +187,7 @@ pub fn grab_cursor(mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>, 
     }
 }
 
+/// Mouse look: turns the pawn's yaw and pitch (pitch limited to about ±86°).
 pub fn look(
     motion: Res<AccumulatedMouseMotion>,
     state: Res<State<super::AppState>>,

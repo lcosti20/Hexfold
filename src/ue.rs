@@ -8,6 +8,7 @@
 
 use bevy::prelude::*;
 
+/// One Unreal unit (a centimetre) in Bevy metres.
 pub const CM: f32 = 0.01;
 
 /// A position in Unreal centimetres to Bevy metres.
@@ -38,6 +39,8 @@ pub fn scale(s: [f32; 3]) -> Vec3 {
     Vec3::new(s[0], s[2], s[1])
 }
 
+/// An Unreal actor transform (location in cm, rotation as pitch-yaw-roll in degrees, per-axis
+/// scale) as a Bevy [`Transform`].
 pub fn transform(loc: [f32; 3], pyr: [f32; 3], scl: [f32; 3]) -> Transform {
     Transform { translation: pos(loc), rotation: rot(pyr), scale: scale(scl) }
 }
