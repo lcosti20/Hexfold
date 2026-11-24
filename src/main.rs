@@ -22,7 +22,7 @@ fn main() {
             DefaultPlugins.set(WindowPlugin {
                 primary_window: Some(Window { title: "Hexfold".into(), ..default() }),
                 ..default()
-            }),
+            }).set(AssetPlugin { file_path: asset_dir(), ..default() }),
             // Physics runs every frame (variable step) so the portal systems, which test the
             // camera's path against portal rectangles, see exactly the motion that was rendered.
             PhysicsPlugins::new(PostUpdate),
@@ -33,4 +33,21 @@ fn main() {
         app.add_plugins(PhysicsDebugPlugin);
     }
     app.run();
+}
+
+/// Where the assets are. Under cargo or with `BEVY_ASSET_ROOT`, Bevy's usual `assets` (relative
+/// to that root). Otherwise the first `assets/` folder found beside the executable or in one of
+/// its parent folders, so `target/release/hexfold.exe` run directly finds the repo's assets and a
+/// shipped build only needs `assets/` copied next to the exe.
+fn asset_dir() -> String {
+    let default = "assets".to_string();
+    if std::env::var_os("BEVY_ASSET_ROOT").is_some() || std::env::var_os("CARGO_MANIFEST_DIR").is_some() {
+        return default;
+    }
+    let Ok(exe) = std::env::current_exe() else { return default };
+    exe.ancestors()
+        .skip(1)
+        .map(|dir| dir.join("assets"))
+        .find(|dir| dir.is_dir())
+        .map_or(default, |dir| dir.to_string_lossy().into_owned())
 }

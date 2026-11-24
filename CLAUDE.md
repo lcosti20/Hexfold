@@ -17,7 +17,7 @@ python tools/gen_level_data.py   # regenerate src/level/data.rs
 blender -b --python art/Blender/scripts/export_glb.py   # art/Export/*.fbx -> assets/models/*.glb
 ```
 
-Running the exe directly (not through cargo) needs `BEVY_ASSET_ROOT=<repo root>`.
+Run directly (not through cargo), the exe uses the first `assets/` folder beside it or in a parent folder (`main.rs::asset_dir`); `BEVY_ASSET_ROOT` takes priority.
 
 ## Automated checks (no keyboard needed)
 

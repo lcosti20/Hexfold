@@ -26,7 +26,7 @@ cargo run --release
 
 The first build compiles Bevy and takes a few minutes. `cargo run` (debug) works too; the game itself is built with light optimisation and its dependencies with full optimisation, even in debug builds.
 
-To run the executable directly instead of through cargo, set `BEVY_ASSET_ROOT` to the repository root so it finds `assets/`.
+The executable can also be run directly (`target/release/hexfold.exe`). It uses the first `assets/` folder it finds beside itself or in a parent folder. Every build also copies `assets/` next to the exe (`build.rs`), so to release the game, zip `target/release/hexfold.exe` together with `target/release/assets/`. `BEVY_ASSET_ROOT` still takes priority when it is set.
 
 **Web build.** `cargo run --target wasm32-unknown-unknown` builds for the browser and serves it with [`wasm-server-runner`](https://github.com/jakobhellermann/wasm-server-runner) (`cargo install wasm-server-runner`; set up in `.cargo/config.toml`). It runs on WebGL2, with a smaller light-cluster grid than the native build.
 
