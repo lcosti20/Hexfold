@@ -21,7 +21,7 @@ Run directly (not through cargo), the exe uses the first `assets/` folder beside
 
 ## Automated checks (no keyboard needed)
 
-`HEXFOLD_SCRIPT` drives the game: steps separated by `;`: `wait:N`, `tp:x,y,z,yaw,pitch,space` (Unreal cm and degrees), `walk:dx,dy,dz,frames` (m/s, Unreal axes), `fwd:speed,frames` (walk the way the player faces, so it carries on through portals), `turn:dyaw,dpitch,frames` (degrees per frame, runs alongside the next steps), `key:E`, `click`, `runetp:i,x,y,z`, `runevel:i,vx,vy,vz`, `sunrise:f` (jump the ending to f in 0..1), `pos` (logs player and runes), `shot:name` (writes `shots/name.png`), `burst:name,N` (a screenshot every frame for N frames, alongside the next steps), `quit`. Example:
+`HEXFOLD_SCRIPT` drives the game: steps separated by `;`: `wait:N`, `tp:x,y,z,yaw,pitch,space` (Unreal cm and degrees), `walk:dx,dy,dz,frames` (m/s, Unreal axes), `fwd:speed,frames` (walk the way the player faces, so it carries on through portals), `turn:dyaw,dpitch,frames` (degrees per frame, runs alongside the next steps), `key:E`, `click`, `runetp:i,x,y,z`, `runevel:i,vx,vy,vz`, `size:w,h` (resize the window; also `size:max`, `size:min`, `size:restore`), `sunrise:f` (jump the ending to f in 0..1), `pos` (logs player and runes), `shot:name` (writes `shots/name.png`), `burst:name,N` (a screenshot every frame for N frames, alongside the next steps), `quit`. Example:
 
 ```
 BEVY_ASSET_ROOT=. HEXFOLD_SCRIPT="wait:300;tp:50000,1560,100,90,0,1;wait:60;shot:hex;quit" ./target/debug/hexfold.exe
@@ -37,6 +37,7 @@ To hunt a flicker, `burst` through the moment and compare neighbouring frames; t
 - A player filter must include `Layer::Trigger`, or sensors never see the player.
 - `RenderLayers::layer(n)` panics above 63; use `from_layers(&[n])` / `.with(n)`.
 - Query conflicts only show as a runtime panic (B0001) naming no system; split queries with `Without<>` or merge them.
+- Don't resize a render-target `Image` in place (`Image::resize`): it gets a new GPU texture, but a material showing it keeps its binding to the old one, so portals froze on the last frame before a window resize. Give the camera a new image (and a new `RenderTarget`) instead.
 - The portal cameras need the same `Exposure` as the player's camera, or interiors seen through a portal render almost black.
 - The player's collider is a flat-bottomed chamfered cylinder on purpose: a capsule rides up over a rune lying on the floor.
 - The player must not rest on the floor. A hull lying on a floor mesh gets a tilted contact normal now and then and is thrown upward mid-walk. `player::walk` holds the feet on the floor with ground rays, and the hull ends 2.5 cm above them (not scaled down for a small player: at 1.25 cm the bumps come back).

@@ -531,13 +531,15 @@ pub fn render_portals(
             continue;
         };
         let node = &nodes[n];
-        // Only a change of the window size resizes an image.
+        // Only a change of the window size changes an image's size. The camera gets a new image
+        // rather than resizing its own: a resized image gets a new GPU texture, but the surfaces
+        // showing it kept their binding to the old one, so every portal froze on the last frame
+        // drawn before the resize. A new handle makes each surface switch over (see below).
         let want = size_for_depth(camera.depth);
-        if want != camera.size
-            && let Some(mut img) = images.get_mut(&camera.image)
-        {
-            img.resize(Extent3d { width: want.x, height: want.y, depth_or_array_layers: 1 });
+        if want != camera.size {
+            camera.image = new_target(&mut images, want);
             camera.size = want;
+            commands.entity(camera.entity).insert(RenderTarget::Image(camera.image.clone().into()));
         }
         t.translation = node.location;
         t.rotation = node.rotation;

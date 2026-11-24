@@ -10,6 +10,7 @@
 //! * `click`             tap the left mouse button (throws what is held)
 //! * `runetp:i,x,y,z`    teleport rune `i` (Unreal cm)
 //! * `runevel:i,vx,vy,vz`  set rune `i`'s velocity (Unreal axes, m/s)
+//! * `size:w,h`         resize the window (logical pixels); `size:max`, `size:min`, `size:restore`
 //! * `sunrise:f`         jump the ending to progress `f` (0 = night, 1 = dawn)
 //! * `pos`               log the player and every rune (position, scale, mirrored)
 //! * `shot:name`         save `shots/name.png`
@@ -54,6 +55,10 @@ enum Step {
     Click,
     /// Jump the ending to this progress (0 = night, 1 = dawn).
     Sunrise(f32),
+    /// Resize the window (logical pixels).
+    Size(f32, f32),
+    /// Maximise (`Some(true)`), minimise (`Some(false)`) or restore (`None`) the window.
+    WindowMode(Option<bool>),
     /// Turn the view by (yaw, pitch) degrees per frame for some frames, while later steps run.
     Turn(f32, f32, u32),
     /// Save a screenshot every frame for N frames (`shots/name_0000.png` ...), while later steps run.
@@ -127,6 +132,10 @@ pub fn load_script() -> Option<DebugScript> {
             "click" => steps.push(Step::Click),
             "runetp" if nums.len() >= 4 => steps.push(Step::RuneTp(nums[0] as u8, [nums[1], nums[2], nums[3]])),
             "runevel" if nums.len() >= 4 => steps.push(Step::RuneVel(nums[0] as u8, Vec3::new(nums[1], nums[3], nums[2]))),
+            "size" if arg == "max" => steps.push(Step::WindowMode(Some(true))),
+            "size" if arg == "min" => steps.push(Step::WindowMode(Some(false))),
+            "size" if arg == "restore" => steps.push(Step::WindowMode(None)),
+            "size" if nums.len() >= 2 => steps.push(Step::Size(nums[0], nums[1])),
             "sunrise" => steps.push(Step::Sunrise(nums.first().copied().unwrap_or(1.0))),
             "turn" if nums.len() >= 3 => steps.push(Step::Turn(nums[0], nums[1], nums[2] as u32)),
             "burst" => {
@@ -154,6 +163,7 @@ pub fn run_script(
     mut keys: ResMut<ButtonInput<KeyCode>>,
     mut mouse: ResMut<ButtonInput<MouseButton>>,
     mut ending: ResMut<super::Ending>,
+    mut window: Query<&mut Window, With<bevy::window::PrimaryWindow>>,
 ) {
     let Some(mut s) = script else { return };
     // Let go of last frame's presses. Without this a key stays held, and pressing it again later
@@ -257,6 +267,23 @@ pub fn run_script(
         Step::Sunrise(a) => {
             ending.broken = true;
             ending.sunrise = a.clamp(0.0, 1.0);
+        }
+        Step::Size(w, h) => {
+            if let Ok(mut window) = window.single_mut() {
+                window.resolution.set(w, h);
+            }
+        }
+        Step::WindowMode(mode) => {
+            if let Ok(mut window) = window.single_mut() {
+                match mode {
+                    Some(true) => window.set_maximized(true),
+                    Some(false) => window.set_minimized(true),
+                    None => {
+                        window.set_minimized(false);
+                        window.set_maximized(false);
+                    }
+                }
+            }
         }
         Step::Turn(y, p, n) => s.turn = Some((y, p, n)),
         Step::Burst(name, n) => s.burst = Some((name, 0, n)),
