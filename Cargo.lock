@@ -3319,6 +3319,10 @@ version = "0.1.0"
 dependencies = [
  "avian3d",
  "bevy",
+ "js-sys",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
 ]
 
 [[package]]

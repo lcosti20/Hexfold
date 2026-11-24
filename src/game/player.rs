@@ -178,15 +178,46 @@ pub fn update_body(
 }
 
 /// Locks and hides the mouse cursor while playing; frees it on the menus.
-pub fn grab_cursor(mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>, state: Res<State<super::AppState>>) {
+///
+/// It writes `CursorOptions` only when the state changes: every write makes bevy_winit grab the
+/// cursor again, which in a browser is a fresh pointer-lock request each frame.
+///
+/// In a browser the first Esc never reaches the game: the browser uses it to release the pointer
+/// lock. So on the web, losing the lock while playing pauses the game.
+pub fn grab_cursor(
+    mut cursor: Single<&mut CursorOptions, With<PrimaryWindow>>,
+    state: Res<State<super::AppState>>,
+    mut next: ResMut<NextState<super::AppState>>,
+    #[cfg(target_arch = "wasm32")] mouse: Res<ButtonInput<MouseButton>>,
+    #[cfg(target_arch = "wasm32")] mut was_locked: Local<bool>,
+) {
     let playing = *state.get() == super::AppState::Playing;
-    if playing {
-        cursor.grab_mode = CursorGrabMode::Locked;
-        cursor.visible = false;
-    } else {
-        cursor.grab_mode = CursorGrabMode::None;
-        cursor.visible = true;
+    let (grab_mode, visible) = if playing { (CursorGrabMode::Locked, false) } else { (CursorGrabMode::None, true) };
+    // A browser refuses a lock asked for without a click, or within about a second of the player
+    // pressing Esc; a click in the game asks again.
+    #[cfg(target_arch = "wasm32")]
+    let retry = playing && !*was_locked && mouse.just_pressed(MouseButton::Left);
+    #[cfg(not(target_arch = "wasm32"))]
+    let retry = false;
+    if retry || state.is_changed() || cursor.grab_mode != grab_mode || cursor.visible != visible {
+        cursor.grab_mode = grab_mode;
+        cursor.visible = visible;
     }
+
+    #[cfg(target_arch = "wasm32")]
+    {
+        let locked = web_sys::window()
+            .and_then(|w| w.document())
+            .is_some_and(|d| d.pointer_lock_element().is_some());
+        // The lock is granted a little after it is asked for, so only a lock that was held and
+        // then lost counts.
+        if playing && *was_locked && !locked {
+            next.set(super::AppState::Paused);
+        }
+        *was_locked = playing && locked;
+    }
+    #[cfg(not(target_arch = "wasm32"))]
+    let _ = &mut next;
 }
 
 /// Mouse look: turns the pawn's yaw and pitch (pitch limited to about ±86°).

@@ -227,12 +227,14 @@ fn restart(exit: &mut MessageWriter<AppExit>) {
     exit.write(AppExit::Success);
 }
 
-/// Escape pauses and resumes.
+/// Escape pauses and resumes. On the web it only pauses (and usually never arrives: the browser
+/// uses it to release the pointer lock, and `player::grab_cursor` pauses on that). A browser
+/// grants a pointer lock only after a click, so the player resumes with the Resume button.
 pub fn pause_key(keys: Res<ButtonInput<KeyCode>>, state: Res<State<AppState>>, mut next: ResMut<NextState<AppState>>) {
     if keys.just_pressed(KeyCode::Escape) {
         match state.get() {
             AppState::Playing => next.set(AppState::Paused),
-            AppState::Paused => next.set(AppState::Playing),
+            AppState::Paused if !cfg!(target_arch = "wasm32") => next.set(AppState::Playing),
             _ => {}
         }
     }

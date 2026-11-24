@@ -9,6 +9,17 @@ description = "Hexfold: a first-person non-Euclidean portal puzzle game, built o
 bevy = { version = "0.20.1", features = ["wav"] }
 avian3d = "0.8.0"
 
+# The web build plays its sound through Web Audio directly (see `game/ambience.rs`) and watches
+# the pointer lock (see `game/player.rs`).
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2.130"
+wasm-bindgen-futures = "0.4.80"
+js-sys = "0.3.107"
+web-sys = { version = "0.3.107", features = [
+    "AudioBuffer", "AudioBufferSourceNode", "AudioContext", "AudioContextState", "AudioDestinationNode",
+    "AudioNode", "AudioParam", "AudioScheduledSourceNode", "Document", "GainNode", "Response", "Window",
+] }
+
 # Enable a small amount of optimization in the dev profile.
 [profile.dev]
 opt-level = 1

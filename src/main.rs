@@ -18,11 +18,15 @@ use bevy::prelude::*;
 /// `HEXFOLD_PHYSDEBUG` also draws every collider.
 fn main() {
     let mut app = App::new();
+    let defaults = DefaultPlugins.set(WindowPlugin {
+        primary_window: Some(Window { title: "Hexfold".into(), ..default() }),
+        ..default()
+    }).set(AssetPlugin { file_path: asset_dir(), ..default() });
+    // The web build plays its sound through Web Audio itself (see `game/ambience.rs`).
+    #[cfg(target_arch = "wasm32")]
+    let defaults = defaults.disable::<bevy::audio::AudioPlugin>();
     app.add_plugins((
-            DefaultPlugins.set(WindowPlugin {
-                primary_window: Some(Window { title: "Hexfold".into(), ..default() }),
-                ..default()
-            }).set(AssetPlugin { file_path: asset_dir(), ..default() }),
+            defaults,
             // Physics runs every frame (variable step) so the portal systems, which test the
             // camera's path against portal rectangles, see exactly the motion that was rendered.
             PhysicsPlugins::new(PostUpdate),
