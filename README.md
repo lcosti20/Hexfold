@@ -4,6 +4,8 @@
 
 Hexfold is a first-person puzzle game built around non-Euclidean portals: doorways that lead somewhere else, rooms that are bigger on the inside, and portals that change your size. It's made in Unreal Engine 5.8 with Blueprints only (no C++ in the project).
 
+[Play on itch.io!](https://lcosti20.itch.io/hexfold)
+
 ## The game
 
 You arrive outside the **Observatory**, a small domed building, and walk in. The inside is far bigger than the outside.
