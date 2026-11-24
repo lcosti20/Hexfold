@@ -86,7 +86,6 @@ Other environment variables:
 ## Known gaps
 
 - Greybox look: rooms have flat colours (the Unreal version used grid materials), and the HUD's rune slots show roman numerals instead of rune icons.
-- The heavy rune (rune 3) was designed to be too big to lift, so it had to be pushed. In this version it can be lifted at 2x (it is under the grab size limit), and the player can't push runes.
 - A copy of an object partway through a portal has no collision (see the plugin guide's limitations).
 - Restart relaunches the executable, so it does nothing useful in the web build.
 

@@ -97,7 +97,9 @@ pub fn spawn_player(mut commands: Commands) {
         Player { applied_scale: 1.0, grounded: false, jump_release: 0.0 },
         PortalPawn { yaw: ue::view_yaw(START_YAW), pitch: 0.0, scale: 1.0, eye_height: EYE_HEIGHT },
         PortalTraveller::default(),
-        PortalGrab::default(),
+        // 0.45 m: over a 1x rune (0.43 m) and under the 2x heavy rune (0.86 m), so the heavy rune
+        // can only be lifted by a player who has grown to 2x (the limit scales with the player).
+        PortalGrab { max_object_radius: 0.45, ..default() },
         Transform::from_translation(pos),
         RigidBody::Dynamic,
         capsule(1.0),

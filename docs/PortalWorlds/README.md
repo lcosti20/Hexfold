@@ -64,7 +64,7 @@ When you move an object or the player by script (a respawn), call `PortalTravell
 
 ### Carrying objects
 
-Add `PortalGrab` to the player. The game calls nothing: the plugin reads E (grab / drop) and the left mouse button (throw) itself, while the game is in its `Playing` state. It picks up the dynamic `PortalObject` under the crosshair, also through up to two portals, and carries it through portals together with the player (so a carried rune changes with the player; throw it to change it relative to the player). Objects with a bounding radius over `max_object_radius` (0.9 m at the player's size by default) can't be lifted. A held object ignores gravity and the player but still touches triggers. `ReleaseObject(entity)` makes it let go.
+Add `PortalGrab` to the player. The game calls nothing: the plugin reads E (grab / drop) and the left mouse button (throw) itself, while the game is in its `Playing` state. It picks up the dynamic `PortalObject` under the crosshair, also through up to two portals, and carries it through portals together with the player (so a carried rune changes with the player; throw it to change it relative to the player). Objects with a bounding radius over `max_object_radius` (0.9 m at the player's size by default; Hexfold uses 0.45 m) can't be lifted. A held object ignores gravity and the player but still touches triggers. `ReleaseObject(entity)` makes it let go.
 
 ### Spaces
 

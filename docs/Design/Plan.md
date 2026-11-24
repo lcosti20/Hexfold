@@ -9,8 +9,8 @@ Where the rewrite differs from this plan, as of the `rust-rewrite` branch:
 | Plan | Bevy version |
 |---|---|
 | Blueprints (`BP_Rune`, `BP_HexSeal`, `BP_CabinetPuzzle`, `BP_Telescope`, `BP_KillVolume`, `BP_RestoreFont`) | Rust modules: `game::rune`, `game::hex`, `game::puzzles` (see the architecture doc's [Game systems](../Architecture.md#game-systems)) |
-| **Max Object Radius** lowered to 45 cm, so the 2x heavy rune can't be lifted | `PortalGrab::max_object_radius` is the default 0.9 m. A rune's radius is 0.43 m, so the 2x heavy rune (0.86 m) **can** be lifted |
-| The player pushes the heavy rune into the big portal | The player and runes don't collide (so a rune can't be shoved into a wall or out of the level), so runes can't be pushed. Rune 3's intended solution needs revisiting |
+| Heavy rune: push it into the big portal (**Max Object Radius** 45 cm, so it can't be lifted at normal size) | The player and runes don't collide (so a rune can't be shoved into a wall or out of the level), so runes can't be pushed. The solution is to grow instead: walk through the small door (you come out of the big portal at 2x), pick the rune up, and carry it back through the big portal. You both shrink by half, and the rune comes out at 1x |
+| | `PortalGrab::max_object_radius` is 0.45 m, as in Unreal: over a 1x rune (0.43 m), under the 2x heavy rune (0.86 m). The limit scales with the player, so only a 2x player can lift the heavy rune |
 | Telescope: the lens *and its frame* get scale (-1, 1, 1) on Gemini | Only the lens portal is mirrored; the frame is symmetric and keeps a positive scale (a mesh with a negative scale renders inside out) |
 | `MaxDepth` 3, `ResolutionFalloff` 0.5 (milestone 8) | `max_depth` 6, `resolution_falloff` 0.75, 10 view cameras per depth created at startup |
 | The end of the portal recursion is pink | A dim violet void |
